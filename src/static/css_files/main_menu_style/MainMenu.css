@@ -1,0 +1,43 @@
+html, body {
+    height: 100%;
+}
+
+div.open_menu_options {
+    border-style: dotted;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+div.open_menu_close_area{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+div.rotation-wrapper {
+    border-style: dotted;
+    display: flex;
+    width: 20px;
+    height: 87px;
+    float: right;
+    justify-content: center;
+    align-items: center;
+}
+
+button.menu_button {
+    height: 20px;
+    width: 100px;
+    transform: rotate(-90deg);
+    white-space: nowrap;
+}
+
+div.main_menu{
+    display: table;
+    position: relative;
+    float: right;
+    transform: translateY(-50%);
+    top: 50%;
+}
+
+div.menu_option{
+    padding: 10px;
+}
