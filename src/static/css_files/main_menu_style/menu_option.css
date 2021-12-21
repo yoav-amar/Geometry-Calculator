@@ -15,7 +15,7 @@ button.menu_option {
     -webkit-user-select: none;
     touch-action: manipulation;
 
-    width: 150px;
+    width: 190px;
 }
 
 button.menu_option:active {
@@ -32,4 +32,5 @@ button.menu_option:active {
 
 button.menu_option.marked {
     background-color: red;
+    font-weight: bold;
 }

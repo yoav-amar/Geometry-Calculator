@@ -15,19 +15,19 @@ class MainMenu extends React.Component {
     return(
         <div>
           <div className="menu_button">
-                <MenuButton onClick={this.onMenuButtonClicked} text={this.state.isOpened? 'Close Menu': 'Open Menu'} />
+                <MenuButton onClick={this.onMenuButtonClicked} text={this.state.isOpened? 'סגור תפריט': 'פתח תפריט'} />
           </div>
           <div className="menu_options_wrapper">
               <div className={'menu_options'+ (this.state.isOpened? ' open': '')}>
-                <MenuOption text="Calculator" />
+                <MenuOption text="מחשבון" action="calculator"/>
                 <br/>
-                <MenuOption text="My Gangs" />
+                <MenuOption text="הגיאומטריק-ות שלי" action="my_gangs"/>
                 <br/>
-                <MenuOption text="My History" />
+                <MenuOption text="ההיסטוריה שלי" action="my_history"/>
                 <br/>
-                <MenuOption text="Settings" />
+                <MenuOption text="הגדרות" action="settings"/>
                 <br/>
-                <MenuOption text="Log Out" isMarked={true}/>
+                <MenuOption text="התנתק" isMarked={true}/>
               </div>
           </div>
       </div>
