@@ -2,8 +2,8 @@ html, body {
     height: 100%;
 }
 div.menu_options_wrapper {
-    border-style: dotted;
     display: table-cell;
+    padding: 3px;
 }
 
 div.menu_options {
@@ -18,7 +18,7 @@ div.menu_options {
 }
 
 div.menu_options.open {
-    max-width: 100px;
+    max-width: 200px;
     visibility: visible;
     opacity: 1;
 }
@@ -32,6 +32,4 @@ div.main_menu{
     display: table;
     position: relative;
     float: right;
-    transform: translateY(-50%);
-    top: 50%;
 }

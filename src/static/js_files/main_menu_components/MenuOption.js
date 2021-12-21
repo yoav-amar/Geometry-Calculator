@@ -5,11 +5,9 @@ class MenuOption extends React.Component {
 
   render() {
     return(
-        <div className="menu_option">
-            <button>
-              Hello!!
-            </button>
-        </div>
+      <button className={'menu_option' + (this.props.isMarked? ' marked' : '')}>
+        {this.props.text}
+      </button>
     )
   }
 }

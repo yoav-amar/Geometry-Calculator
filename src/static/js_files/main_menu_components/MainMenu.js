@@ -19,13 +19,15 @@ class MainMenu extends React.Component {
           </div>
           <div className="menu_options_wrapper">
               <div className={'menu_options'+ (this.state.isOpened? ' open': '')}>
-                <MenuOption text="Hello" />
+                <MenuOption text="Calculator" />
                 <br/>
-                <MenuOption text="Hello" />
+                <MenuOption text="My Gangs" />
                 <br/>
-                <MenuOption text="Hello" />
+                <MenuOption text="My History" />
                 <br/>
-                <MenuOption text="Hello" />
+                <MenuOption text="Settings" />
+                <br/>
+                <MenuOption text="Log Out" isMarked={true}/>
               </div>
           </div>
       </div>
