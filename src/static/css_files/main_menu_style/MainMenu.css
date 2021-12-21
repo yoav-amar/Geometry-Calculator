@@ -1,33 +1,31 @@
 html, body {
     height: 100%;
 }
-
-div.open_menu_options {
+div.menu_options_wrapper {
     border-style: dotted;
     display: table-cell;
-    vertical-align: middle;
 }
 
-div.open_menu_close_area{
+div.menu_options {
+    display: block;
+    vertical-align: middle;
+    max-width: 0;
+    visibility: hidden;
+    opacity: 0;
+
+    transition: all 0.7s linear;
+    overflow: hidden;
+}
+
+div.menu_options.open {
+    max-width: 100px;
+    visibility: visible;
+    opacity: 1;
+}
+
+div.menu_button{
     display: table-cell;
     vertical-align: middle;
-}
-
-div.rotation-wrapper {
-    border-style: dotted;
-    display: flex;
-    width: 20px;
-    height: 87px;
-    float: right;
-    justify-content: center;
-    align-items: center;
-}
-
-button.menu_button {
-    height: 20px;
-    width: 100px;
-    transform: rotate(-90deg);
-    white-space: nowrap;
 }
 
 div.main_menu{
@@ -36,8 +34,4 @@ div.main_menu{
     float: right;
     transform: translateY(-50%);
     top: 50%;
-}
-
-div.menu_option{
-    padding: 10px;
 }

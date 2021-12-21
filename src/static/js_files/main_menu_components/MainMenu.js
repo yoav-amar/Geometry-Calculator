@@ -1,42 +1,35 @@
 class MainMenu extends React.Component {
   constructor(props) {
     super(props)
+    this.onMenuButtonClicked = this.onMenuButtonClicked.bind(this);
     this.state = {
       isOpened: false
     }
   }
 
-  render() {
-    if(!this.state.isOpened) {
-        return (
-            <div className="rotation-wrapper">
-                <button className="menu_button" onClick={() => this.setState({isOpened: true})}>
-                    Open Menu
-                </button>
-            </div>
-        )
-    }
+  onMenuButtonClicked(){
+    this.setState({isOpened: !this.state.isOpened})
+  }
 
+  render() {
     return(
-      <div>
-          <div className="open_menu_close_area">
-            <div className="rotation-wrapper">
-                <button className="menu_button" onClick={() => this.setState({isOpened: false})}>
-                    Close Menu
-                </button>
-            </div>
+        <div>
+          <div className="menu_button">
+                <MenuButton onClick={this.onMenuButtonClicked} text={this.state.isOpened? 'Close Menu': 'Open Menu'} />
           </div>
-          <div className="open_menu_options">
-            <MenuOption text="Hello" />
-            <br/>
-            <MenuOption text="Hello" />
-            <br/>
-            <MenuOption text="Hello" />
-            <br/>
-            <MenuOption text="Hello" />
+          <div className="menu_options_wrapper">
+              <div className={'menu_options'+ (this.state.isOpened? ' open': '')}>
+                <MenuOption text="Hello" />
+                <br/>
+                <MenuOption text="Hello" />
+                <br/>
+                <MenuOption text="Hello" />
+                <br/>
+                <MenuOption text="Hello" />
+              </div>
           </div>
       </div>
-    );
+    )
   }
 }
 

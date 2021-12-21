@@ -1,0 +1,16 @@
+div.rotation-wrapper {
+    border-style: dotted;
+    display: flex;
+    width: 20px;
+    height: 87px;
+    float: right;
+    justify-content: center;
+    align-items: center;
+}
+
+button.menu_button {
+    height: 20px;
+    width: 100px;
+    transform: rotate(-90deg);
+    white-space: nowrap;
+}

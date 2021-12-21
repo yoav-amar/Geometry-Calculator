@@ -1,6 +1,6 @@
 class MenuOption extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -10,6 +10,6 @@ class MenuOption extends React.Component {
               Hello!!
             </button>
         </div>
-    );
+    )
   }
 }
