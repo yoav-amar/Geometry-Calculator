@@ -16,7 +16,7 @@ div.inner-rotation-wrapper {
 }
 
 button.menu-button {
-  background-color: #919191;
+  background-color: #757575;
   border: solid transparent;
   border-radius: 16px;
   border-width: 0 0 4px;
@@ -48,7 +48,7 @@ button.menu-button {
 
 button.menu-button:after {
   background-clip: padding-box;
-  background-color: #cacaca;
+  background-color: #9d9d9d;
   border: solid transparent;
   border-radius: 16px;
   border-width: 0 0 4px;
