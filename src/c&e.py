@@ -8,5 +8,10 @@ def home_page():
     return render_template("index.html")
 
 
+@app.route('/settings')
+def setting_page():
+    return render_template("settings.html")
+
+
 if __name__ == '__main__':
     app.run()
