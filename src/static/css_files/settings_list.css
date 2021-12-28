@@ -1,0 +1,34 @@
+div.settings_list {
+}
+
+div.settings {
+    padding-left: 10%;
+    padding-right: 10%;
+    background-color: #707070;
+    display: inline-block;
+    vertical-align: center;
+    align-items: center;
+    text-align: center;
+    position: absolute;
+    margin-left: 45%;
+    margin-top: 3%;
+
+}
+
+div.page_name {
+    display: inline-block;
+    vertical-align: middle;
+    height: min-content;
+    font-family: "Georgia", serif;
+    font-size: 32px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #000;
+}
+
+div.settings_wrapper {
+    margin: auto;
+}
+
+

@@ -1,0 +1,19 @@
+div.change_setting_option {
+    display: block;
+    vertical-align: middle;
+    /*max-width: 0;*/
+    /*visibility: hidden;*/
+    /*opacity: 0;*/
+    background-color: brown;
+    transition: all 0.7s linear;
+    /*overflow: hidden;*/
+}
+
+
+
+div.change_setting_option.open{
+    background-color: burlywood;
+    max-width: 200px;
+    visibility: visible;
+    opacity: 1;
+}
