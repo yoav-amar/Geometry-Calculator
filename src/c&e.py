@@ -8,6 +8,11 @@ def home_page():
     return render_template("index.html")
 
 
+@app.route('/calculator')
+def calculator_page():
+    return render_template("calculator.html")
+
+
 @app.route('/settings')
 def setting_page():
     return render_template("settings.html")
