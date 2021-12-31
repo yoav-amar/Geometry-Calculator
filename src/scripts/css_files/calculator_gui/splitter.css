@@ -1,7 +1,11 @@
+html, body {
+    height: 100%;
+}
+
 .splitter {
+    display: flex;
     width: 100%;
     height: 100%;
-    display: flex;
 }
 
 #horizontal_separator {
@@ -46,7 +50,6 @@
 
 #data_space {
     display: flex;
-    border: #000000 solid 1px;
     background-color: #969696;
     width: 20%;
     height: 100%;
@@ -63,18 +66,16 @@
 
 #draw_space {
     display: flex;
-    border: #000000 solid 1px;
     background-color: #ffffff;
     width: 100%;
-    height: 90%;
+    height: 85%;
     min-height:80%;
 }
 
 #tool_bar {
     display: flex;
-    border: #000000 solid 1px;
     background-color: #bfbfbf;
     width: 100%;
-    height: 10%;
+    height: 15%;
     min-height: 0;
 }

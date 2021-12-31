@@ -56,7 +56,7 @@ function dragElement(separator, direction, first_div, second_div)
             let first_height= Math.round(((md.firstHeight + delta.y) / total_height) * 100);
             let second_height = 100 - first_height;
 
-            separator.style.left = md.offsetTop + delta.y + "px";
+            separator.style.bottom = md.offsetTop + delta.y + "px";
             first.style.height = first_height + "%";
             second.style.height = second_height + "%";
         }

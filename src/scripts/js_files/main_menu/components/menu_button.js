@@ -1,3 +1,5 @@
+import React from 'react';
+
 class MenuButton extends React.Component {
   constructor(props) {
     super(props)

@@ -1,3 +1,8 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import MenuButton from './menu_button';
+import MenuOption from './menu_option';
+
 class MainMenu extends React.Component {
   constructor(props) {
     super(props)
@@ -34,6 +39,3 @@ class MainMenu extends React.Component {
     )
   }
 }
-
-const domContainers = document.querySelectorAll('.main_menu')
-domContainers.forEach(domContainer => ReactDOM.render(<MainMenu/>, domContainer))
