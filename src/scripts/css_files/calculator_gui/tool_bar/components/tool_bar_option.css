@@ -1,0 +1,35 @@
+div.tool_bar_option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+    flex: 1;
+    min-width: 0;
+
+    box-sizing: border-box;
+}
+
+figure {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-flow: column;
+}
+
+img {
+    padding: 3px;
+    margin: auto;
+    height: 60%;
+    object-fit: scale-down;
+}
+
+figcaption {
+    font-family: 'Cherry Swash', cursive;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    height: auto;
+    white-space: nowrap;
+}

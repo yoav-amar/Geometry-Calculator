@@ -1,3 +1,5 @@
+import 'css_files/calculator_gui/splitter.css';
+
 // A function is used for dragging and moving
 function dragElement(separator, direction, first_div, second_div)
 {
@@ -63,6 +65,4 @@ function dragElement(separator, direction, first_div, second_div)
     }
 }
 
-
-dragElement( document.getElementById("horizontal_separator"), "H", "data_space", "painter");
-dragElement( document.getElementById("vertical_separator"), "V", "draw_space", "tool_bar");
+export default dragElement;

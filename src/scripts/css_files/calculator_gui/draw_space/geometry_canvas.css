@@ -1,0 +1,8 @@
+svg.geometry_grid {
+    background-size: 30px 30px;
+    background-image:
+        linear-gradient(to right, grey 1px, transparent 1px),
+        linear-gradient(to bottom, grey 1px, transparent 1px);
+    width: 100%;
+    overflow: auto;
+}

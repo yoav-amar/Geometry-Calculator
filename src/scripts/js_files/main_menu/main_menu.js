@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import MenuButton from './menu_button';
-import MenuOption from './menu_option';
+import MenuButton from './components/menu_button';
+import MenuOption from './components/menu_option';
+import 'css_files/main_menu/main_menu.css'
 
 class MainMenu extends React.Component {
   constructor(props) {
@@ -39,3 +39,5 @@ class MainMenu extends React.Component {
     )
   }
 }
+
+export default MainMenu;
