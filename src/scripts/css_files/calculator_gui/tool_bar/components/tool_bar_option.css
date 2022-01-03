@@ -18,7 +18,7 @@ figure {
     flex-flow: column;
 }
 
-img {
+input {
     padding: 3px;
     margin: auto;
     height: 60%;

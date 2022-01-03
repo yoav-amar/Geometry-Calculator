@@ -14,7 +14,7 @@ class ToolBarOption extends React.Component {
         <div className="tool_bar_option">
             <figure>
                 <figcaption > {this.props.optionText} </figcaption>
-                <img src={this.props.imageSrc} alt={this.props.imageAlt}
+                <input type="image" src={this.props.imageSrc} alt={this.props.imageAlt} draggable={false}
                      onClick={this.props.onClick}
                      onMouseEnter={e => this.setState({isHover: true})}
                      onMouseLeave={e => this.setState({isHover: false})}

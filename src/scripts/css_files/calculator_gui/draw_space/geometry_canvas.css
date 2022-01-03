@@ -5,4 +5,5 @@ svg.geometry_grid {
         linear-gradient(to bottom, grey 1px, transparent 1px);
     width: 100%;
     overflow: auto;
+    cursor: crosshair;;
 }
