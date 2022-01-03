@@ -22,7 +22,16 @@ class Dot extends React.Component {
 
       this.props.geometryCanvas.instances.lines =
           this.props.geometryCanvas.instances.lines.filter(
-              line => (line.getDots().at(0) !== this.props.id) && (line.getDots().at(-1) !== this.props.id))
+              (line) => {
+                  let ans = (line.dots.at(0) !== this.props.id) && (line.dots.at(-1) !== this.props.id)
+
+                  if(ans) {
+                      line.dots = line.dots.filter(id => id !== this.props.id)
+                      return true
+                  }
+
+                  return false
+              })
   }
 
   onClick (e){
@@ -40,8 +49,8 @@ class Dot extends React.Component {
 
               let isLineExists = false
               this.props.geometryCanvas.instances.lines.forEach( (gl) => {
-                    if(gl.getDots().includes(this.props.id) &&
-                        gl.getDots().includes(this.props.geometryCanvas.currentLine.dot1Id)) {
+                    if(gl.dots.includes(this.props.id) &&
+                        gl.dots.includes(this.props.geometryCanvas.currentLine.dot1Id)) {
                         isLineExists = true
                     }
                   }

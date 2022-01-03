@@ -11,6 +11,7 @@ class GeometryCanvas extends React.Component {
       this.getNextGeId = this.getNextGeId.bind(this)
       this.clear = this.clear.bind(this)
       this.erase = this.erase.bind(this)
+      this.createGeometryElement = this.createGeometryElement.bind(this)
 
       this.painterStatus = ''
 
@@ -44,6 +45,8 @@ class GeometryCanvas extends React.Component {
       }
 
       this.nextIndex = 0
+
+      this.dim = null
   }
 
   clear() {
@@ -65,6 +68,8 @@ class GeometryCanvas extends React.Component {
           }})
 
       this.nextIndex = 0
+
+      this.dim = null
   }
 
   erase(event) {
@@ -103,16 +108,23 @@ class GeometryCanvas extends React.Component {
           return
       }
 
-      let dim = e.getBoundingClientRect();
-      let x = event.clientX - dim.left
-      let y = event.clientY - dim.top
+      if(this.dim == null) {
+          this.dim = e.getBoundingClientRect();
+      }
 
-      if(this.painterStatus === "dot") {
-          let nextId = this.getNextGeId()
+      let x = event.clientX - this.dim.left
+      let y = event.clientY - this.dim.top
+
+      this.createGeometryElement(x,y)
+  }
+
+  createGeometryElement(x,y,nextId=''){
+    if(this.painterStatus === "dot") {
+          nextId = ((nextId==='') ? this.getNextGeId() : nextId)
           this.state.geometryElements.dots.push(<Dot id={nextId} posX={x} posY={y} geometryCanvas={this}/>)
             this.setState({})
       } else if(["edge", "broken_edge", "conn_edges"].includes(this.painterStatus)) {
-          let nextId = this.getNextGeId()
+          nextId = ((nextId==='') ? this.getNextGeId() : nextId)
           if(this.currentLine.dot1Id === '') {
               this.state.geometryElements.dots.push(<Dot id={nextId} posX={x} posY={y} geometryCanvas={this}/>)
               this.currentLine.dot1Id = nextId
@@ -138,7 +150,6 @@ class GeometryCanvas extends React.Component {
           this.setState({})
       }
   }
-
 
   onMouseDown(event) {
       document.onmousemove = (event) => {

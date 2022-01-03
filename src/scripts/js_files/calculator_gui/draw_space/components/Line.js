@@ -7,8 +7,8 @@ class Line extends React.Component {
 
       this.onErase = this.onErase.bind(this)
       this.addDot = this.addDot.bind(this)
+      this.onClick = this.onClick.bind(this)
       this.isDotOnEdge = this.isDotOnEdge.bind(this)
-      this.getDots = this.getDots.bind(this)
 
       this.state = {
           isOver: false
@@ -61,6 +61,19 @@ class Line extends React.Component {
 
   }
 
+  onClick(e){
+      if(!["edge", "broken_edge", "conn_edges", "dot", "circle"].includes(this.props.geometryCanvas.painterStatus)){
+          return
+      }
+
+      let nextId = this.props.geometryCanvas.getNextGeId()
+      let x = e.clientX - this.props.geometryCanvas.dim.left
+      let y = this.m * x + this.b
+      this.addDot(nextId, x, y)
+
+      this.props.geometryCanvas.createGeometryElement(x,y, nextId)
+  }
+
   isDotOnEdge(x,y){
       return this.isDotBetweenDots(x,y, this.props.x1, this.props.y1, this.props.x2, this.props.y2)
   }
@@ -90,16 +103,13 @@ class Line extends React.Component {
       }
   }
 
-  getDots(){
-    return this.dots;
-  }
-
   render() {
       return(
           <line id={this.props.id} x1={this.props.x1} y1={this.props.y1} x2={this.props.x2} y2={this.props.y2}
                 stroke={this.state.isOver?"ForestGreen":"black"} strokeWidth={6}
                 onMouseEnter={e => this.setState({isOver: true})}
                 onMouseLeave={e => this.setState({isOver: false})}
+                onClick={e => this.onClick(e)}
                 strokeDasharray={this.props.isBroken?7: 0}
           />
       )
