@@ -1,5 +1,5 @@
 import React from 'react';
-import Dot from './Dot'
+import Dot from './dot'
 
 class Line extends React.Component {
   constructor(props) {
@@ -9,6 +9,7 @@ class Line extends React.Component {
       this.addDot = this.addDot.bind(this)
       this.onClick = this.onClick.bind(this)
       this.isDotOnEdge = this.isDotOnEdge.bind(this)
+      this.checkAndHandleLineIntersections = this.checkAndHandleLineIntersections.bind(this)
 
       this.state = {
           isOver: false
@@ -25,8 +26,25 @@ class Line extends React.Component {
           this.b = this.props.y1 - this.m * this.props.x1
       }
 
+      // intersections with this line
       this.props.geometryCanvas.instances.lines.forEach((line) => {
-          if(line.m === this.m) {return}
+         this.checkAndHandleLineIntersections(line)
+      })
+
+      // intersections with this circle
+      this.props.geometryCanvas.instances.circles.forEach((circle) => {
+         circle.checkAndHandleLineIntersections(this)
+      })
+
+      this.props.geometryCanvas.instances.lines.push(this)
+  }
+
+  onErase(){
+
+  }
+
+  checkAndHandleLineIntersections(line){
+      if(line.m === this.m) {return}
 
           let x = 0
           let y = 0
@@ -52,13 +70,6 @@ class Line extends React.Component {
               this.addDot(nextId, x, y)
               line.addDot(nextId, x, y)
           }
-      })
-
-      this.props.geometryCanvas.instances.lines.push(this)
-  }
-
-  onErase(){
-
   }
 
   onClick(e){
@@ -69,9 +80,10 @@ class Line extends React.Component {
       let nextId = this.props.geometryCanvas.getNextGeId()
       let x = e.clientX - this.props.geometryCanvas.dim.left
       let y = this.m * x + this.b
-      this.addDot(nextId, x, y)
 
-      this.props.geometryCanvas.createGeometryElement(x,y, nextId)
+      this.props.geometryCanvas.createGeometryElement(x,y, nextId,()=>{
+          this.addDot(nextId, x, y)
+      })
   }
 
   isDotOnEdge(x,y){

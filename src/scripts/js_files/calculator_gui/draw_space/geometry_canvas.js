@@ -1,7 +1,8 @@
 import React from 'react';
 import 'css_files/calculator_gui/draw_space/geometry_canvas.css'
-import Dot from './components/Dot'
-import Line from './components/Line'
+import Dot from './components/dot'
+import Line from './components/line'
+import Circle from "./components/circle";
 
 class GeometryCanvas extends React.Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class GeometryCanvas extends React.Component {
       this.props.toolBar.painterNotifier = function (status) {
           this.painterStatus = status
           this.currentLine.dot1Id = ''
+          this.currentCircle.centerDotId = ''
 
           if(status === "clear") {
               this.clear()
@@ -44,6 +46,12 @@ class GeometryCanvas extends React.Component {
           y1: NaN,
       }
 
+      this.currentCircle = {
+          centerDotId: '',
+          x: NaN,
+          y: NaN,
+      }
+
       this.nextIndex = 0
 
       this.dim = null
@@ -59,6 +67,11 @@ class GeometryCanvas extends React.Component {
           dot1Id: '',
           x1: NaN,
           y1: NaN,
+      }
+      this.currentCircle = {
+          centerDotId: '',
+          x: NaN,
+          y: NaN,
       }
 
       this.setState({geometryElements: {
@@ -118,28 +131,65 @@ class GeometryCanvas extends React.Component {
       this.createGeometryElement(x,y)
   }
 
-  createGeometryElement(x,y,nextId=''){
-    if(this.painterStatus === "dot") {
-          nextId = ((nextId==='') ? this.getNextGeId() : nextId)
-          this.state.geometryElements.dots.push(<Dot id={nextId} posX={x} posY={y} geometryCanvas={this}/>)
-            this.setState({})
+  createGeometryElement(x,y,nextId='', onSuccess=null){
+      if(this.painterStatus === "dot") {
+          if(nextId !== '') {
+              let isDotExists = false
+
+              this.instances.dots.forEach((d) => {
+                  if (d.props.id ===nextId) {
+                      isDotExists = true
+                  }
+              })
+
+              if(isDotExists) {
+                  alert("Dot already exists !!!")
+                  return
+              }
+          }
+
+          let realNextId = ((nextId==='') ? this.getNextGeId() : nextId)
+
+          this.state.geometryElements.dots.push(<Dot id={realNextId} posX={x} posY={y} geometryCanvas={this}/>)
+          this.setState({})
       } else if(["edge", "broken_edge", "conn_edges"].includes(this.painterStatus)) {
-          nextId = ((nextId==='') ? this.getNextGeId() : nextId)
+          let realNextId = ((nextId==='') ? this.getNextGeId() : nextId)
           if(this.currentLine.dot1Id === '') {
-              this.state.geometryElements.dots.push(<Dot id={nextId} posX={x} posY={y} geometryCanvas={this}/>)
-              this.currentLine.dot1Id = nextId
+              this.state.geometryElements.dots.push(<Dot id={realNextId} posX={x} posY={y} geometryCanvas={this}/>)
+              this.currentLine.dot1Id = realNextId
               this.currentLine.x1 = x
               this.currentLine.y1 = y
           } else {
-              this.state.geometryElements.dots.push(<Dot id={nextId} posX={x} posY={y} geometryCanvas={this}/>)
+              if(nextId !== '') {
+                  if (this.currentLine.dot1Id === nextId){
+                      alert("You should choose different dots for line !!!!")
+                      return
+                  }
+
+                  let isLineExists = false
+
+                  this.instances.lines.forEach((line) => {
+                      if(line.dots.includes(nextId) &&
+                        line.dots.includes(this.currentLine.dot1Id)) {
+                        isLineExists = true
+                      }
+                  })
+
+                  if(isLineExists) {
+                      alert("Line already exists !!!")
+                      return
+                  }
+              }
+
+              this.state.geometryElements.dots.push(<Dot id={realNextId} posX={x} posY={y} geometryCanvas={this}/>)
               let lineId = this.getNextGeId()
               this.state.geometryElements.lines.push(<Line id={lineId} x2={x} y2={y} x1={this.currentLine.x1}
                                                            y1={this.currentLine.y1} dot1Id={this.currentLine.dot1Id}
-                                                           dot2Id={nextId} geometryCanvas={this}
+                                                           dot2Id={realNextId} geometryCanvas={this}
                                                            isBroken={this.painterStatus === "broken_edge"}/>)
 
               if(this.painterStatus === "conn_edges"){
-                  this.currentLine.dot1Id = nextId
+                  this.currentLine.dot1Id = realNextId
                   this.currentLine.x1 = x
                   this.currentLine.y1 = y
               } else {
@@ -148,7 +198,63 @@ class GeometryCanvas extends React.Component {
           }
 
           this.setState({})
+      }else if(this.painterStatus === "circle") {
+          if(this.currentCircle.centerDotId === '') {
+              let realNextId = ((nextId==='') ? this.getNextGeId() : nextId)
+              this.state.geometryElements.dots.push(<Dot id={realNextId} posX={x} posY={y} geometryCanvas={this}/>)
+              this.currentCircle.centerDotId = realNextId
+              this.currentCircle.x = x
+              this.currentCircle.y = y
+          } else {
+              if(nextId !== '') {
+                  if (this.currentCircle.centerDotId === nextId){
+                      alert("You should choose different dots for circle (radius > 0) !!!!")
+                      return
+                  }
+
+                  let isCircleExists = false
+                  let radius = Math.sqrt((this.currentCircle.x - x)**2
+                      + (this.currentCircle.y - y)**2)
+                  this.instances.circles.forEach((circle) => {
+                      if(circle.centerId === this.currentCircle.centerDotId &&
+                        circle.radius === radius) {
+                        isCircleExists = true
+                      }
+                  })
+
+                  if(isCircleExists) {
+                      alert("Circle already exists !!!")
+                      return
+                  }
+
+                  let isDotExists = false
+                  this.state.geometryElements.dots.forEach((dot) => {
+                      if(dot.props.id === nextId) {
+                        isDotExists = true
+                      }
+                  })
+
+                  if(!isDotExists) {
+                      this.state.geometryElements.dots.push(<Dot id={nextId} posX={x} posY={y} geometryCanvas={this}/>)
+                  }
+              }
+
+              let circleNextId = this.getNextGeId()
+              this.state.geometryElements.circles.push(<Circle id={circleNextId} centerX={this.currentCircle.x}
+                                                               centerY={this.currentCircle.y} onCircleX={x}
+                                                               onCircleY={y}
+                                                               onCircleId={nextId}
+                                                               centerDotId={this.currentCircle.centerDotId}
+                                                               geometryCanvas={this}/>)
+
+              this.currentCircle.centerDotId = ''
+          }
+          this.setState({})
       }
+
+     if(onSuccess !== null) {
+         onSuccess()
+     }
   }
 
   onMouseDown(event) {
