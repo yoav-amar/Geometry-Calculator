@@ -16,6 +16,7 @@ button.settings_option {
     margin: 15px;
     width: 250px;
     display: block;
+    vertical-align: center;
 
 }
 

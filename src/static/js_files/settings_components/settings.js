@@ -3,12 +3,17 @@ class ChangeOption extends React.Component {
         super(props);
         this.state = {
             type: "",
-            txt: ""
+            txt: "",
+            placeHolder: ""
         }
     }
 
     setType(new_type) {
         this.setState({type: new_type})
+    }
+
+    setPlaceHolder(new_place_holder) {
+        this.setState({placeHolder: new_place_holder})
     }
 
     setTxt(new_txt) {
@@ -20,7 +25,7 @@ class ChangeOption extends React.Component {
             return (
                 <div className={this.props.className}>
                     <h1>{this.state.txt}</h1>
-                    <input type={"txt"}/> <br/>
+                    <input type={"txt"} placeholder={this.state.placeHolder} dir={"rtl"}/> <br/>
                     <button> אשר</button>
                 </div>
             )
@@ -35,7 +40,6 @@ class ChangeOption extends React.Component {
             )
         } else {
             return (<div className={this.props.className}>
-                <h1>hey</h1>
             </div>)
         }
     }
@@ -52,10 +56,11 @@ class SettingsMenu extends React.Component {
         }
     }
 
-    onButtonClick(txt, type) {
+    onButtonClick(txt, type, placeHolder) {
         this.setState({isOpened: true})
         this.changeOption.current.setType(type)
         this.changeOption.current.setTxt(txt)
+        this.changeOption.current.setPlaceHolder(placeHolder)
 
 
     }
@@ -72,10 +77,10 @@ class SettingsMenu extends React.Component {
                                   ref={this.changeOption}/>
                     <div className="settings_list">
                         <SettingsOption text="עדכן שם משתמש" onClick={() => {
-                            this.onButtonClick("הכנס שם משתמש חדש", "button")
+                            this.onButtonClick("הכנס שם משתמש חדש", "button", "שם משתמש")
                         }}/>
                         <SettingsOption text='עדכן דוא"ל' onClick={() => {
-                            this.onButtonClick('הכנס דוא"ל חדש', "button")
+                            this.onButtonClick('הכנס דוא"ל חדש', "button", "מייל")
                         }}/>
                         <SettingsOption text="שתף תרגילים אוטומטית" onClick={() => {
                             this.onButtonClick('האם אתה רוצה לשתף תרגילים אוטומטית?', "checkbox")
