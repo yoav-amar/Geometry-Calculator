@@ -1,5 +1,4 @@
-import React from 'react';
-import Dot from './dot'
+import React from 'react'
 
 class Line extends React.Component {
   constructor(props) {
@@ -61,11 +60,7 @@ class Line extends React.Component {
 
           if(line.isDotOnEdge(x,y) && this.isDotOnEdge(x,y)) {
 
-              let nextId = this.props.geometryCanvas.getNextGeId()
-              this.props.geometryCanvas.state.geometryElements.dots.push(
-                  <Dot id={nextId} posX={x} posY={y} geometryCanvas={this.props.geometryCanvas}/>)
-
-              this.props.geometryCanvas.setState({})
+              let nextId = this.props.geometryCanvas.getInterDotId(x, y)
 
               this.addDot(nextId, x, y)
               line.addDot(nextId, x, y)
@@ -78,7 +73,9 @@ class Line extends React.Component {
       }
 
       let nextId = this.props.geometryCanvas.getNextGeId()
-      let x = e.clientX - this.props.geometryCanvas.dim.left
+
+      let dim = this.props.geometryCanvas.getDim()
+      let x = e.clientX - dim.left
       let y = this.m * x + this.b
 
       this.props.geometryCanvas.createGeometryElement(x,y, nextId,()=>{
@@ -100,6 +97,8 @@ class Line extends React.Component {
   }
 
   addDot(dotId,x,y){
+      if(dotId in this.dots) return
+
       let firstDot = this.props.geometryCanvas.state.geometryElements.dots.find(d => d.props.id === this.dots[0])
       for(let i = 0; i < this.dots.length - 1; ++i) {
           let secondDot = this.props.geometryCanvas.state.geometryElements.dots.find(
@@ -128,4 +127,4 @@ class Line extends React.Component {
   }
 }
 
-export default Line;
+export default Line

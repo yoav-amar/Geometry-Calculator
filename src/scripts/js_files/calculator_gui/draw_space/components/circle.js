@@ -1,6 +1,4 @@
-import React from 'react';
-import Line from "./line";
-import Dot from "./dot";
+import React from 'react'
 
 class Circle extends React.Component {
   constructor(props) {
@@ -14,8 +12,8 @@ class Circle extends React.Component {
       this.checkAndHandleLineIntersections = this.checkAndHandleLineIntersections.bind(this)
       this.getYbyX = this.getYbyX.bind(this)
       this.checkAndHandleCircleIntersections = this.checkAndHandleCircleIntersections.bind(this)
-
-      this.safeMargin = 0.00001
+      this.getLineInter = this.getLineInter.bind(this)
+      this.getCircleInter = this.getCircleInter.bind(this)
 
       this.state = {
         isOver: false
@@ -47,18 +45,19 @@ class Circle extends React.Component {
       this.props.geometryCanvas.instances.circles.push(this)
   }
 
-  checkAndHandleLineIntersections(line){
-      let inter_set = new Set()
-      if(isNaN(line.m)) {
-          this.getYbyX(line.b).forEach((y) => inter_set.add([line.b, y]))
+  getLineInter(mLine, bLine){
+      let interSet = new Set()
+
+      if(isNaN(mLine)) {
+          this.getYbyX(bLine).forEach((y) => interSet.add([bLine, y]))
       }else {
-          let a = 1 + line.m ** 2
-          let b = -2 * this.centerX + 2 * line.b * line.m - 2 * line.m * this.centerY
-          let c = this.centerX ** 2 + this.centerY ** 2 - this.radius ** 2 + line.b ** 2 - 2 * line.b * this.centerY
+          let a = 1 + mLine ** 2
+          let b = -2 * this.centerX + 2 * bLine * mLine - 2 * mLine * this.centerY
+          let c = this.centerX ** 2 + this.centerY ** 2 - this.radius ** 2 + bLine ** 2 - 2 * bLine * this.centerY
 
           let delta = b ** 2 - 4 * a * c
 
-          if (delta < 0) return
+          if (delta < 0) return interSet
 
           delta = Math.sqrt(delta)
 
@@ -66,17 +65,19 @@ class Circle extends React.Component {
           let x2 = (-b - delta) / (2 * a)
 
 
-          inter_set.add([x1, line.m * x1 + line.b])
-          inter_set.add([x2, line.m * x2 + line.b])
+          interSet.add([x1, mLine * x1 + bLine])
+          interSet.add([x2, mLine * x2 + bLine])
       }
 
-      inter_set.forEach(([x, y]) => {
-          if(line.isDotOnEdge(x,y)) {
-              let nextId = this.props.geometryCanvas.getNextGeId()
-              this.props.geometryCanvas.state.geometryElements.dots.push(
-                  <Dot id={nextId} posX={x} posY={y} geometryCanvas={this.props.geometryCanvas}/>)
+      return interSet
+  }
 
-              this.props.geometryCanvas.setState({})
+  checkAndHandleLineIntersections(line){
+      let interSet = this.getLineInter(line.m, line.b)
+
+      interSet.forEach(([x, y]) => {
+          if(line.isDotOnEdge(x,y)) {
+              let nextId = this.props.geometryCanvas.getInterDotId(x, y)
 
               this.addDot(nextId, x, y)
               line.addDot(nextId, x, y)
@@ -84,10 +85,7 @@ class Circle extends React.Component {
       })
   }
 
-  checkAndHandleCircleIntersections(circle){
-      let [x0, y0, r0] = [this.centerX, this.centerY, this.radius]
-      let [x1, y1, r1] = [circle.centerX, circle.centerY, circle.radius]
-
+  getCircleInter(x0, y0, r0, x1, y1, r1){
       let a, dx, dy, d, h, rx, ry
       let x2, y2
 
@@ -101,14 +99,15 @@ class Circle extends React.Component {
       d = Math.sqrt((dy*dy) + (dx*dx))
 
       /* Check for solvability. */
-      if (d > (r0 + r1)) {
+      let safeMargin = 1e-10
+      if (d - (r0 + r1) > safeMargin) {
           /* no solution. circles do not intersect. */
-          return false
+          return new Set()
       }
 
-      if (d < Math.abs(r0 - r1)) {
+      if (d - Math.abs(r0 - r1) < -safeMargin) {
           /* no solution. one circle is contained in the other */
-          return false
+          return new Set()
       }
 
       /* 'point 2' is the point where the line through the circle
@@ -117,7 +116,13 @@ class Circle extends React.Component {
       */
 
       /* Determine the distance from point 0 to point 2. */
-      a = ((r0*r0) - (r1*r1) + (d*d)) / (2.0 * d)
+      if((d - (r0 + r1)) > 0 || (d - Math.abs(r0 - r1)) < 0) { // to handle inaccuracies
+          a = r0
+
+      } else {
+          a = ((r0*r0) - (r1*r1) + (d*d)) / (2.0 * d)
+      }
+
 
       /* Determine the coordinates of point 2. */
       x2 = x0 + (dx * a/d)
@@ -126,7 +131,7 @@ class Circle extends React.Component {
       /* Determine the distance from point 2 to either of the
       * intersection points.
       */
-      h = Math.sqrt((r0*r0) - (a*a))
+      h = Math.sqrt(Math.max((r0*r0) - (a*a), 0))
 
       /* Now determine the offsets of the intersection points from
       * point 2.
@@ -141,22 +146,25 @@ class Circle extends React.Component {
       let yi = y2 + ry
       let yi_prime = y2 - ry
 
-      let inter_set = new Set([[xi, yi], [xi_prime, yi_prime]])
+      return new Set([[xi, yi], [xi_prime, yi_prime]])
+  }
 
-      inter_set.forEach(([x, y]) => {
-          let nextId = this.props.geometryCanvas.getNextGeId()
-          this.props.geometryCanvas.state.geometryElements.dots.push(
-             <Dot id={nextId} posX={x} posY={y} geometryCanvas={this.props.geometryCanvas}/>)
+  checkAndHandleCircleIntersections(circle){
+      let interSet = this.getCircleInter(this.centerX, this.centerY, this.radius,
+          circle.centerX, circle.centerY, circle.radius)
 
-          this.props.geometryCanvas.setState({})
+      alert(new Array(...interSet))
+      interSet.forEach(([x, y]) => {
+          let nextId = this.props.geometryCanvas.getInterDotId(x, y)
+
           this.addDot(nextId, x, y)
           circle.addDot(nextId, x, y)
       })
   }
 
   getYbyX(x){
-      if(x > (this.centerX + this.radius - this.safeMargin) ||
-      x < (this.centerX - this.radius + this.safeMargin)){
+      if(x > (this.centerX + this.radius) ||
+      x < (this.centerX - this.radius)){
          return []
       }
 
@@ -183,6 +191,8 @@ class Circle extends React.Component {
   }
 
   addDot(dotId,x,y){
+      if(dotId in this.dotsAndPos) return
+
       this.dotsAndPos[dotId] = this.flat(x, y)
   }
 
@@ -200,15 +210,17 @@ class Circle extends React.Component {
       }
 
       let nextId = this.props.geometryCanvas.getNextGeId()
-      let x = e.clientX - this.props.geometryCanvas.dim.left
 
-      if(x > (this.centerX + this.radius - this.safeMargin)) {
-          x = this.centerX + this.radius - this.safeMargin
-      } else if (x < (this.centerX - this.radius + this.safeMargin)){
-          x = this.centerX - this.radius + this.safeMargin
+      let dim = this.props.geometryCanvas.getDim()
+      let x = e.clientX - dim.left
+
+      if(x > (this.centerX + this.radius)) {
+          x = this.centerX + this.radius
+      } else if (x < (this.centerX - this.radius)){
+          x = this.centerX - this.radius
       }
 
-      let y = e.clientY - this.props.geometryCanvas.dim.top
+      let y = e.clientY - dim.top
 
       let [y1, y2] = this.getYbyX(x)
 
@@ -237,4 +249,4 @@ class Circle extends React.Component {
   }
 }
 
-export default Circle;
+export default Circle

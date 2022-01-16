@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import 'css_files/main_menu/components/menu_option.css'
 
 class MenuOption extends React.Component {
@@ -16,4 +16,4 @@ class MenuOption extends React.Component {
   }
 }
 
-export default MenuOption;
+export default MenuOption

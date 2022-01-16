@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-import ToolBar from 'js_files/calculator_gui/tools_bar/tool_bar';
-import GeometryCanvas from 'js_files/calculator_gui/draw_space/geometry_canvas';
+import ToolBar from 'js_files/calculator_gui/tools_bar/tool_bar'
+import GeometryCanvas from 'js_files/calculator_gui/draw_space/geometry_canvas'
 import dragElement from 'js_files/calculator_gui/splitter'
 
 dragElement( document.getElementById("horizontal_separator"), "H", "data_space", "painter");

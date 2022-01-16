@@ -1,5 +1,5 @@
-import React from 'react';
-import 'css_files/calculator_gui/tool_bar/components/tool_bar_option.css';
+import React from 'react'
+import 'css_files/calculator_gui/tool_bar/components/tool_bar_option.css'
 
 class ToolBarOption extends React.Component {
   constructor(props) {
@@ -25,4 +25,4 @@ class ToolBarOption extends React.Component {
   }
 }
 
-export default ToolBarOption;
+export default ToolBarOption

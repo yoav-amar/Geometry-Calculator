@@ -1,14 +1,14 @@
-import React from 'react';
-import ToolBarOption from './components/tool_bar_option';
+import React from 'react'
+import ToolBarOption from './components/tool_bar_option'
 
-import VertexImg from './components/images/vertex.png';
-import EdgeImg from './components/images/edge.png';
-import BrokenEdgeImg from './components/images/broken_edge.png';
-import ConnEdgesImg from './components/images/conn_edges.png';
-import NameVertexImg from './components/images/name_vertex.png';
-import CircleImg from './components/images/circle.png';
-import ClearImg from './components/images/clear.png';
-import EraserImg from './components/images/eraser.png';
+import VertexImg from './components/images/vertex.png'
+import EdgeImg from './components/images/edge.png'
+import BrokenEdgeImg from './components/images/broken_edge.png'
+import ConnEdgesImg from './components/images/conn_edges.png'
+import NameVertexImg from './components/images/name_vertex.png'
+import CircleImg from './components/images/circle.png'
+import ClearImg from './components/images/clear.png'
+import EraserImg from './components/images/eraser.png'
 
 class ToolBar extends React.Component {
   constructor(props) {
@@ -71,4 +71,4 @@ class ToolBar extends React.Component {
   }
 }
 
-export default ToolBar;
+export default ToolBar

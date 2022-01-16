@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import 'css_files/main_menu/components/menu_button.css'
 
 class MenuButton extends React.Component {
@@ -19,4 +19,4 @@ class MenuButton extends React.Component {
   }
 }
 
-export default MenuButton;
+export default MenuButton

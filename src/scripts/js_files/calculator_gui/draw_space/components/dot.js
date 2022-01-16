@@ -1,5 +1,4 @@
-import React from 'react';
-import Line from "./line";
+import React from 'react'
 
 class Dot extends React.Component {
   constructor(props) {
@@ -59,41 +58,44 @@ class Dot extends React.Component {
           return
       }
 
-      if(!["edge", "broken_edge", "conn_edges", "circle", "dot"].includes(this.props.geometryCanvas.painterStatus)) {
+      if(!["edge", "broken_edge", "conn_edges", "circle"].includes(this.props.geometryCanvas.painterStatus)) {
           return
       }
 
-      this.props.geometryCanvas.createGeometryElement(this.props.posX,this.props.posY,this.props.id)
+      this.props.geometryCanvas.createGeometryElement(this.props.posX,this.props.posY,this.props.id, null, true)
   }
 
   render() {
-    return(
-        <g>
-            <circle id={this.props.id} cx={this.props.posX} cy={this.props.posY}
+      let elements = []
+      elements.push(<circle id={this.props.id} cx={this.props.posX} cy={this.props.posY}
                 r={this.state.name !== '' ?"10":"7"}
                 onMouseEnter={e => this.setState({isOver: true})}
                 onMouseLeave={e => this.setState({isOver: false})}
                 onClick={e => this.onClick(e)}
-                fill={this.state.isOver?"ForestGreen":"black"}/>
-            <text stroke="white" x={this.props.posX} y={this.props.posY}
+                fill={this.state.isOver?"ForestGreen":"black"}/>)
+
+      elements.push(<text stroke="white" x={this.props.posX} y={this.props.posY}
                   strokeWidth="1px" textAnchor="middle"
                   onMouseEnter={e => this.setState({isOver: true})}
                   onMouseLeave={e => this.setState({isOver: false})}
-                  onClick={e => this.onClick(e)} alignmentBaseline="central">{this.state.name}</text>
-            <foreignObject x={this.props.posX +10} y={this.props.posY - 10} width="50" height="30">
+                  onClick={e => this.onClick(e)} alignmentBaseline="central">{this.state.name}</text>)
+
+      if(this.state.isNaming){
+          elements.push(<foreignObject x={this.props.posX +10} y={this.props.posY - 10} width="50" height="30">
                 <input className="hidden-form" type="text" name="loc" placeholder="Name"
-                       style={this.state.isNaming?
-                           {visibility:"visible", border: "3px solid black", boxSizing: "border-box", width: "100%"} :
-                           {visibility:"hidden"}}
+                       style={{border: "3px solid black", boxSizing: "border-box", width: "100%"}}
                        onInput={e => this.setState({name: e.target.value.charAt(0)})}
                        onBlur={e => this.setState({isNaming: false})}
                        ref={(ip) => this.dotInput = ip}
                 />
-            </foreignObject>
-
+            </foreignObject>)
+      }
+    return(
+        <g>
+            {elements}
         </g>
     )
   }
 }
 
-export default Dot;
+export default Dot
