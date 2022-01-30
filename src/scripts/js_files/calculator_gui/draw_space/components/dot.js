@@ -56,6 +56,10 @@ class Dot extends React.Component {
       if(this.props.geometryCanvas.painterStatus === "name_dot") {
           this.setState({isNaming: true}, () => this.dotInput.focus())
           return
+      } else if(this.props.geometryCanvas.painterStatus === "continue_edge" &&
+          this.props.geometryCanvas.helpLine !== null) {
+          this.props.geometryCanvas.helpLineRef.handleClickXY(this.props.posX, this.props.posY, this.props.id)
+          return
       }
 
       if(!["edge", "broken_edge", "conn_edges", "circle"].includes(this.props.geometryCanvas.painterStatus)) {

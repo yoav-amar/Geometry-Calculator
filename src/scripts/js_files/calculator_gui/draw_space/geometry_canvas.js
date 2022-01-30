@@ -5,6 +5,7 @@ import Line from './components/line'
 import Circle from "./components/circle"
 import HelpDot from "./components/help_dot"
 import help_dot from "./components/help_dot";
+import HelpLine from "./components/help_line";
 
 class GeometryCanvas extends React.Component {
   constructor(props) {
@@ -20,6 +21,8 @@ class GeometryCanvas extends React.Component {
       this.setHelpDots = this.setHelpDots.bind(this)
       this.getDim = this.getDim.bind(this)
       this.addHelpDrawingDots = this.addHelpDrawingDots.bind(this)
+      this.createHelpLine = this.createHelpLine.bind(this)
+      this.createHelpDrawingDot = this.createHelpDrawingDot.bind(this)
 
       this.painterStatus = ''
 
@@ -28,10 +31,13 @@ class GeometryCanvas extends React.Component {
           this.currentLine.dot1Id = ''
           this.currentCircle.centerDotId = ''
           this.helpDrawingDots = []
+          this.helpLine = null
 
           if(status === "clear") {
               this.clear()
           }
+
+          this.setState({})
       }.bind(this)
 
       this.state = {
@@ -67,6 +73,8 @@ class GeometryCanvas extends React.Component {
       this.nextHelpDrawingDotIndex = 0
 
       this.helpDots = []
+
+      this.helpLine = null
   }
 
   setHelpDots(){
@@ -75,8 +83,18 @@ class GeometryCanvas extends React.Component {
       let idIndex = 1
       for(let x = 0; x < document.body.clientWidth; x+=30){
           for(let y = 0; y < document.body.clientHeight; y+=30){
-              this.helpDots.push(<HelpDot id={'hd_'+ idIndex} key={'hd_'+ idIndex}
-                                          posX={x} posY={y} geometryCanvas={this}/>)
+              this.helpDots.push(
+                  <HelpDot id={'hd_'+ idIndex} key={'hd_'+ idIndex}
+                           posX={x} posY={y}
+                           onClick={e=>{
+                               if(this.painterStatus === "continue_edge" && this.helpLine !== null) {
+                                   this.helpLineRef.handleClickXY(x, y)
+                                   return
+                               }
+
+                               this.createGeometryElement(x,y)
+                           }}
+                           geometryCanvas={this}/>)
 
               ++idIndex
           }
@@ -121,19 +139,17 @@ class GeometryCanvas extends React.Component {
       this.nextHelpDrawingDotIndex = 0
 
       this.helpDrawingDots = []
+
+      this.helpLine = null
   }
 
-  erase(event) {
-      let e = event.target;
-      if(e.tagName === "svg" || this.painterStatus !== "eraser") {
-          return
-      }
-      this.state.geometryElements.dots = this.state.geometryElements.dots.filter(tag => tag.props.id !== e.id)
-      this.state.geometryElements.lines = this.state.geometryElements.lines.filter(tag => tag.props.id !== e.id)
-      this.state.geometryElements.circles = this.state.geometryElements.circles.filter(tag => tag.props.id !== e.id)
+  erase(id) {
+      this.state.geometryElements.dots = this.state.geometryElements.dots.filter(tag => tag.props.id !== id)
+      this.state.geometryElements.lines = this.state.geometryElements.lines.filter(tag => tag.props.id !== id)
+      this.state.geometryElements.circles = this.state.geometryElements.circles.filter(tag => tag.props.id !== id)
 
       let filterFunc = (ge) => {
-          if(ge.props.id === e.id) {
+          if(ge.props.id === id) {
               ge.onErase()
               return false
           }
@@ -185,6 +201,16 @@ class GeometryCanvas extends React.Component {
       this.createGeometryElement(x,y)
   }
 
+  createHelpDrawingDot(x, y, color, onClick){
+      this.helpDrawingDots.push(<HelpDot id={'hdd_'+ (++this.nextHelpDrawingDotIndex)}
+                                         key={'hdd_'+ this.nextHelpDrawingDotIndex}
+                                         posX={x} posY={y}
+                                         onClick={e=>onClick(e)}
+                                         geometryCanvas={this} color={color}/>)
+
+      this.setState({})
+  }
+
   addHelpDrawingDots(x, y){
       this.helpDrawingDots = []
 
@@ -200,9 +226,9 @@ class GeometryCanvas extends React.Component {
           let interSet = circle.getLineInter(m, b)
           let color = this.painterStatus==="circle"?"orange":"blue"
           interSet.forEach(([x, y]) => {
-              this.helpDrawingDots.push(<HelpDot id={'hdd_'+ (++this.nextHelpDrawingDotIndex)}
-                                                 key={'hdd_'+ this.nextHelpDrawingDotIndex}
-                                                 posX={x} posY={y} geometryCanvas={this} color={color}/>)
+              this.createHelpDrawingDot(x, y, color, (e)=>{
+                  this.createGeometryElement(x,y)
+              })
           })
 
           if(this.painterStatus!=="circle") { // A type of line
@@ -213,14 +239,20 @@ class GeometryCanvas extends React.Component {
                       circle.centerX, circle.centerY, circle.radius)
 
                   interSet.forEach(([x, y]) => {
-                      this.helpDrawingDots.push(<HelpDot id={'hdd_' + (++this.nextHelpDrawingDotIndex)}
-                                                         key={'hdd_' + this.nextHelpDrawingDotIndex}
-                                                         posX={x} posY={y} geometryCanvas={this} color="orange"/>)
+                      this.createHelpDrawingDot(x, y, "orange", (e)=>{
+                          this.createGeometryElement(x,y)
+                      })
                   })
               }
           }
       })
+  }
 
+  createHelpLine(line){
+      let helpLineId = "help_line_" + line.props.id
+      this.helpLine = <HelpLine id={helpLineId} key={helpLineId} line={line}
+                                ref={ref=>this.helpLineRef=ref} geometryCanvas={this}/>
+      this.helpDrawingDots = []
       this.setState({})
   }
 
@@ -377,20 +409,25 @@ class GeometryCanvas extends React.Component {
 
   onMouseDown(event) {
       document.onmousemove = (event) => {
-          this.erase(event)
+          let e = event.target;
+          if(e.tagName === "svg" || this.painterStatus !== "eraser") {
+              return
+          }
+          this.erase(e.id)
       }
 
       document.onmouseup = () => {
           document.onmousemove = document.onmouseup = null;
       }
-
-      this.erase(event)
   }
 
   render() {
     return(
         <svg className="geometry_grid" onClick={e=>this.onClick(e)}
              onMouseDown={e=>this.onMouseDown(e)} ref={ip => this.geometrySvg = ip}>
+            <g id="help_lines">
+                {this.helpLine}
+            </g>
             <g id="circles">
                 {this.state.geometryElements.circles}
             </g>

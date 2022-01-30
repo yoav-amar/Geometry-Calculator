@@ -8,6 +8,7 @@ class Line extends React.Component {
       this.addDot = this.addDot.bind(this)
       this.onClick = this.onClick.bind(this)
       this.isDotOnEdge = this.isDotOnEdge.bind(this)
+      this.getLineInter = this.getLineInter.bind(this)
       this.checkAndHandleLineIntersections = this.checkAndHandleLineIntersections.bind(this)
 
       this.state = {
@@ -25,12 +26,29 @@ class Line extends React.Component {
           this.b = this.props.y1 - this.m * this.props.x1
       }
 
-      // intersections with this line
+      // intersections with dots
+      this.props.geometryCanvas.instances.dots.forEach((dot) => {
+          let x, y
+          if(isNaN(this.m)) {
+              x = this.b
+              y = dot.props.posY
+          } else {
+              x = dot.props.posX
+              y = this.m * x + this.b
+          }
+
+          let safeMargin = 0.01
+          if(Math.abs(x - dot.props.posX) < safeMargin && Math.abs(y - dot.props.posY) < safeMargin) {
+              this.addDot(dot.props.id, x, y)
+          }
+      })
+
+      // intersections with line
       this.props.geometryCanvas.instances.lines.forEach((line) => {
          this.checkAndHandleLineIntersections(line)
       })
 
-      // intersections with this circle
+      // intersections with circle
       this.props.geometryCanvas.instances.circles.forEach((circle) => {
          circle.checkAndHandleLineIntersections(this)
       })
@@ -42,32 +60,50 @@ class Line extends React.Component {
 
   }
 
+  getLineInter(line){
+      if(line.m === this.m) {return null}
+
+      let x = 0
+      let y = 0
+      if(isNaN(line.m)) {
+          x = line.b
+          y = this.m * x + this.b
+      } else if(isNaN(this.m)) {
+          x = this.b
+          y = line.m * x + line.b
+      }else {
+          x = (line.b - this.b) / (this.m - line.m)
+          y = this.m * x + this.b
+      }
+
+      return [x,y]
+  }
+
   checkAndHandleLineIntersections(line){
-      if(line.m === this.m) {return}
+      let interDot = this.getLineInter(line)
 
-          let x = 0
-          let y = 0
-          if(isNaN(line.m)) {
-              x = line.b
-              y = this.m * x + this.b
-          } else if(isNaN(this.m)) {
-              x = this.b
-              y = line.m * x + line.b
-          }else {
-              x = (line.b - this.b) / (this.m - line.m)
-              y = this.m * x + this.b
-          }
+      if(interDot === null){
+          return
+      }
 
-          if(line.isDotOnEdge(x,y) && this.isDotOnEdge(x,y)) {
+      let [x, y] = interDot
 
-              let nextId = this.props.geometryCanvas.getInterDotId(x, y)
+      if(line.isDotOnEdge(x,y) && this.isDotOnEdge(x,y)) {
 
-              this.addDot(nextId, x, y)
-              line.addDot(nextId, x, y)
-          }
+          let nextId = this.props.geometryCanvas.getInterDotId(x, y)
+
+          this.addDot(nextId, x, y)
+          line.addDot(nextId, x, y)
+      }
   }
 
   onClick(e){
+      if(this.props.geometryCanvas.painterStatus === "continue_edge") {
+           this.props.geometryCanvas.createHelpLine(this)
+          return
+      }
+
+
       if(!["edge", "broken_edge", "conn_edges", "dot", "circle"].includes(this.props.geometryCanvas.painterStatus)){
           return
       }
@@ -75,8 +111,15 @@ class Line extends React.Component {
       let nextId = this.props.geometryCanvas.getNextGeId()
 
       let dim = this.props.geometryCanvas.getDim()
-      let x = e.clientX - dim.left
-      let y = this.m * x + this.b
+
+      let x, y
+      if(isNaN(this.m)){
+          x = this.b
+          y = e.clientY - dim.top
+      } else {
+          x = e.clientX - dim.left
+          y = this.m * x + this.b
+      }
 
       this.props.geometryCanvas.createGeometryElement(x,y, nextId,()=>{
           this.addDot(nextId, x, y)
@@ -93,11 +136,11 @@ class Line extends React.Component {
       let minY = Math.min(y1, y2)
       let maxY = Math.max(y1, y2)
 
-      return ((minX < x) && (x < maxX)) && ((minY < y) && (y < maxY))
+      return ((minX <= x) && (x <= maxX)) && ((minY <= y) && (y <= maxY))
   }
 
   addDot(dotId,x,y){
-      if(dotId in this.dots) return
+      if(this.dots.includes(dotId)) return
 
       let firstDot = this.props.geometryCanvas.state.geometryElements.dots.find(d => d.props.id === this.dots[0])
       for(let i = 0; i < this.dots.length - 1; ++i) {

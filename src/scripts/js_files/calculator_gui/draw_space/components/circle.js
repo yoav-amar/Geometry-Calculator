@@ -32,12 +32,24 @@ class Circle extends React.Component {
           this.dotsAndPos[this.props.onCircleId] = this.flat(this.props.onCircleX, this.props.onCircleY)
       }
 
-      // intersections with this line
+      // intersections with dots
+      this.props.geometryCanvas.instances.dots.forEach((dot) => {
+          let yList = this.getYbyX(dot.props.posX)
+
+          let safeMargin = 0.01
+          yList.forEach((y)=>{
+              if(Math.abs(y - dot.props.posY) < safeMargin) {
+                  this.addDot(dot.props.id, dot.props.posX, y)
+              }
+          })
+      })
+
+      // intersections with line
       this.props.geometryCanvas.instances.lines.forEach((line) => {
          this.checkAndHandleLineIntersections(line)
       })
 
-      // intersections with this circle
+      // intersections with circle
       this.props.geometryCanvas.instances.circles.forEach((circle) => {
          this.checkAndHandleCircleIntersections(circle)
       })
@@ -153,7 +165,6 @@ class Circle extends React.Component {
       let interSet = this.getCircleInter(this.centerX, this.centerY, this.radius,
           circle.centerX, circle.centerY, circle.radius)
 
-      alert(new Array(...interSet))
       interSet.forEach(([x, y]) => {
           let nextId = this.props.geometryCanvas.getInterDotId(x, y)
 
@@ -168,9 +179,9 @@ class Circle extends React.Component {
          return []
       }
 
-      let part_y = Math.sqrt(this.radius**2 - (x - this.centerX)**2)
-      let y1 = part_y + this.centerY
-      let y2 = -part_y + this.centerY
+      let partY = Math.sqrt(this.radius**2 - (x - this.centerX)**2)
+      let y1 = partY + this.centerY
+      let y2 = -partY + this.centerY
 
       return [y1, y2]
   }

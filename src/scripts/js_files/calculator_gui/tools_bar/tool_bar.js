@@ -4,6 +4,7 @@ import ToolBarOption from './components/tool_bar_option'
 import VertexImg from './components/images/vertex.png'
 import EdgeImg from './components/images/edge.png'
 import BrokenEdgeImg from './components/images/broken_edge.png'
+import ContinueEdgeImg from './components/images/continue_edge.png'
 import ConnEdgesImg from './components/images/conn_edges.png'
 import NameVertexImg from './components/images/name_vertex.png'
 import CircleImg from './components/images/circle.png'
@@ -48,6 +49,12 @@ class ToolBar extends React.Component {
                 imageAlt="תמונה-קטע-מקווקו"
                 optionText="קטע מקווקו"
                 onClick={e=> this.painterNotifier("broken_edge")}/>
+
+            <ToolBarOption
+                imageSrc={ContinueEdgeImg}
+                imageAlt="תמונה-המשך-קטע"
+                optionText="המשך קטע"
+                onClick={e=> this.painterNotifier("continue_edge")}/>
 
             <ToolBarOption
                 imageSrc={CircleImg}
