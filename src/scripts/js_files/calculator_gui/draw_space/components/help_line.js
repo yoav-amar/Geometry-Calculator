@@ -42,7 +42,7 @@ class HelpLine extends React.Component {
 
               if(line.isDotOnEdge(x,y) && !this.line.isDotOnEdge(x,y)) {
                   this.props.geometryCanvas.createHelpDrawingDot(x, y, "orange", (e)=>{
-                      this.onClick(x,y)
+                      this.handleClickXY(x,y)
                   })
               }
           }
