@@ -71,28 +71,29 @@ class Dot extends React.Component {
 
   render() {
       let elements = []
-      elements.push(<circle id={this.props.id} cx={this.props.posX} cy={this.props.posY}
+      elements.push(<circle id={this.props.id} key={this.props.id+'_circle'} cx={this.props.posX} cy={this.props.posY}
                 r={this.state.name !== '' ?"10":"7"}
                 onMouseEnter={e => this.setState({isOver: true})}
                 onMouseLeave={e => this.setState({isOver: false})}
                 onClick={e => this.onClick(e)}
                 fill={this.state.isOver?"ForestGreen":"black"}/>)
 
-      elements.push(<text stroke="white" x={this.props.posX} y={this.props.posY}
+      elements.push(<text stroke="white" x={this.props.posX} y={this.props.posY} key={this.props.id+'_text'}
                   strokeWidth="1px" textAnchor="middle"
                   onMouseEnter={e => this.setState({isOver: true})}
                   onMouseLeave={e => this.setState({isOver: false})}
                   onClick={e => this.onClick(e)} alignmentBaseline="central">{this.state.name}</text>)
 
       if(this.state.isNaming){
-          elements.push(<foreignObject x={this.props.posX +10} y={this.props.posY - 10} width="50" height="30">
-                <input className="hidden-form" type="text" name="loc" placeholder="Name"
-                       style={{border: "3px solid black", boxSizing: "border-box", width: "100%"}}
-                       onInput={e => this.setState({name: e.target.value.charAt(0)})}
-                       onBlur={e => this.setState({isNaming: false})}
-                       ref={(ip) => this.dotInput = ip}
-                />
-            </foreignObject>)
+          elements.push(
+              <foreignObject key={this.props.id+'_fg'} x={this.props.posX +10} y={this.props.posY - 10} width="50" height="30">
+                  <input className="hidden-form" type="text" name="loc" placeholder="Name" key={this.props.id+'_input'}
+                           style={{border: "3px solid black", boxSizing: "border-box", width: "100%"}}
+                           onInput={e => this.setState({name: e.target.value.charAt(0)})}
+                           onBlur={e => this.setState({isNaming: false})}
+                           ref={(ip) => this.dotInput = ip}
+                  />
+              </foreignObject>)
       }
     return(
         <g>
