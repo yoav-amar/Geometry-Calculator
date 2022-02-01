@@ -7,14 +7,14 @@
 <body style="width: 100%; height: 100%; margin: 0;">
 
     <div class="splitter">
-        <div id="data_space"></div>
-        <div id="horizontal_separator" >||</div>
         <div class="splitter" id="painter">
             <div class="draw_space" id="draw_space">
             </div>
             <div id="vertical_separator" >=</div>
             <div class="tool_bar" id="tool_bar"></div>
         </div>
+        <div id="horizontal_separator" >||</div>
+        <div class="data_space" id="data_space"></div>
     </div>
 
     <script src="{{url_for('static', filename='calculator.js')}}"></script>
