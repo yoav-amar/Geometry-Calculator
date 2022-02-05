@@ -2,7 +2,7 @@ import random
 
 import pymongo
 import hashlib
-
+from src.backend.exceptions import UserNotFound, WrongPassword
 SALT_SIZE = 1024
 
 DB_NAME = "geometry-calculator"
@@ -30,16 +30,19 @@ def delete_user(username: str, password: str):
     query = {"username": username}
     user = users.find_one(query)
     if not user:
-        raise Exception()  # TODO create custom exceptions
+        raise UserNotFound()
     password = password + str(user["salt"])
     if hashlib.sha256(password.encode()).hexdigest() == user["password"]:
         users.delete_one(query)
-    raise Exception()  # TODO create custom exceptions
+    raise WrongPassword()
 
 
-def change_field(username, field, new_value):
+def change_field(username: str, password: str, field: str, new_value: str):
     query = {"username": username}
     user = users.find_one(query)
     if not user:
-        raise Exception()  # TODO create custom exceptions
-    users.update_one(query, {"$set": {field: new_value}})
+        raise UserNotFound
+    password = password + str(user["salt"])
+    if hashlib.sha256(password.encode()).hexdigest() == user["password"]:
+        users.update_one(query, {"$set": {field: new_value}})
+    raise WrongPassword()
