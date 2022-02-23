@@ -422,9 +422,20 @@ class GeometryCanvas extends React.Component {
   }
 
   render() {
+      let helpDotsTypes = [
+          <g id="help_dots" key="help_dots">
+              {this.helpDots}
+          </g>,
+
+          <g id="help_drawing_dots" key="help_drawing_dots">
+              {this.helpDrawingDots}
+          </g>
+      ]
+
     return(
         <svg className="geometry_grid" onClick={e=>this.onClick(e)}
              onMouseDown={e=>this.onMouseDown(e)} ref={ip => this.geometrySvg = ip}>
+            {this.painterStatus === "eraser"? helpDotsTypes : []}
             <g id="help_lines">
                 {this.helpLine}
             </g>
@@ -434,12 +445,7 @@ class GeometryCanvas extends React.Component {
             <g id="lines">
                 {this.state.geometryElements.lines}
             </g>
-            <g>
-                {this.helpDots}
-            </g>
-            <g id="help_dots">
-                {this.helpDrawingDots}
-            </g>
+            {this.painterStatus !== "eraser"? helpDotsTypes : []}
             <g id="dots">
                 {this.state.geometryElements.dots}
             </g>

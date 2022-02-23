@@ -2,6 +2,7 @@ import React from 'react'
 import 'css_files/calculator_gui/data_space/components/data_input.css'
 
 import AddButtonImg from './images/add_button.png'
+import ResetButtonImg from './images/reset_button.png'
 
 class DataInput extends React.Component {
   constructor(props) {
@@ -14,14 +15,15 @@ class DataInput extends React.Component {
 
       this.state = {
           isHoverAdd: false,
+          isHoverReset: false,
           dataTypeIndex: 0
       }
 
-      this.data_id = 0
+      this.dataId = 0
       this.options = []
 
       this.template = []
-      this.initializeTemplate()
+      this.initializeTemplate(false)
 
       this.templates = [
           {
@@ -32,12 +34,15 @@ class DataInput extends React.Component {
                   {type: "input", id: "tem_struct_2"}
               ],
               getObjResult: ()=>{
+                  let ts1 = document.querySelector('#tem_struct_1').value
+                  let ts2 = document.querySelector('#tem_struct_2').value
                   return {
-                      data_type: "תיכון במשולש",
-                      data_id: this.data_id++,
+                      dataType: "תיכון במשולש",
+                      dataId: this.dataId++,
+                      representation: `${ts2} תיכון במשולש ${ts1}`,
                       fields: [
-                          document.querySelector('#tem_struct_1').value,
-                          document.querySelector('#tem_struct_2').value
+                          ts1,
+                          ts2
                       ]
                   }
               }
@@ -61,17 +66,40 @@ class DataInput extends React.Component {
   }
 
   addData(){
+      let templateObj = this.templateGetObj()
 
+      if(!templateObj.representation){
+          alert("הכנס נתון שאינו ריק !!!")
+          return
+      }
+
+      this.props.onAdd(templateObj)
   }
 
-  initializeTemplate(){
+  initializeTemplate(isMounted=true){
+      this.options = []
       this.template = [<input className="data_input" id="default_data_input"
                               key="default_data_input" ref={(ref) => this.input = ref}/>]
-      this.setState({})
+
+      this.templateGetObj = () => {
+          return {
+              dataType: "כללי",
+              dataId: this.dataId++,
+              representation: document.querySelector('#default_data_input').value
+          }
+      }
+
+      if(isMounted) {
+          this.setState({}, () => {
+              this.input.value = ""
+          })
+      }
   }
 
   setTemplate(template){
       this.template = []
+
+      this.templateGetObj = template.getObjResult
 
       template.structure.slice().reverse().forEach((element) => {
           if(element.type === "input"){
@@ -84,7 +112,7 @@ class DataInput extends React.Component {
               />)
           }else if(element.type === "label"){
               this.template.push(<label
-                  className="data_label"
+                  className="data_input_label"
                   style={{width: element.width}}>
                   {element.content}
               </label>)
@@ -123,6 +151,14 @@ class DataInput extends React.Component {
     return(
         <div>
             <div className="data_input" style={{display:"flex", width:"100%", height:"100%"}}>
+                <button className="reset_data" draggable={false}
+                             onClick={e => this.initializeTemplate()}
+                             onMouseEnter={e => this.setState({isHoverReset: true})}
+                             onMouseLeave={e => this.setState({isHoverReset: false})}>
+                    <img className="img_data" src={ResetButtonImg} alt="כפתור-איתחול"
+                         style={this.state.isHoverReset?{opacity: "1"}: {opacity: "0.7"}}/>
+                </button>
+
                 <div className="template_space">
                     {this.template}
                 </div>
@@ -135,7 +171,7 @@ class DataInput extends React.Component {
                          onClick={e => this.addData()}
                          onMouseEnter={e => this.setState({isHoverAdd: true})}
                          onMouseLeave={e => this.setState({isHoverAdd: false})}>
-                <img className="add_data" src={AddButtonImg} alt="כפתור-הוספה"
+                <img className="img_data" src={AddButtonImg} alt="כפתור-הוספה"
                      style={this.state.isHoverAdd?{opacity: "1"}: {opacity: "0.7"}}/>
                 </button>
             </div>

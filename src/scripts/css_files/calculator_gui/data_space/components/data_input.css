@@ -28,7 +28,7 @@ input.data_input{
     outline: none;
 }
 
-label.data_label{
+label.data_input_label{
     display: flex;
     align-items: center;
     height: 100%;
@@ -76,7 +76,20 @@ button.add_data{
     box-sizing: border-box;
 }
 
-img.add_data{
+button.reset_data{
+    display: flex;
+    align-items: center;
+    width: 15%;
+    height: 100%;
+    background-color: white;
+
+    border: #5a5a5a solid 3px;
+    border-left: 0;
+    border-right: 0;
+    box-sizing: border-box;
+}
+
+img.img_data{
     height: 70%;
 }
 

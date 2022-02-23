@@ -9,6 +9,7 @@ div.data{
     border: #858585 solid 3px;
     box-sizing: border-box;
     display: flex;
+    flex-direction: column;
     width: 100%;
     flex: 1;
     overflow-y: auto;

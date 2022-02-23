@@ -44,7 +44,7 @@ class Dot extends React.Component {
                   let ans = (circle.centerId !== this.props.id)
 
                   if(ans) {
-                      circle.dotsAndPos.delete(this.props.id);
+                      delete circle.dotsAndPos[this.props.id]
                       return true
                   }
 

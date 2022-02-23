@@ -18,15 +18,17 @@ class SymbolTable extends React.Component {
     return(
         <div className="symbol_table">
             <table className="symbol_table">
+                <tbody>
                     {this.symbolsChars.map(line =>
-                        <tr>
+                        <tr key={line}>
                             {line.map(char =>
-                                <th onClick={e => this.props.onSymbolSelected(char)}>
+                                <th onClick={e => this.props.onSymbolSelected(char)} key={char}>
                                     {char}
                                 </th>
                             )}
                         </tr>
                     )}
+                </tbody>
             </table>
         </div>
     )
