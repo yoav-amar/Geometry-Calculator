@@ -2,7 +2,7 @@ import random
 
 import pymongo
 import hashlib
-from src.backend.exceptions import UserNotFound, WrongPassword
+from src.backend.exceptions import UserNotFound, WrongPassword, UserExists
 SALT_SIZE = 1024
 
 DB_NAME = "geometry-calculator"
@@ -19,7 +19,7 @@ print(x["name"])
 
 def add_user(username: str, password: str, email: str, auto_share: bool):
     if users.count_documents({"username": username}):
-        raise Exception()  # TODO create custom exceptions
+        raise UserExists()
     salt = random.randint(SALT_SIZE)
     password = hashlib.sha256((password + str(salt)).encode()).hexdigest()
     user_dict = {"username": username, "password": password, "email": email, "auto_share": auto_share, "salt": salt}
