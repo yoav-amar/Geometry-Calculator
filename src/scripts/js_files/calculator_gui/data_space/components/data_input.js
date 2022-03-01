@@ -4,6 +4,8 @@ import 'css_files/calculator_gui/data_space/components/data_input.css'
 import AddButtonImg from './images/add_button.png'
 import ResetButtonImg from './images/reset_button.png'
 
+import templates from './templates'
+
 class DataInput extends React.Component {
   constructor(props) {
       super(props)
@@ -23,31 +25,8 @@ class DataInput extends React.Component {
       this.options = []
 
       this.template = []
-      this.initializeTemplate(false)
 
-      this.templates = [
-          {
-              option: "תיכון במשולש",
-              structure:[
-                  {type: "input", id: "tem_struct_1"},
-                  {type: "label", content:"תיכון במשולש"},
-                  {type: "input", id: "tem_struct_2"}
-              ],
-              getObjResult: ()=>{
-                  let ts1 = document.querySelector('#tem_struct_1').value
-                  let ts2 = document.querySelector('#tem_struct_2').value
-                  return {
-                      dataType: "תיכון במשולש",
-                      dataId: this.dataId++,
-                      representation: `${ts2} תיכון במשולש ${ts1}`,
-                      fields: [
-                          ts1,
-                          ts2
-                      ]
-                  }
-              }
-          }
-      ]
+      this.templates = templates
   }
 
   addSymbol(symbol){
@@ -66,34 +45,58 @@ class DataInput extends React.Component {
   }
 
   addData(){
-      let templateObj = this.templateGetObj()
+      let templateObj = this.templateGetObj(++this.dataId)
 
       if(!templateObj.representation){
           alert("הכנס נתון שאינו ריק !!!")
           return
       }
 
+
+      templateObj.isNeedProof = (["נתון:", "הוכח:"].at(this.state.dataTypeIndex) === "הוכח:");
+
       this.props.onAdd(templateObj)
   }
 
-  initializeTemplate(isMounted=true){
+  initializeTemplate(){
       this.options = []
       this.template = [<input className="data_input" id="default_data_input"
                               key="default_data_input" ref={(ref) => this.input = ref}/>]
 
-      this.templateGetObj = () => {
+      this.templateGetObj = (dataId) => {
           return {
               dataType: "כללי",
-              dataId: this.dataId++,
+              dataId: dataId,
               representation: document.querySelector('#default_data_input').value
           }
       }
 
-      if(isMounted) {
-          this.setState({}, () => {
-              this.input.value = ""
+      this.setState({}, () => {
+          this.input.value = ""
+
+          this.input.addEventListener('input', ()=>{
+              this.options = []
+              if(this.input.value.replaceAll(' ','') === '') {
+                  this.setState({})
+                  return
+              }
+
+              let keywords = this.input.value.split(" ").filter(char => char)
+
+              this.templates.forEach((template) =>{
+                  if(keywords.some(keyword => template.option.includes(keyword))){
+                      this.options.push(
+                          <span id={template.option} key={template.option} className="template_option"
+                                onClick={e=>this.setTemplate(template)}>
+                              {template.option}
+                          </span>
+                      )
+                  }
+              })
+
+              this.setState({})
           })
-      }
+      })
   }
 
   setTemplate(template){
@@ -101,6 +104,7 @@ class DataInput extends React.Component {
 
       this.templateGetObj = template.getObjResult
 
+      let labelId = 0
       template.structure.slice().reverse().forEach((element) => {
           if(element.type === "input"){
               this.template.push(<input
@@ -112,10 +116,14 @@ class DataInput extends React.Component {
               />)
           }else if(element.type === "label"){
               this.template.push(<label
+                  id={'l_' + labelId}
+                  key={'l_' + labelId}
                   className="data_input_label"
-                  style={{width: element.width}}>
+                  style={{direction: 'rtl'}}>
                   {element.content}
               </label>)
+
+              ++labelId
           }
       })
 
@@ -123,28 +131,7 @@ class DataInput extends React.Component {
   }
 
   componentDidMount() {
-      this.input.addEventListener('input', ()=>{
-          this.options = []
-          if(this.input.value.replaceAll(' ','') === '') {
-              this.setState({})
-              return
-          }
-
-          let keywords = this.input.value.split(" ").filter(char => char)
-
-          this.templates.forEach((template) =>{
-              if(keywords.some(keyword => template.option.includes(keyword))){
-                  this.options.push(
-                      <span className="template_option"
-                            onClick={e=>this.setTemplate(template)}>
-                          {template.option}
-                      </span>
-                  )
-              }
-          })
-
-          this.setState({})
-      })
+      this.initializeTemplate()
   }
 
     render() {
@@ -175,7 +162,9 @@ class DataInput extends React.Component {
                      style={this.state.isHoverAdd?{opacity: "1"}: {opacity: "0.7"}}/>
                 </button>
             </div>
-            <div className="data_templates">
+            <div className="data_templates"
+                 style={(this.template.length === 1)?{display: "block", visibility: "visible"}:
+                     {display: "none", visibility: "hidden"}}>
                 {this.options}
             </div>
         </div>
