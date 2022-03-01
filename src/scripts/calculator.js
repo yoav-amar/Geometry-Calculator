@@ -13,7 +13,7 @@ let domContainer = document.querySelector('.tool_bar')
 let toolBar = ReactDOM.render(<ToolBar/>, domContainer)
 
 domContainer = document.querySelector('.draw_space')
-ReactDOM.render(<GeometryCanvas toolBar={toolBar}/>, domContainer)
+let geometryCanvas = ReactDOM.render(<GeometryCanvas toolBar={toolBar}/>, domContainer)
 
 domContainer = document.querySelector('.data_space')
-ReactDOM.render(<DataSpace/>, domContainer)
+ReactDOM.render(<DataSpace geometryCanvas={geometryCanvas}/>, domContainer)

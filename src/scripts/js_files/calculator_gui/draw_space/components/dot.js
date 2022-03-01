@@ -6,6 +6,7 @@ class Dot extends React.Component {
 
       this.onClick = this.onClick.bind(this)
       this.onErase = this.onErase.bind(this)
+      this.getInfo = this.getInfo.bind(this)
 
       this.state = {
         isOver: false,
@@ -67,6 +68,10 @@ class Dot extends React.Component {
       }
 
       this.props.geometryCanvas.createGeometryElement(this.props.posX,this.props.posY,this.props.id, null, true)
+  }
+
+  getInfo(){
+      return {id: this.props.id, name: this.state.name}
   }
 
   render() {

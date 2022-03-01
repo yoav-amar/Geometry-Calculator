@@ -23,6 +23,7 @@ class GeometryCanvas extends React.Component {
       this.addHelpDrawingDots = this.addHelpDrawingDots.bind(this)
       this.createHelpLine = this.createHelpLine.bind(this)
       this.createHelpDrawingDot = this.createHelpDrawingDot.bind(this)
+      this.getDrawing = this.getDrawing.bind(this)
 
       this.painterStatus = ''
 
@@ -420,6 +421,29 @@ class GeometryCanvas extends React.Component {
           document.onmousemove = document.onmouseup = null;
       }
   }
+
+  getDrawing(){
+      let dots = []
+
+      this.instances.dots.forEach((dot) => {
+          dots.push(dot.getInfo())
+      })
+
+      let lines = []
+
+      this.instances.lines.forEach((line) => {
+          lines.push(line.getInfo())
+      })
+
+      let circles = []
+
+      this.instances.circles.forEach((circle) => {
+          circles.push(circle.getInfo())
+      })
+
+      return {dots: dots, lines: lines, circles: circles}
+  }
+
 
   render() {
       let helpDotsTypes = [

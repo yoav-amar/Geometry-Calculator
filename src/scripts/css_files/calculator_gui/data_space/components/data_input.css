@@ -16,7 +16,7 @@ input.data_input{
     display: flex;
     width: 100%;
     height: 100%;
-    font-size: 20px;
+    font-size: 18px;
     margin-top: 0;
     text-align: start;
     unicode-bidi: plaintext;
@@ -32,7 +32,7 @@ label.data_input_label{
     display: flex;
     align-items: center;
     height: 100%;
-    font-size: 20px;
+    font-size: 18px;
     background: #FFFFFF;
     border: #5a5a5a solid 3px;
     border-right: 0;
@@ -48,16 +48,18 @@ button.type_data{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 17%;
+    width: 8%;
     height: 100%;
     background-color: white;
     direction: rtl;
-    font-size: 20px;
+    font-size: 18px;
 
     border: #5a5a5a solid 3px;
     border-left: 0;
     border-right: 0;
     box-sizing: border-box;
+
+    cursor: pointer;
 }
 
 button.type_data:hover{
@@ -67,19 +69,21 @@ button.type_data:hover{
 button.add_data{
     display: flex;
     align-items: center;
-    width: 15%;
+    width: 10%;
     height: 100%;
     background-color: white;
 
     border: #5a5a5a solid 3px;
     border-left: 0;
     box-sizing: border-box;
+
+    cursor: pointer;
 }
 
 button.reset_data{
     display: flex;
     align-items: center;
-    width: 15%;
+    width: 10%;
     height: 100%;
     background-color: white;
 
@@ -87,6 +91,8 @@ button.reset_data{
     border-left: 0;
     border-right: 0;
     box-sizing: border-box;
+
+    cursor: pointer;
 }
 
 img.img_data{

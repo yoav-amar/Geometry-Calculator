@@ -15,7 +15,8 @@ class DataLabel extends React.Component {
 
   render() {
     return(
-        <div className="data_label" id={this.props.id} style={this.dataObj.isNeedProof?{backgroundColor:"#d29d9d"}: {backgroundColor:"#b4d4e5"}}>
+        <div className="data_label" id={this.props.id} style={this.dataObj.isNeedProof?
+            {backgroundColor:"#d29d9d"}: {backgroundColor:"#b4d4e5"}}>
             <label className="data_label">{this.dataObj.representation}</label>
             <button className="delete_data" draggable={false}
                          onClick={e => this.props.onDelete()}

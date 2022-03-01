@@ -4,6 +4,7 @@ class Circle extends React.Component {
   constructor(props) {
       super(props)
 
+      this.getInfo = this.getInfo.bind(this)
       this.onClick = this.onClick.bind(this)
       this.onErase = this.onErase.bind(this)
       this.addDot = this.addDot.bind(this)
@@ -244,6 +245,10 @@ class Circle extends React.Component {
       this.props.geometryCanvas.createGeometryElement(x,y, nextId,()=>{
           this.addDot(nextId, x, y)
       })
+  }
+
+  getInfo(){
+      return {id: this.props.id, centerId: this.centerId ,dots: this.getDotsByOrder()}
   }
 
   render() {

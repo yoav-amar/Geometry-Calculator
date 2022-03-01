@@ -4,6 +4,7 @@ class Line extends React.Component {
   constructor(props) {
       super(props)
 
+      this.getInfo = this.getInfo.bind(this)
       this.onErase = this.onErase.bind(this)
       this.addDot = this.addDot.bind(this)
       this.onClick = this.onClick.bind(this)
@@ -155,6 +156,10 @@ class Line extends React.Component {
 
           firstDot = secondDot
       }
+  }
+
+  getInfo(){
+      return {id: this.props.id, dots: this.dots}
   }
 
   render() {

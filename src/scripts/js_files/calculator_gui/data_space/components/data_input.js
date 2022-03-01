@@ -113,6 +113,7 @@ class DataInput extends React.Component {
                   className="data_input"
                   placeholder={"_".repeat(50)}
                   onFocus={(e) => this.input = e.target}
+                  style={{textAlign: "center"}}
               />)
           }else if(element.type === "label"){
               this.template.push(<label
