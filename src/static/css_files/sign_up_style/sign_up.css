@@ -1,0 +1,59 @@
+div.sign_up_wrapper {
+    background-color: #707070;
+    border-radius: 25px;
+    border: 2px solid #000000;
+    display: inline-block;
+    vertical-align: center;
+    align-items: center;
+    text-align: center;
+    position: absolute;
+    margin-left: 27%;
+    width: 38%;
+    margin-top: 3%;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+input {
+    border: none;
+    outline: none;
+    display: inline-block;
+    height: 34px;
+    vertical-align: middle;
+    position: relative;
+    bottom: 14px;
+    right: 9px;
+    border-radius: 22px;
+    width: 30%;
+    box-sizing: border-box;
+    padding: 0 18px;
+}
+
+input[type="submit"] {
+    background: rgba(0, 0, 0, 0.33) ! important;
+    color: #fff;
+    margin: 3%;
+    width: 15%;
+    opacity: 100%;
+}
+input[type="checkbox"] {
+    background: rgba(101, 106, 106, 0.33) ! important;
+    color: #fff;
+    position: relative;
+    width: 10px;
+    opacity: 100%;
+    bottom: auto;
+    right: auto;
+}
+
+div.sign_up h1 {
+    font-style: italic;
+    color: #000000;
+    text-align: center;
+    font-size: 1.4em;
+    margin: 5%;
+}
+
+span.auto_share{
+    padding-left: 5%;
+}
