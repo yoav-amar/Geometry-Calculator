@@ -4,7 +4,6 @@ import Dot from './components/dot'
 import Line from './components/line'
 import Circle from "./components/circle"
 import HelpDot from "./components/help_dot"
-import help_dot from "./components/help_dot";
 import HelpLine from "./components/help_line";
 
 class GeometryCanvas extends React.Component {
@@ -24,6 +23,8 @@ class GeometryCanvas extends React.Component {
       this.createHelpLine = this.createHelpLine.bind(this)
       this.createHelpDrawingDot = this.createHelpDrawingDot.bind(this)
       this.getDrawing = this.getDrawing.bind(this)
+      this.getSaveInfo = this.getSaveInfo.bind(this)
+      this.loadData = this.loadData.bind(this)
 
       this.painterStatus = ''
 
@@ -114,6 +115,7 @@ class GeometryCanvas extends React.Component {
    }
 
   clear() {
+
       this.instances = {
           lines: [],
           dots: [],
@@ -130,11 +132,9 @@ class GeometryCanvas extends React.Component {
           y: NaN
       }
 
-      this.setState({geometryElements: {
-              lines: [],
-              dots: [],
-              circles: []
-          }})
+      this.state.geometryElements.dots = []
+      this.state.geometryElements.lines = []
+      this.state.geometryElements.circles = []
 
       this.nextIndex = 0
       this.nextHelpDrawingDotIndex = 0
@@ -142,6 +142,8 @@ class GeometryCanvas extends React.Component {
       this.helpDrawingDots = []
 
       this.helpLine = null
+
+      this.setState({})
   }
 
   erase(id) {
@@ -444,6 +446,66 @@ class GeometryCanvas extends React.Component {
       return {dots: dots, lines: lines, circles: circles}
   }
 
+  getSaveInfo(){
+      let dots = []
+
+      this.instances.dots.forEach((dot) => {
+          dots.push(dot.getSaveInfo())
+      })
+
+      let lines = []
+
+      this.instances.lines.forEach((line) => {
+          lines.push(line.getSaveInfo())
+      })
+
+      let circles = []
+
+      this.instances.circles.forEach((circle) => {
+          circles.push(circle.getSaveInfo())
+      })
+
+      return {dots: dots, lines: lines, circles: circles, nextIndex: this.nextIndex}
+  }
+
+
+  loadData(drawing){
+      this.clear()
+
+      // add dots
+      drawing.dots.forEach((dot)=>{
+          this.state.geometryElements.dots.push(<Dot id={dot.id} key={dot.id} name={dot.name}
+                                                     posX={dot.posX} posY={dot.posY} geometryCanvas={this}/>)
+      })
+
+      this.setState({}, ()=>{
+          // add lines
+          drawing.lines.forEach((line)=>{
+              this.state.geometryElements.lines.push(<Line id={line.id} key={line.id} x2={line.x2} y2={line.y2}
+                                                               x1={line.x1} y1={line.y1}
+                                                               dot1Id={line.dot1Id}
+                                                               dot2Id={line.dot2Id} geometryCanvas={this}
+                                                               isBroken={line.isBroken}/>)
+          })
+
+          this.setState({}, ()=>{
+              // add circle
+              drawing.circles.forEach((circle)=>{
+                  this.state.geometryElements.circles.push(<Circle id={circle.id} key={circle.id}
+                                                                       centerX={circle.centerX}
+                                                                       centerY={circle.centerY} onCircleX={circle.onCircleX}
+                                                                       onCircleY={circle.onCircleY}
+                                                                       onCircleId={circle.onCircleId}
+                                                                       centerDotId={circle.centerDotId}
+                                                                       geometryCanvas={this}/>)
+              })
+
+              this.setState({})
+          })
+      })
+
+      this.nextIndex = drawing.lastIndex
+  }
 
   render() {
       let helpDotsTypes = [

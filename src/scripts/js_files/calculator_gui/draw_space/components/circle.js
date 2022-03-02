@@ -15,6 +15,7 @@ class Circle extends React.Component {
       this.checkAndHandleCircleIntersections = this.checkAndHandleCircleIntersections.bind(this)
       this.getLineInter = this.getLineInter.bind(this)
       this.getCircleInter = this.getCircleInter.bind(this)
+      this.getSaveInfo = this.getSaveInfo.bind(this)
 
       this.state = {
         isOver: false
@@ -249,6 +250,12 @@ class Circle extends React.Component {
 
   getInfo(){
       return {id: this.props.id, centerId: this.centerId ,dots: this.getDotsByOrder()}
+  }
+
+  getSaveInfo(){
+      return {id: this.props.id, centerX: this.props.centerX, centerY: this.props.centerY,
+          onCircleX: this.props.onCircleX, onCircleY: this.props.onCircleY, onCircleId: this.props.onCircleId,
+          centerDotId: this.props.centerDotId}
   }
 
   render() {

@@ -1,0 +1,11 @@
+div.save{
+    display: flex;
+    justify-content: center;
+    border: #858585 solid 3px;
+    border-top: 0;
+    border-right: 0;
+    padding: 15px;
+    flex: 1;
+}
+
+/*button style same as submit button*/

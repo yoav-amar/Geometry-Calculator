@@ -5,6 +5,7 @@ class Line extends React.Component {
       super(props)
 
       this.getInfo = this.getInfo.bind(this)
+      this.getSaveInfo = this.getSaveInfo.bind(this)
       this.onErase = this.onErase.bind(this)
       this.addDot = this.addDot.bind(this)
       this.onClick = this.onClick.bind(this)
@@ -160,6 +161,11 @@ class Line extends React.Component {
 
   getInfo(){
       return {id: this.props.id, dots: this.dots}
+  }
+
+  getSaveInfo(){
+      return {id: this.props.id, x1: this.props.x1, y1: this.props.y1, x2: this.props.x2, y2: this.props.y2,
+          dot1Id: this.props.dot1Id, dot2Id: this.props.dot2Id, isBroken: this.props.isBroken}
   }
 
   render() {

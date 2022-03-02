@@ -500,6 +500,59 @@ let templates = [
             }
         }
     },
+    {
+        option: "משוואת יחס",
+        structure:[
+            {type: "input", id: "tem_struct_1"},
+            {type: "label", content:"/"},
+            {type: "input", id: "tem_struct_2"},
+            {type: "label", content:"="},
+            {type: "input", id: "tem_struct_3"},
+            {type: "label", content:"/"},
+            {type: "input", id: "tem_struct_4"}
+        ],
+        getObjResult: (dataId)=>{
+            let ts1 = document.querySelector('#tem_struct_1').value
+            let ts2 = document.querySelector('#tem_struct_2').value
+            let ts3 = document.querySelector('#tem_struct_3').value
+            let ts4 = document.querySelector('#tem_struct_4').value
+
+            return {
+                dataType: "משוואת יחס",
+                dataId: dataId,
+                representation: `${ts4} / ${ts3} = ${ts2} / ${ts1}`,
+                fields: [
+                    ts1,
+                    ts2,
+                    ts3,
+                    ts4
+                ]
+            }
+        }
+    },
+    {
+        option: "אורך קטע",
+        structure:[
+            {type: "input", id: "tem_struct_1"},
+            {type: "label", content:"| ="},
+            {type: "input", id: "tem_struct_2"},
+            {type: "label", content:"|"},
+        ],
+        getObjResult: (dataId)=>{
+            let ts1 = document.querySelector('#tem_struct_1').value
+            let ts2 = document.querySelector('#tem_struct_2').value
+
+            return {
+                dataType: "אורך קטע",
+                dataId: dataId,
+                representation: `|${ts2}| = ${ts1}`,
+                fields: [
+                    ts1,
+                    ts2
+                ]
+            }
+        }
+    }
 ]
 
 export default templates

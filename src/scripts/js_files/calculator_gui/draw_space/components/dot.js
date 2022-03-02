@@ -7,10 +7,11 @@ class Dot extends React.Component {
       this.onClick = this.onClick.bind(this)
       this.onErase = this.onErase.bind(this)
       this.getInfo = this.getInfo.bind(this)
+      this.getSaveInfo = this.getSaveInfo.bind(this)
 
       this.state = {
         isOver: false,
-        name: '',
+        name: (this.props.name !== undefined) ? this.props.name : '',
         isNaming: false
       }
 
@@ -72,6 +73,10 @@ class Dot extends React.Component {
 
   getInfo(){
       return {id: this.props.id, name: this.state.name}
+  }
+
+  getSaveInfo(){
+      return {id: this.props.id, name: this.state.name, posX: this.props.posX, posY: this.props.posY}
   }
 
   render() {
