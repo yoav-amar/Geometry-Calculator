@@ -1,19 +1,16 @@
-class CustomException(Exception):
-    def __init__(self, message="error"):
-        self.message = message
-        super().__init__(self.message)
-
-
-class UserNotFound(CustomException):
+class UserNotFound(Exception):
     def __init__(self, message="user not found"):
-        super().__init__(message)
+        super().__init__()
+        self.args += (message,)
 
 
-class UserExists(CustomException):
+class UserExists(Exception):
     def __init__(self, message="there is another user with this username"):
-        super().__init__(message)
+        super().__init__()
+        self.args += (message,)
 
 
-class WrongPassword(CustomException):
+class WrongPassword(Exception):
     def __init__(self, message="wrong password"):
-        super().__init__(message)
+        super().__init__()
+        self.args += (message,)
