@@ -131,3 +131,5 @@ dmypy.json
 .idea/
 
 flask_session/
+
+node_modules/
