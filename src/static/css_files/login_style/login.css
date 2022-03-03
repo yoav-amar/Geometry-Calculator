@@ -1,4 +1,4 @@
-div.sign_up_wrapper {
+div.sign_in_wrapper, div.sign_up_wrapper {
     background-color: #707070;
     border-radius: 25px;
     border: 2px solid #000000;
@@ -14,7 +14,7 @@ div.sign_up_wrapper {
 
 }
 
-input {
+input, button {
     border: none;
     outline: none;
     display: inline-block;
@@ -29,7 +29,7 @@ input {
     padding: 0 18px;
 }
 
-input[type="submit"] {
+input[type="submit"], button {
     background: rgba(0, 0, 0, 0.33) ! important;
     color: #fff;
     margin: 3%;
@@ -46,7 +46,7 @@ input[type="checkbox"] {
     right: auto;
 }
 
-div.sign_up h1 {
+h1 {
     font-style: italic;
     color: #000000;
     text-align: center;
