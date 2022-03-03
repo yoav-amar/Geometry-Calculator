@@ -7,32 +7,33 @@ class SignIn extends React.Component {
         }
     }
 
-    set_password(password) {
-        this.setState({password: password})
-    }
-
-    set_email(email) {
-        this.setState({email: email})
-    }
-
-    set_username(username) {
-        this.setState({username: username})
-    }
-
-    set_auto_share(auto_share) {
-        this.setState({auto_share: auto_share})
-    }
-
     sign_in(event) {
         this.state.username = event.target.username.value
         this.state.password = event.target.password.value
-        if ( !this.state.password || !this.state.username) {
+        if (!this.state.password || !this.state.username) {
             alert("אחד השדות חסר")
             event.preventDefault()
             return
         }
-        // TODO send request
-        alert(this.state.password)
+        let data = {
+            username: this.state.username,
+            password: this.state.password
+        }
+        jQuery.ajax({
+            url: "sign_in",
+            data: JSON.stringify(data),
+            contentType: 'application/json;charset=UTF-8',
+            type: "post",
+            success: function () {
+                window.location.replace("http://127.0.0.1:5000/")
+            },
+            error: function (jqXHR) {
+                if (jqXHR.status == 400) {
+                    alert(jqXHR.responseText)
+
+                }
+            }
+        });
         event.preventDefault()
 
     }
@@ -52,9 +53,11 @@ class SignIn extends React.Component {
                     <span>
                         <input type={"submit"} value={"התחבר"}/><br/>
                     </span>
-
-
                 </form>
+                <button className={"sign up"} onClick={function () {
+                    window.location.href = "sign_up";
+                }}> הרשמה
+                < /button>
             </div>
 
 

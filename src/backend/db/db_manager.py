@@ -38,6 +38,17 @@ def delete_user(username: str, password: str):
     raise WrongPassword()
 
 
+def is_user_ok(username: str, password: str):
+    query = {"username": username}
+    user = users.find_one(query)
+    if not user:
+        return False
+    password = password + str(user["salt"])
+    if hashlib.sha256(password.encode()).hexdigest() == user["password"]:
+        return True
+    return False
+
+
 def change_field(username: str, password: str, field: str, new_value: str):
     query = {"username": username}
     user = users.find_one(query)

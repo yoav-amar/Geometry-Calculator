@@ -59,6 +59,8 @@ def sign_up():
             return "all types should be strings", HTTP_BAD
         try:
             db_manager.add_user(username, password, email, auto_share)
+            session['username'] = username
+            session['password'] = password
             return "OK", HTTP_OK
         except exceptions.UserExists as e:
             return str(e), HTTP_DUPLICATE
@@ -76,6 +78,12 @@ def sign_in():
         password = req['password']
         if type(username) != str or type(password) != str:
             return "all types should be strings", HTTP_BAD
+        if db_manager.is_user_ok(username, password):
+            session['username'] = username
+            session['password'] = password
+            return "OK", HTTP_OK
+        return "שם המשתמש או סיסמא לא נכונים", HTTP_BAD
+
     # GET request
     return render_template("/sign_in.html")
 

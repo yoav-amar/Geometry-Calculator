@@ -9,22 +9,6 @@ class SignUp extends React.Component {
         }
     }
 
-    set_password(password) {
-        this.setState({password: password})
-    }
-
-    set_email(email) {
-        this.setState({email: email})
-    }
-
-    set_username(username) {
-        this.setState({username: username})
-    }
-
-    set_auto_share(auto_share) {
-        this.setState({auto_share: auto_share})
-    }
-
     resign(event) {
         this.state.email = event.target.email.value
         this.state.username = event.target.username.value
