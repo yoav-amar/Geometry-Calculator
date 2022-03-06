@@ -14,18 +14,7 @@ class SaveButton extends React.Component {
 
       let problem = {data: data, drawing: drawing}
 
-      $.ajax({
-          type: 'POST',
-          contentType: 'application/json',
-          url: '/calculator/save',
-          data : JSON.stringify({problem: problem}),
-          success : (data) => {
-              alert(data)
-          },
-          error : (data) => {
-              alert('Got An Error Sending To Server Please Try Again')
-          }
-      });
+      this.props.popupWindow.show(problem)
   }
 
   render() {

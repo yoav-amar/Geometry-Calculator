@@ -93,7 +93,7 @@ class DataSpace extends React.Component {
             </div>
 
             <div style={{display:"flex", width: "100%"}}>
-                <SaveButton geometryCanvas={this.props.geometryCanvas} dataSpace={this}/>
+                <SaveButton geometryCanvas={this.props.geometryCanvas} popupWindow={this.props.popupWindow} dataSpace={this}/>
                 <SubmitButton geometryCanvas={this.props.geometryCanvas} dataSpace={this}/>
             </div>
         </div>

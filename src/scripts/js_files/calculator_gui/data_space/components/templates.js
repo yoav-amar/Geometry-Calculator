@@ -506,10 +506,11 @@ let templates = [
             {type: "input", id: "tem_struct_1"},
             {type: "label", content:"/"},
             {type: "input", id: "tem_struct_2"},
-            {type: "label", content:"="},
+            {type: "label", content:"= |"},
             {type: "input", id: "tem_struct_3"},
-            {type: "label", content:"/"},
-            {type: "input", id: "tem_struct_4"}
+            {type: "label", content:"| / |"},
+            {type: "input", id: "tem_struct_4"},
+            {type: "label", content:"|"}
         ],
         getObjResult: (dataId)=>{
             let ts1 = document.querySelector('#tem_struct_1').value
@@ -520,12 +521,35 @@ let templates = [
             return {
                 dataType: "משוואת יחס",
                 dataId: dataId,
-                representation: `${ts4} / ${ts3} = ${ts2} / ${ts1}`,
+                representation: `${ts4}| / |${ts3}| = ${ts2} / ${ts1}|`,
                 fields: [
                     ts1,
                     ts2,
                     ts3,
                     ts4
+                ]
+            }
+        }
+    },
+    {
+        option: "זוויות שוות",
+        structure:[
+            {type: "input", id: "tem_struct_1"},
+            {type: "label", content:"⦠ ="},
+            {type: "input", id: "tem_struct_2"},
+            {type: "label", content:"⦠"}
+        ],
+        getObjResult: (dataId)=>{
+            let ts1 = document.querySelector('#tem_struct_1').value
+            let ts2 = document.querySelector('#tem_struct_2').value
+
+            return {
+                dataType: "זוויות שוות",
+                dataId: dataId,
+                representation: `${ts2} = ∢${ts1}⦠`,
+                fields: [
+                    ts1,
+                    ts2
                 ]
             }
         }
