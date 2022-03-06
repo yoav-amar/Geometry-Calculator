@@ -20,7 +20,6 @@ class PopupWindow extends React.Component {
 
   saveProblem(){
       this.problem.title = this.input.value
-      alert(this.problem.title)
 
       $.ajax({
           type: 'POST',
