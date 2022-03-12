@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify,  request
 
 app = Flask(__name__)
 
@@ -11,6 +11,20 @@ def home_page():
 @app.route('/calculator')
 def calculator_page():
     return render_template("calculator.html")
+
+
+@app.route('/calculator/solve', methods=['POST'])
+def calculator_solve():
+    problem = request.get_json()['problem']
+    print(problem)
+    return 'Problem Received'
+
+
+@app.route('/calculator/save', methods=['POST'])
+def calculator_save():
+    problem = request.get_json()['problem']
+    print(problem)
+    return 'Problem Saved'
 
 
 @app.route('/my_gangs')

@@ -1,3 +1,6 @@
+import React from 'react'
+import 'css_files/main_menu/components/menu_button.css'
+
 class MenuButton extends React.Component {
   constructor(props) {
     super(props)
@@ -15,3 +18,5 @@ class MenuButton extends React.Component {
     )
   }
 }
+
+export default MenuButton

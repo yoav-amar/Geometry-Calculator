@@ -4,7 +4,23 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
- calculator!!!!
+<body style="width: 100%; height: 100%; margin: 0;">
+
+    <div class="splitter">
+        <div class="splitter" id="painter">
+            <div class="draw_space" id="draw_space">
+            </div>
+            <div id="vertical_separator" >=</div>
+            <div class="tool_bar" id="tool_bar"></div>
+        </div>
+        <div id="horizontal_separator" >||</div>
+        <div class="data_space" id="data_space"></div>
+    </div>
+    <div class="popup_window_plane">
+        <div class="popup_window"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{url_for('static', filename='calculator.js')}}"></script>
 </body>
 </html>
