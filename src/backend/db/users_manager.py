@@ -11,11 +11,8 @@ CONN_STRING = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB
               "true&ssl=false"
 
 client = pymongo.MongoClient(CONN_STRING)
-db = client["ry"]
+db = client["c&e"]
 users = db["users"]
-ry = db["customers"]
-x = ry.find_one({"address": 'Highway 37'})
-print(x["name"])
 
 
 def add_user(username: str, password: str, email: str, auto_share: bool):
@@ -28,34 +25,25 @@ def add_user(username: str, password: str, email: str, auto_share: bool):
 
 
 def delete_user(username: str, password: str):
-    query = {"username": username}
-    user = users.find_one(query)
-    if not user:
-        raise UserNotFound()
-    password = password + str(user["salt"])
-    if hashlib.sha256(password.encode()).hexdigest() == user["password"]:
-        users.delete_one(query)
-    raise WrongPassword()
+    if is_user_ok(username, password):
+        users.delete_one({"username": username})
+        return True
+    raise Exception("unknown exception")
 
 
 def is_user_ok(username: str, password: str):
     query = {"username": username}
     user = users.find_one(query)
     if not user:
-        return False
+        raise UserNotFound()
     password = password + str(user["salt"])
     if hashlib.sha256(password.encode()).hexdigest() == user["password"]:
         return True
-    return False
+    raise WrongPassword()
 
 
 def change_field(username: str, password: str, field: str, new_value: str):
-    query = {"username": username}
-    user = users.find_one(query)
-    if not user:
-        raise UserNotFound
-    password = password + str(user["salt"])
-    if hashlib.sha256(password.encode()).hexdigest() == user["password"]:
-        users.update_one(query, {"$set": {field: new_value}})
+    if is_user_ok(username, password):
+        users.update_one({"username": username}, {"$set": {field: new_value}})
         return True
-    raise WrongPassword()
+    raise Exception("unknown exception")

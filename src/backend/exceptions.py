@@ -14,3 +14,15 @@ class WrongPassword(Exception):
     def __init__(self, message="wrong password"):
         super().__init__()
         self.args += (message,)
+
+
+class GangExists(Exception):
+    def __init__(self, message="there is another gang with this name"):
+        super().__init__()
+        self.args += (message,)
+
+
+class GangNotFound(Exception):
+    def __init__(self, message="there isn't a gang with this name"):
+        super().__init__()
+        self.args += (message,)

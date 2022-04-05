@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request, session, url_for
 from flask_session import Session
-import backend.db.db_manager as db_manager
+import backend.db.users_manager as db_manager
 import backend.exceptions as exceptions
 
 HTTP_OK = 200
@@ -23,9 +23,14 @@ def calculator_page():
     return render_template("calculator.html")
 
 
-@app.route('/settings')
+@app.route('/settings', methods=["GET"])
 def setting_page():
-    return render_template("settings.html")
+    try:
+        if not session['username'] or not session['password']:
+            return redirect(url_for("sign_in"))
+        return render_template("settings.html")
+    except KeyError:
+        return redirect(url_for("sign_in"))
 
 
 @app.route('/change_field', methods=["POST"])
@@ -34,11 +39,12 @@ def change_field():
     username = session['username']
     password = session['password']
     field = req["field"]
-    new_val = req["new value"]
+    new_val = req["new_val"]
     try:
         db_manager.change_field(username, password, field, new_val)
     except Exception as e:
-        pass  # TODO fill
+        return str(e), HTTP_BAD
+    return "OK", HTTP_OK
 
 
 @app.route('/logout')
@@ -86,6 +92,16 @@ def sign_in():
 
     # GET request
     return render_template("/sign_in.html")
+
+
+@app.route('/delete_user', methods=["POST"])
+def delete_user():
+    try:
+        db_manager.delete_user(session['username'], session['password'])
+    except exceptions.UserNotFound as e:
+        return str(e), HTTP_BAD
+    except Exception as o:
+        return str(o), HTTP_BAD
 
 
 if __name__ == '__main__':
