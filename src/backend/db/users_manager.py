@@ -57,4 +57,5 @@ def change_field(username: str, password: str, field: str, new_value: str):
     password = password + str(user["salt"])
     if hashlib.sha256(password.encode()).hexdigest() == user["password"]:
         users.update_one(query, {"$set": {field: new_value}})
+        return True
     raise WrongPassword()

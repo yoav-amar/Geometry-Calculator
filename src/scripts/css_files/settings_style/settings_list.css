@@ -46,3 +46,40 @@ div.settings_wrapper {
 }
 
 
+input{
+    border: none;
+    outline: none;
+    display: inline-block;
+    height: 34px;
+    vertical-align: middle;
+    horiz-align: center;
+    position: relative;
+    bottom: 14px;
+    right: 9px;
+    border-radius: 22px;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 0 18px;
+}
+
+input[type="submit"]{
+    background: rgba(0, 0, 0, 0.33) ! important;
+    color: #fff;
+    margin: 3%;
+    width: 30%;
+    opacity: 100%;
+}
+
+input[type="checkbox"] {
+    background: rgba(101, 106, 106, 0.33) ! important;
+    color: #fff;
+    position: relative;
+    width: 10px;
+    opacity: 100%;
+    bottom: auto;
+    right: auto;
+}
+
+
+
+
