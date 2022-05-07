@@ -1,6 +1,6 @@
 import pymongo
 from users_manager import is_user_ok
-from src.backend.exceptions import GangExists, GangNotFound, WrongPassword
+from src.backend.exceptions import GangExists, GangNotFound, WrongCode, UserExists, UserNotFound
 from random import randint
 
 DB_NAME = "geometry-calculator"
@@ -51,26 +51,54 @@ def remove_member_from_gang(gang_name, admin_name, admin_password, member_name):
         raise GangNotFound()
     is_user_ok(admin_name, admin_password)
     members = gang["members"]
-    for member in members:
-        if member["member_name"] == member_name:
-            members.remove(member)
-            break
+    if member_name in members.keys():
+        members.pop(member_name)
     gangs_db.update_one({"gang_name": gang_name}, {"$set": {"members": members}})
 
 
 def add_member_to_gang(gang_name, username, password, gang_code):
-    pass
+    gang = gangs_db.find_one({"gang_name": gang_name}, {"members": True, "gang_code": True})
+    if not gang:
+        raise GangNotFound()
+    is_user_ok(username, password)
+    if gang["gang_code"] != gang_code:
+        raise WrongCode()
+    members = gang["members"]
+    if username in members.keys():
+        raise UserExists()
+    members[username] = []
+    gangs_db.update_one({"gang_name": gang_name}, {"$set": {"members": members}})
 
 
-def add_permission(gang_name, admin_name, admin_password):
-    pass
+def add_permission(gang_name, admin_name, admin_password, member_name, permission):
+    gang = gangs_db.find_one({"gang_name": gang_name}, {"members": True})
+    if not gang:
+        raise GangNotFound()
+    is_user_ok(admin_name, admin_password)
+    members = gang["members"]
+    if member_name in members.keys():
+        permissions = set(members[member_name])
+        permissions.add(permission)
+        members[member_name] = list(permissions)
+        gangs_db.update_one({"gang_name": gang_name}, {"$set": {"members": members}})
+    raise UserNotFound()
 
 
-def remove_permission():
-    pass
+def remove_permission(gang_name, admin_name, admin_password, member_name, permission):
+    gang = gangs_db.find_one({"gang_name": gang_name}, {"members": True})
+    if not gang:
+        raise GangNotFound()
+    is_user_ok(admin_name, admin_password)
+    members = gang["members"]
+    if member_name in members.keys():
+        permissions = set(members[member_name])
+        permissions.discard(permission)
+        members[member_name] = list(permissions)
+        gangs_db.update_one({"gang_name": gang_name}, {"$set": {"members": members}})
+    raise UserNotFound()
 
 
-def add_problem(gang_name, username, password, solution):
+def add_problem(gang_name, username, password, problem):
     pass
 
 

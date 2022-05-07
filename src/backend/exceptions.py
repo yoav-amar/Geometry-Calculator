@@ -26,3 +26,9 @@ class GangNotFound(Exception):
     def __init__(self, message="there isn't a gang with this name"):
         super().__init__()
         self.args += (message,)
+
+
+class WrongCode(Exception):
+    def __init__(self, message="gang code is wrong"):
+        super().__init__()
+        self.args += (message,)
