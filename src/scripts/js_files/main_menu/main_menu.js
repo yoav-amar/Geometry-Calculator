@@ -1,3 +1,5 @@
+
+
 class MainMenu extends React.Component {
   constructor(props) {
     super(props)
@@ -23,7 +25,7 @@ class MainMenu extends React.Component {
                 <br/>
                 <MenuOption text="הגיאומטריק-ות שלי" action="my_gangs"/>
                 <br/>
-                <MenuOption text="ההיסטוריה שלי" action="my_history"/>
+                <MenuOption text="ההיסטוריה שלי" action="sign_in"/>
                 <br/>
                 <MenuOption text="הגדרות" action="settings"/>
                 <br/>

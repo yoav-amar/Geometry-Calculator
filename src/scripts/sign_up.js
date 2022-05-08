@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import "./css_files/login_style/login.css"
 
 class SignUp extends React.Component {
     constructor(props) {

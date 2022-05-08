@@ -1,3 +1,6 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+
 class SettingsOption extends React.Component {
     constructor(props) {
         super(props)
@@ -11,3 +14,4 @@ class SettingsOption extends React.Component {
         )
     }
 }
+export default SettingsOption
