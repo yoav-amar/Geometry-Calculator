@@ -1,3 +1,10 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+import SettingsOption from 'js_files/settings_components/settings_option.js'
+import "./css_files/settings_style/settings.css"
+import "./css_files/settings_style/settings_option.css"
+import "./css_files/settings_style/settings_list.css"
+
 class ChangeOption extends React.Component {
     constructor(props) {
         super(props);
@@ -108,10 +115,10 @@ class ChangeOption extends React.Component {
                         </span><br/>
                     <span>
                             <input name={"check_password"} type={"password"} placeholder={"אשר סיסמא"}
-                                   minLength={"6"}/><br/>
+                                   minLength={"6"} /><br/>
                         </span><br/>
                     <span>
-                            <input type={"submit"} value={"heyy"}/><br/>
+                            <input type={"submit"} value={"אשר"}/><br/>
                         </span>
                 </form>
             </div>
@@ -128,7 +135,7 @@ class ChangeOption extends React.Component {
                             <input name={"new_val"} type={"text"} placeholder={this.state.placeholder}/><br/>
                         </span><br/>
                         <span>
-                            <input type={"submit"} value={"beyyyy"}/><br/>
+                            <input type={"submit"} value={"אשר"}/><br/>
                         </span>
                     </form>
                 </div>
