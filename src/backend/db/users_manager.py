@@ -2,7 +2,7 @@ import random
 
 import pymongo
 import hashlib
-from src.backend.exceptions import UserNotFound, WrongPassword, UserExists
+from ..exceptions import UserNotFound, WrongPassword, UserExists
 
 SALT_SIZE = 1024
 
