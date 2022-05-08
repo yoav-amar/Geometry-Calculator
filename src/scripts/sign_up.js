@@ -75,7 +75,7 @@ class SignUp extends React.Component {
                         <input name={"email"} type={"email"} placeholder={'דוא"ל'}/><br/>
                     </span><br/>
                     <span>
-                        <input id={"auto_share"} name={"auto_share"} type={"checkbox"} checked={"true"}/>
+                        <input id={"auto_share"} name={"auto_share"} type={"checkbox"} defaultChecked={true}/>
                         <label for={"auto_share"}>שתף תרגילים אוטומטית</label>
 
                     </span><br/>

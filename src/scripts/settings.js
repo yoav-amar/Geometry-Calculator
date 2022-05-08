@@ -11,7 +11,8 @@ class ChangeOption extends React.Component {
         this.state = {
             field: "",
             placeholder: "hey",
-            txt: ""
+            txt: "",
+            check_password: ""
         }
     }
 
@@ -75,11 +76,12 @@ class ChangeOption extends React.Component {
 
 
     render_auto_share() {
+
         return (<div className={this.props.className}>
             <form  onSubmit={this.change_field.bind(this)} dir={"rtl"} method={"post"}>
                     <span>
                         <input name={"field"} value={this.state.field} type={"hidden"}/>
-                        <input name={"new_val"} type={"checkbox"} checked={"true"}/>
+                        <input name={"new_val"} type={"checkbox"} defaultChecked/>
                         <label htmlFor={this.state.field}>שתף תרגילים אוטומטית</label>
                         </span><br/>
                 <input type={"submit"} value={"הירשם"}/><br/>
@@ -87,24 +89,8 @@ class ChangeOption extends React.Component {
             </form>
         </div>)
     }
-
-
-
-    render() {
-        if (!this.state.field.localeCompare("auto_share")) {
-            return this.render_auto_share()
-
-        } else if (!this.state.field.localeCompare("delete")) {
-            return (
-                <div className={this.props.className}>
-                    <form name={"delete form"} onSubmit={this.delete_user}>
-                        <label htmlFor={this.state.field}>{this.state.txt}</label><br/>
-                        <input type={"submit"} value={"אשר"}/>
-                    </form>
-                </div>
-            )
-        } else if (!this.state.field.localeCompare("password")) {
-            return (
+    render_password(){
+    return (
             <div className={this.props.className}>
                 <h1>{this.state.txt}</h1>
                 <form name={"password form"} onSubmit={this.change_field.bind(this)} method={"post"} dir={"rtl"}>
@@ -115,7 +101,7 @@ class ChangeOption extends React.Component {
                         </span><br/>
                     <span>
                             <input name={"check_password"} type={"password"} placeholder={"אשר סיסמא"}
-                                   minLength={"6"} /><br/>
+                                   minLength={"6"}/><br/>
                         </span><br/>
                     <span>
                             <input type={"submit"} value={"אשר"}/><br/>
@@ -124,8 +110,19 @@ class ChangeOption extends React.Component {
             </div>
 
         )
-        } else {
-            return (
+    }
+    render_delete(){
+                return (
+                <div className={this.props.className}>
+                    <form name={"delete form"} onSubmit={this.delete_user}>
+                        <label htmlFor={this.state.field}>{this.state.txt}</label><br/>
+                        <input type={"submit"} value={"אשר"}/>
+                    </form>
+                </div>
+            )
+    }
+    regular_render(){
+                return (
                 <div className={this.props.className}>
                     <h1>{this.state.txt}</h1>
                     <form name={this.state.field + "form"} onSubmit={this.change_field.bind(this)} method={"post"}
@@ -135,13 +132,31 @@ class ChangeOption extends React.Component {
                             <input name={"new_val"} type={"text"} placeholder={this.state.placeholder}/><br/>
                         </span><br/>
                         <span>
+                            <input name={"check_password"} type={"hidden"}
+                                 /><br/>
+                        </span><br/>
+                        <span>
                             <input type={"submit"} value={"אשר"}/><br/>
                         </span>
                     </form>
                 </div>
             )
+    }
+
+
+
+    render() {
+        if (!this.state.field.localeCompare("auto_share")) {
+            return this.render_auto_share()
+        } else if (!this.state.field.localeCompare("delete")) {
+            return this.render_delete()
+        } else if (!this.state.field.localeCompare("password")) {
+            return this.render_password()
+        } else {
+            return this.regular_render()
 
         }
+        alert(3)
     }
 }
 
@@ -157,9 +172,15 @@ class SettingsMenu extends React.Component {
     }
 
     onButtonClick(txt, field, placeholder) {
+    if(field != undefined){
         this.changeOption.current.setState({field: field})
-        this.changeOption.current.setState({placeholder: placeholder})
+    }
+    if(txt != undefined){
         this.changeOption.current.setState({txt: txt})
+    }
+    if(placeholder != undefined){
+        this.changeOption.current.setState({placeholder: placeholder})
+    }
         this.setState({isOpened: true})
     }
 
