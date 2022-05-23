@@ -1,6 +1,6 @@
 from graph import Graph
 from loc import LocsManager
-from data import DataManager
+from data import DataManager, Data
 from sentence import SentenceManager
 
 
@@ -9,29 +9,34 @@ def get_problem_data(all_data, graph):
     data_manager = DataManager()
 
     for data in all_data['givenData']:
-        data_class = data_manager.add_new_data(data['dataType'], data['representation'], data['fields'])
+        data_class = Data(data['dataType'], data['fields'])
+        data_manager.add_new_data(data_class)
         locs_manager.classify_data(data_class)
 
     for data in all_data['proofData']:
-        data_manager.add_proof_data(data['dataType'], data['representation'], data['fields'])
+        data_manager.add_proof_data(Data(data['dataType'], data['fields']))
 
     return locs_manager, data_manager
 
 
 def solve(problem):
     graph = Graph(problem['drawing'])
+
+    Data.next_id = 0
+    Data.graph = graph
+
     locs_manager, data_manager = get_problem_data(problem['data'], graph)  # should add additional data if needed, locs is a list of locations to data
     sentence_manager = SentenceManager(graph)
 
     while not data_manager.is_data_was_proven():
         for loc in locs_manager.get_locs():
-            sentences = sentence_manager.get_sentences_for_loc(loc)
+            apply_sentences = sentence_manager.get_sentences_for_loc(loc)
 
             loc.end_cycle()
 
-            for sentence in sentences:
+            for apply_sentence in apply_sentences:
                 # need also to update the locs in the future_new_data
-                for new_data in sentence.apply(graph, loc):
+                for new_data in apply_sentence.apply():
                     locs_manager.classify_data(new_data)
                     data_manager.add_new_data(new_data)
 

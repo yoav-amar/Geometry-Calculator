@@ -35,8 +35,8 @@ class DataSpace extends React.Component {
   }
 
   componentDidMount() {
-      let problem = ''
-      this.loadProblem(problem)
+//      let problem = ''
+//      this.loadProblem(problem)
   }
 
   loadProblem(problem){

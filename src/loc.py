@@ -10,7 +10,8 @@ class LocsManager:
     def classify_data(self, data):
         data_locs = []
         for loc in self.locs:
-            if self.graph.is_intersect(loc, data):
+
+            if self.graph.is_intersect(loc, data) or loc.name_type == 'general':
                 loc.add_data(data)
                 data_locs.append(loc)
 

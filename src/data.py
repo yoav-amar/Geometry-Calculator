@@ -1,16 +1,16 @@
 class DataManager:
-    data = []
-    new_data = []
-    proofed_data = []
-    to_proof_data = []
 
-    def add_new_data(self, data_type, fields, locs):
-        class_data = Data(data_type, fields, locs)
-        self.new_data.append(class_data)
-        return class_data
+    def __init__(self):
+        self.data = []
+        self.new_data = []
+        self.proofed_data = []
+        self.to_proof_data = []
 
-    def add_proof_data(self, data_type, fields, locs):
-        self.to_proof_data.append(Data(data_type, fields, locs))
+    def add_new_data(self, data):
+        self.new_data.append(data)
+
+    def add_proof_data(self, data):
+        self.to_proof_data.append(data)
 
     def is_data_was_proven(self):
 
@@ -29,15 +29,30 @@ class DataManager:
 
 
 class Data:
+    next_id = None
+    graph = None
 
-    def __init__(self, data_type, representation, fields):
+    def __init__(self, data_type, fields, data_needed=[]):
+        self.data_id = Data.next_id
+        Data.next_id += 1
+
+        self.data_needed = data_needed
         self.data_type = data_type
-        self.representation = representation
         self.fields = fields
         self.locs = []
 
     # basic implementation can be batter:
     def __eq__(self, other):
         if isinstance(other, Data):
-            return self.representation == other.representation
+            if self.data_type != other.data_type:
+                return False
+
+            if self.data_type == "זוויות שוות":
+
+                return (self.graph.is_angles_equal(self.fields[0], other.fields[0]) and
+                        self.graph.is_angles_equal(self.fields[1], other.fields[1])) or\
+                       (self.graph.is_angles_equal(self.fields[1], other.fields[0]) and
+                        self.graph.is_angles_equal(self.fields[0], other.fields[1]))
+            else:
+                return set(self.fields) == set(other.fields)
         return False
