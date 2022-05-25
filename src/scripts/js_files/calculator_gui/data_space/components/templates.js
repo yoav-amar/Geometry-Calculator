@@ -558,7 +558,7 @@ let templates = [
         option: "אורך קטע",
         structure:[
             {type: "input", id: "tem_struct_1"},
-            {type: "label", content:"| ="},
+            {type: "label", content:" = |"},
             {type: "input", id: "tem_struct_2"},
             {type: "label", content:"|"},
         ],
@@ -569,7 +569,31 @@ let templates = [
             return {
                 dataType: "אורך קטע",
                 dataId: dataId,
-                representation: `|${ts2}| = ${ts1}`,
+                representation: `${ts2}| = ${ts1}|`,
+                fields: [
+                    ts1,
+                    ts2
+                ]
+            }
+        }
+    },
+    {
+        option: "גודל זווית",
+        structure:[
+            {type: "label", content:"°"},
+            {type: "input", id: "tem_struct_1"},
+            {type: "label", content:"="},
+            {type: "input", id: "tem_struct_2"},
+            {type: "label", content:"⦠"}
+        ],
+        getObjResult: (dataId)=>{
+            let ts1 = document.querySelector('#tem_struct_1').value
+            let ts2 = document.querySelector('#tem_struct_2').value
+
+            return {
+                dataType: "גודל זווית",
+                dataId: dataId,
+                representation: `°${ts2} = ${ts1}⦠`,
                 fields: [
                     ts1,
                     ts2
