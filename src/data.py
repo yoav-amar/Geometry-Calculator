@@ -68,6 +68,13 @@ class Data:
                         self.graph.is_same_angle(self.fields[1], other.fields[1])) or \
                        (self.graph.is_same_angle(self.fields[1], other.fields[0]) and
                         self.graph.is_same_angle(self.fields[0], other.fields[1]))
+
+            elif self.data_type == "גודל זווית":
+
+                return self.graph.is_same_angle(self.fields[1], other.fields[1]) and \
+                       float(self.fields[0]) == float(other.fields[0])
+
             else:
                 return set(self.fields) == set(other.fields)
+
         return False

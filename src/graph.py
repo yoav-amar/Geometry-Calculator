@@ -2,6 +2,7 @@ import re
 import loc
 from data import Data
 
+
 class AngleManager:
     class Angle:
         graph = None
@@ -135,7 +136,7 @@ class Graph:
 
         return None
 
-    def get_line_intersection_id(self, line_1: str, line_2: str):
+    def get_lines_intersection_id(self, line_1: str, line_2: str):
         line_1 = self.get_line_from_string(line_1)
         line_2 = self.get_line_from_string(line_2)
 
@@ -203,7 +204,7 @@ class Graph:
         if line_1 is None or line_2 is None:
             return None, None
 
-        inter_dot = self.get_dot_name_from_id(self.get_line_intersection_id(line_from, line_to))
+        inter_dot = self.get_dot_name_from_id(self.get_lines_intersection_id(line_from, line_to))
 
         if inter_dot is None:
             return None, None
@@ -242,7 +243,7 @@ class Graph:
 
             is_intersect_all = True
             for line_to_intersect_str in lines_to_intersect_with_str:
-                if self.get_line_intersection_id(line_to_intersect_str, line_str) is None:
+                if self.get_lines_intersection_id(line_to_intersect_str, line_str) is None:
                     is_intersect_all = False
 
             if is_intersect_all:
@@ -298,3 +299,51 @@ class Graph:
             lines.append(line_str)
 
         return lines
+
+    def get_dots_name_on_line(self, line: str):
+        return self.get_dots_names(self.get_line_from_string(line)['dots'])
+
+    def get_all_triangles_from_angle(self, angle: str):
+        line_1_str = angle[0] + angle[1]
+        line_2_str = angle[1] + angle[2]
+
+        line_1_dots = self.get_dots_name_on_line(line_1_str)
+        line_2_dots = self.get_dots_name_on_line(line_2_str)
+
+        inter_dot = angle[1]
+
+        line_1_index_inter_dot = line_1_dots.index(inter_dot)
+        line_2_index_inter_dot = line_2_dots.index(inter_dot)
+
+        if line_1_dots.index(angle[0]) > line_1_index_inter_dot:
+            range_1 = [*range(line_1_index_inter_dot + 1, len(line_1_dots))]
+        else:
+            range_1 = [*range(line_1_index_inter_dot)]
+
+        if line_2_dots.index(angle[2]) > line_2_index_inter_dot:
+            range_2 = [*range(line_2_index_inter_dot + 1, len(line_2_dots))]
+        else:
+            range_2 = [*range(line_2_index_inter_dot)]
+
+        triangles = []
+        for i in range_1:
+            for j in range_2:
+                if self.get_line_from_string(line_1_dots[i] + line_2_dots[j]) is not None:
+                    triangles.append(line_1_dots[i] + inter_dot + line_2_dots[j])
+
+        return triangles
+
+    def get_angles_data_in_triangle(self, triangle):
+        angles_names = [triangle, triangle[1] + triangle[2] + triangle[0], triangle[2] + triangle[0] + triangle[1]]
+
+        angles = []
+
+        for angle_name in angles_names:
+            angle = AngleManager.Angle(angle_name)
+            if angle in self.angle_manager.angles:
+                angle = self.angle_manager.angles[self.angle_manager.angles.index(angle)]
+                angles.append({'name': angle_name, 'size': angle.size, 'data_id': angle.data_id_for_size})
+            else:
+                angles.append({'name': angle_name, 'size': None, 'data_id': None})
+
+        return angles

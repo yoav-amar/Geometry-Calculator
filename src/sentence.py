@@ -81,7 +81,42 @@ def sentence_105(graph, input_data):
     return graph.angle_manager.apply_transition_rule('105', input_data)
 
 
-all_sentences = [{
+def sentence_12(graph, input_data):
+    print('12')
+
+    out_data = []
+
+    for triangle in graph.get_all_triangles_from_angle(input_data.fields[1]):
+        angles = graph.get_angles_data_in_triangle(triangle)
+
+        num_known_angles = 0
+        known_angles_sum = 0
+        known_angles_data_id = []
+        unknown_angle = None
+        for angle in angles:
+            if angle['size'] is None:
+                unknown_angle = angle['name']
+            else:
+                known_angles_data_id.append(angle['data_id'])
+                known_angles_sum += angle['size']
+                num_known_angles += 1
+
+        if num_known_angles == 2:
+            out_data.append(Data("גודל זווית", [str(180 - known_angles_sum), unknown_angle],
+                                 known_angles_data_id, '12'))
+
+    return out_data
+
+
+all_sentences = [
+    {
+        'sentence_id': '12',
+        'loc_type': 'general',
+        'representation': "סכום זוויות במושלש הינו 180°",
+        'input_data_type': ["גודל זווית"],
+        'apply_func': sentence_12
+    },
+    {
         'sentence_id': '25_1',
         'loc_type': 'general',
         'representation': "זוויות מתאימות בין ישרים מקבילים שוות זו לזו",
