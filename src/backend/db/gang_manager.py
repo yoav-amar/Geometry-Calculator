@@ -1,5 +1,5 @@
 import pymongo
-from users_manager import is_user_ok
+from .users_manager import is_user_ok
 from src.backend.exceptions import GangExists, GangNotFound, WrongCode, UserExists, UserNotFound
 from random import randint
 
@@ -93,6 +93,7 @@ def add_permission(gang_name, admin_name, admin_password, member_name, permissio
         members[member_name] = list(permissions)
         gangs_db.update_one({"gang_name": gang_name}, {
                             "$set": {"members": members}})
+        return True
     raise UserNotFound()
 
 
@@ -108,6 +109,7 @@ def remove_permission(gang_name, admin_name, admin_password, member_name, permis
         members[member_name] = list(permissions)
         gangs_db.update_one({"gang_name": gang_name}, {
                             "$set": {"members": members}})
+        return True    
     raise UserNotFound()
 
 

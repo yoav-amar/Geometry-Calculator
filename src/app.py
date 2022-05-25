@@ -1,9 +1,8 @@
-import imp
-from flask import Flask, render_template, redirect, request, session, url_for
+from flask import Flask, render_template, redirect, request, session, url_for,jsonify
 from flask_session import Session
-import backend.db.users_manager as db_manager
+import backend.db.users_manager as users_manager
 import backend.exceptions as exceptions
-from backend.db.gang_manager import is_user_in_gang
+import backend.db.gang_manager as gang_manager
 
 HTTP_OK = 200
 HTTP_BAD = 400
@@ -45,7 +44,7 @@ def problems_page(gang_name):
     username = session['username']
     password = session['password']
     try:
-        if username and password and is_user_in_gang(gang_name,username, password):
+        if username and password and gang_manager.is_user_in_gang(gang_name, username, password):
             # check if user in gang
             # need to send gang as parameter
             return render_template("problems.html")
@@ -62,7 +61,7 @@ def change_field():
     field = req["field"]
     new_val = req["new_val"]
     try:
-        db_manager.change_field(username, password, field, new_val)
+        users_manager.change_field(username, password, field, new_val)
     except Exception as e:
         return str(e), HTTP_BAD
     return "OK", HTTP_OK
@@ -85,7 +84,7 @@ def sign_up():
         if type(username) != str or type(password) != str or type(email) != str or type(auto_share) != bool:
             return "all types should be strings", HTTP_BAD
         try:
-            db_manager.add_user(username, password, email, auto_share)
+            users_manager.add_user(username, password, email, auto_share)
             session['username'] = username
             session['password'] = password
             return "OK", HTTP_OK
@@ -105,11 +104,13 @@ def sign_in():
         password = req['password']
         if type(username) != str or type(password) != str:
             return "all types should be strings", HTTP_BAD
-        if db_manager.is_user_ok(username, password):
+        try:
+            users_manager.is_user_ok(username, password)
             session['username'] = username
             session['password'] = password
             return "OK", HTTP_OK
-        return "שם המשתמש או סיסמא לא נכונים", HTTP_BAD
+        except Exception:
+            return "שם המשתמש או סיסמא לא נכונים", HTTP_BAD
 
     # GET request
     return render_template("/sign_in.html")
@@ -118,11 +119,23 @@ def sign_in():
 @app.route('/delete_user', methods=["POST"])
 def delete_user():
     try:
-        db_manager.delete_user(session['username'], session['password'])
+        users_manager.delete_user(session['username'], session['password'])
     except exceptions.UserNotFound as e:
         return str(e), HTTP_BAD
     except Exception as o:
         return str(o), HTTP_BAD
+
+
+@app.route('/get_gangs', methods=["GET"])
+def get_gangs():
+    username = session["username"]
+    password = session["password"]
+    try:
+        gangs = users_manager.get_gangs(username, password)
+        print(gangs)
+        return jsonify(gangs), HTTP_OK
+    except Exception as e:
+        return str(e), HTTP_BAD
 
 
 if __name__ == '__main__':
