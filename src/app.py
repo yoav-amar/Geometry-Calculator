@@ -33,6 +33,16 @@ def setting_page():
         return redirect(url_for("sign_in"))
 
 
+@app.route('/my_gangs')
+def my_gangs_page():
+    return render_template("my_gangs.html")
+
+
+@app.route('/problems')
+def problems_page():
+    return render_template("problems.html")
+
+
 @app.route('/change_field', methods=["POST"])
 def change_field():
     req = request.get_json()
