@@ -40,9 +40,17 @@ def add_gang(gang_name, admin_name, admin_password):
 
 
 def delete_gang(gang_name, admin_name, admin_password):
-    if not is_user_ok(admin_name, admin_password):
-        raise Exception("unknown exception")
+    is_user_ok(admin_name, admin_password)
     gangs_db.delete_one({"gang_name": gang_name})
+
+
+def is_user_in_gang(gang_name, username, password):
+    is_user_ok(username, password)
+    gang = gangs_db.find_one({"gang_name": gang_name}, {"members": True})
+    if not gang:
+        raise GangNotFound()
+    members = gang["members"]
+    return username in members
 
 
 def remove_member_from_gang(gang_name, admin_name, admin_password, member_name):
@@ -53,11 +61,13 @@ def remove_member_from_gang(gang_name, admin_name, admin_password, member_name):
     members = gang["members"]
     if member_name in members.keys():
         members.pop(member_name)
-    gangs_db.update_one({"gang_name": gang_name}, {"$set": {"members": members}})
+    gangs_db.update_one({"gang_name": gang_name}, {
+                        "$set": {"members": members}})
 
 
 def add_member_to_gang(gang_name, username, password, gang_code):
-    gang = gangs_db.find_one({"gang_name": gang_name}, {"members": True, "gang_code": True})
+    gang = gangs_db.find_one({"gang_name": gang_name}, {
+                             "members": True, "gang_code": True})
     if not gang:
         raise GangNotFound()
     is_user_ok(username, password)
@@ -67,7 +77,8 @@ def add_member_to_gang(gang_name, username, password, gang_code):
     if username in members.keys():
         raise UserExists()
     members[username] = []
-    gangs_db.update_one({"gang_name": gang_name}, {"$set": {"members": members}})
+    gangs_db.update_one({"gang_name": gang_name}, {
+                        "$set": {"members": members}})
 
 
 def add_permission(gang_name, admin_name, admin_password, member_name, permission):
@@ -80,7 +91,8 @@ def add_permission(gang_name, admin_name, admin_password, member_name, permissio
         permissions = set(members[member_name])
         permissions.add(permission)
         members[member_name] = list(permissions)
-        gangs_db.update_one({"gang_name": gang_name}, {"$set": {"members": members}})
+        gangs_db.update_one({"gang_name": gang_name}, {
+                            "$set": {"members": members}})
     raise UserNotFound()
 
 
@@ -94,7 +106,8 @@ def remove_permission(gang_name, admin_name, admin_password, member_name, permis
         permissions = set(members[member_name])
         permissions.discard(permission)
         members[member_name] = list(permissions)
-        gangs_db.update_one({"gang_name": gang_name}, {"$set": {"members": members}})
+        gangs_db.update_one({"gang_name": gang_name}, {
+                            "$set": {"members": members}})
     raise UserNotFound()
 
 

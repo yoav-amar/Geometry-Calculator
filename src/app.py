@@ -1,7 +1,9 @@
+import imp
 from flask import Flask, render_template, redirect, request, session, url_for
 from flask_session import Session
 import backend.db.users_manager as db_manager
 import backend.exceptions as exceptions
+from backend.db.gang_manager import is_user_in_gang
 
 HTTP_OK = 200
 HTTP_BAD = 400
@@ -38,9 +40,18 @@ def my_gangs_page():
     return render_template("my_gangs.html")
 
 
-@app.route('/problems')
-def problems_page():
-    return render_template("problems.html")
+@app.route('/problems/<gang_name>')
+def problems_page(gang_name):
+    username = session['username']
+    password = session['password']
+    try:
+        if username and password and is_user_in_gang(gang_name,username, password):
+            # check if user in gang
+            # need to send gang as parameter
+            return render_template("problems.html")
+        return "not found", HTTP_BAD
+    except Exception as e:
+        return str(e), HTTP_BAD
 
 
 @app.route('/change_field', methods=["POST"])
