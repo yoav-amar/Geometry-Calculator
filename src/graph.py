@@ -170,6 +170,24 @@ class Graph:
 
         return None
 
+    def get_line_id(self, line_str: str):
+        line = self.get_line_from_string(line_str)
+        if line is None:
+            return None
+
+        return line['id']
+
+    def get_line_from_id(self, line_id: str):
+        line = None
+        for line_iter in self.graph['lines']:
+            if line_iter['id'] == line_id:
+                line = line_iter
+
+        if line is None:
+            return None
+
+        return self.get_line_str(line)
+
     def get_related_lines(self, data):
         lines = []
         for field in data.fields:
@@ -333,17 +351,20 @@ class Graph:
 
         return triangles
 
+    def get_angle_size(self, angle_name: str):
+        angle = AngleManager.Angle(angle_name)
+        if angle in self.angle_manager.angles:
+            angle = self.angle_manager.angles[self.angle_manager.angles.index(angle)]
+            return angle.size, angle.data_id_for_size
+
+        return None, None
+
     def get_angles_data_in_triangle(self, triangle):
         angles_names = [triangle, triangle[1] + triangle[2] + triangle[0], triangle[2] + triangle[0] + triangle[1]]
 
         angles = []
 
         for angle_name in angles_names:
-            angle = AngleManager.Angle(angle_name)
-            if angle in self.angle_manager.angles:
-                angle = self.angle_manager.angles[self.angle_manager.angles.index(angle)]
-                angles.append({'name': angle_name, 'size': angle.size, 'data_id': angle.data_id_for_size})
-            else:
-                angles.append({'name': angle_name, 'size': None, 'data_id': None})
-
+            angle_size, angle_data_id_for_size = self.get_angle_size(angle_name)
+            angles.append({'name': angle_name, 'size': angle_size, 'data_id': angle_data_id_for_size})
         return angles

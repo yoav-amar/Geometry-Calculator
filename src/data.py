@@ -74,6 +74,11 @@ class Data:
                 return self.graph.is_same_angle(self.fields[1], other.fields[1]) and \
                        float(self.fields[0]) == float(other.fields[0])
 
+            elif self.data_type == "ישרים מקבילים":
+
+                return {self.graph.get_line_id(self.fields[0]), self.graph.get_line_id(self.fields[1])} ==\
+                       {self.graph.get_line_id(other.fields[0]), self.graph.get_line_id(other.fields[1])}
+
             else:
                 return set(self.fields) == set(other.fields)
 
