@@ -1,3 +1,6 @@
+from sentence import get_sentence_representation
+
+
 class DataManager:
 
     def __init__(self, graph):
@@ -38,8 +41,49 @@ class DataManager:
     def is_data_was_proven(self):
         return len(self.to_proof_data) == 0
 
+    def get_data_by_id(self, data_id):
+        for next_data in self.data:
+            if next_data.data_id == data_id:
+                return next_data
 
+        return None
 
+    def proof_data(self, data, solution, data_known, data_moves):
+        moves_needed = ''
+
+        for data_needed in data.data_needed:
+            if data_needed not in data_known:
+                before_data = self.get_data_by_id(data_needed)
+
+                self.proof_data(before_data, solution, data_known, data_moves)
+
+            moves_needed += str(data_moves[data_needed]) + ', '
+
+        moves_needed = moves_needed[:-2]
+
+        data_known.add(data.data_id)
+
+        num_move = len(data_known)
+        data_moves[data.data_id] = num_move
+
+        sentence_representation = 'נתון'
+        if data.from_sentence is not None:
+            sentence_representation = get_sentence_representation(data.from_sentence)
+
+        solution.append({'numMove': num_move, 'claim': {'dataType': data.data_type, 'fields': data.fields},
+                         'explain': sentence_representation + f' ({moves_needed})'})
+
+    def get_proof_solution(self):
+        solution = []
+        data_used = set()
+        data_moves = {}
+
+        for proofed_data in self.proofed_data:
+            current_solution = []
+            self.proof_data(proofed_data, current_solution, data_used, data_moves)
+            solution.extend(current_solution)
+
+        return solution
 
 
 class Data:
@@ -76,7 +120,7 @@ class Data:
 
             elif self.data_type == "ישרים מקבילים":
 
-                return {self.graph.get_line_id(self.fields[0]), self.graph.get_line_id(self.fields[1])} ==\
+                return {self.graph.get_line_id(self.fields[0]), self.graph.get_line_id(self.fields[1])} == \
                        {self.graph.get_line_id(other.fields[0]), self.graph.get_line_id(other.fields[1])}
 
             else:

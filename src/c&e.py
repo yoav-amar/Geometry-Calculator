@@ -26,8 +26,7 @@ def calculator_solve():
     list_str_to_list_json(problem['data']['givenData'])
     list_str_to_list_json(problem['data']['proofData'])
 
-    print(problem)
-    return str(solve(problem))
+    return jsonify(solve(problem))
 
 
 @app.route('/calculator/save', methods=['POST'])
@@ -37,7 +36,6 @@ def calculator_save():
     list_str_to_list_json(problem['data']['givenData'])
     list_str_to_list_json(problem['data']['proofData'])
 
-    print(problem)
     return 'Problem Saved'
 
 

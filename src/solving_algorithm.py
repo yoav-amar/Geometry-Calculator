@@ -46,8 +46,7 @@ def solve(problem):
                         locs_manager.classify_data(new_data)
                         data_manager.add_new_data(new_data)
 
-    print(f'was data proven? {data_manager.is_data_was_proven()}')
-    return data_manager.is_data_was_proven()
+    return {'solution': data_manager.get_proof_solution()}
 
 #  example 1:
 #

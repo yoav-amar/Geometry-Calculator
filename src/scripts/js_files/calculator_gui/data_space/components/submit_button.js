@@ -13,14 +13,13 @@ class SubmitButton extends React.Component {
       let drawing = this.props.geometryCanvas.getDrawing()
 
       let problem = {data: data, drawing: drawing}
-
       $.ajax({
           type: 'POST',
           contentType: 'application/json',
           url: '/calculator/solve',
           data : JSON.stringify({problem: problem}),
           success : (data) => {
-              alert(data)
+              alert(JSON.stringify(data))
           },
           error : (data) => {
               alert('Got An Error Sending To Server Please Try Again')

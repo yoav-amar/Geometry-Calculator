@@ -1,11 +1,11 @@
-from data import Data
+import data
 
 
 class SentenceManager:
     def __init__(self, graph):
         self.graph = graph
         self.sentences = {}
-        for sentence in all_sentences:
+        for sentence in all_regular_sentences:
             if sentence['loc_type'] not in self.sentences:
                 self.sentences[sentence['loc_type']] = []
 
@@ -62,16 +62,16 @@ def sentence_25_1(graph, input_data):
         angle_1_1, angle_1_2 = graph.get_angle_between_lines(line_1, line)
         angle_2_1, angle_2_2 = graph.get_angle_between_lines(line_2, line)
         if angle_1_1 is not None and angle_2_1 is not None:
-            out_data.append(Data("זוויות שוות", [angle_1_1, angle_2_1], [input_data.data_id], '25_1'))
+            out_data.append(data.Data("זוויות שוות", [angle_1_1, angle_2_1], [input_data.data_id], '25_1'))
         if angle_1_2 is not None and angle_2_2 is not None:
-            out_data.append(Data("זוויות שוות", [angle_1_2, angle_2_2], [input_data.data_id], '25_1'))
+            out_data.append(data.Data("זוויות שוות", [angle_1_2, angle_2_2], [input_data.data_id], '25_1'))
 
         angle_3_1, angle_3_2 = graph.get_angle_between_lines(line, line_1, False)
         angle_4_1, angle_4_2 = graph.get_angle_between_lines(line, line_2, False)
         if angle_3_1 is not None and angle_4_1 is not None:
-            out_data.append(Data("זוויות שוות", [angle_3_1, angle_4_1], [input_data.data_id], '25_1'))
+            out_data.append(data.Data("זוויות שוות", [angle_3_1, angle_4_1], [input_data.data_id], '25_1'))
         if angle_3_2 is not None and angle_4_2 is not None:
-            out_data.append(Data("זוויות שוות", [angle_3_2, angle_4_2], [input_data.data_id], '25_1'))
+            out_data.append(data.Data("זוויות שוות", [angle_3_2, angle_4_2], [input_data.data_id], '25_1'))
 
     return out_data
 
@@ -102,7 +102,7 @@ def sentence_12(graph, input_data):
                 num_known_angles += 1
 
         if num_known_angles == 2:
-            out_data.append(Data("גודל זווית", [str(180 - known_angles_sum), unknown_angle],
+            out_data.append(data.Data("גודל זווית", [str(180 - known_angles_sum), unknown_angle],
                                  known_angles_data_id, '12'))
 
     return out_data
@@ -118,16 +118,16 @@ def sentence_106(graph, input_data):
     if angle[1] == line[0]:
         dot_new_angles = line[1]
 
-    out_data.append(Data("זוויות שוות", [angle[0] + angle[1] + dot_new_angles, dot_new_angles + angle[1] + angle[2]],
+    out_data.append(data.Data("זוויות שוות", [angle[0] + angle[1] + dot_new_angles, dot_new_angles + angle[1] + angle[2]],
                          [input_data.data_id], '106'))
 
     angle_size, data_id = graph.get_angle_size(angle)
 
     if angle_size is not None:
-        out_data.append(Data("גודל זווית", [str(angle_size / 2), angle[0] + angle[1] + dot_new_angles],
+        out_data.append(data.Data("גודל זווית", [str(angle_size / 2), angle[0] + angle[1] + dot_new_angles],
                              [input_data.data_id, data_id], '106'))
 
-        out_data.append(Data("גודל זווית", [str(angle_size / 2), dot_new_angles + angle[1] + angle[2]],
+        out_data.append(data.Data("גודל זווית", [str(angle_size / 2), dot_new_angles + angle[1] + angle[2]],
                              [input_data.data_id, data_id], '106'))
 
     return out_data
@@ -173,12 +173,12 @@ def sentence_22(graph, input_data):
                (line_2_dots.index(inter_line_2) - line_2_dots.index(angle_2[2 - angle_2_dot_on_inter_line_index]))
 
     if direct_1 > 0 and direct_2 > 0:
-        out_data.append(Data("ישרים מקבילים", [line_1, line_2], [input_data.data_id], '22'))
+        out_data.append(data.Data("ישרים מקבילים", [line_1, line_2], [input_data.data_id], '22'))
 
     return out_data
 
 
-all_sentences = [
+all_regular_sentences = [
     {
         'sentence_id': '12',
         'loc_type': 'general',
@@ -228,11 +228,11 @@ def sentence_2(graph, input_data):
         for j in range(i + 1, len(lines)):
             angle_1, angle_2 = graph.get_angle_between_lines(lines[i], lines[j])
             if angle_1 is not None and angle_2 is not None:
-                out_data.append(Data("זוויות שוות", [angle_1, angle_2], [], '2'))
+                out_data.append(data.Data("זוויות שוות", [angle_1, angle_2], [], '2'))
 
             angle_1, angle_2 = graph.get_angle_between_lines(lines[i], lines[j], False)
             if angle_1 is not None and angle_2 is not None:
-                out_data.append(Data("זוויות שוות", [angle_1, angle_2], [], '2'))
+                out_data.append(data.Data("זוויות שוות", [angle_1, angle_2], [], '2'))
 
     return out_data
 
@@ -244,3 +244,13 @@ all_sentences_apply_on_start = [{
     'input_data_type': [],
     'apply_func': sentence_2
 }]
+
+all_sentences = [*all_regular_sentences, *all_sentences_apply_on_start]
+
+
+def get_sentence_representation(sentence_id):
+    for sentence in all_sentences:
+        if sentence['sentence_id'] == sentence_id:
+            return sentence['representation']
+
+    return None
