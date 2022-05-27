@@ -25,7 +25,7 @@ def calculator_solve():
 
     list_str_to_list_json(problem['data']['givenData'])
     list_str_to_list_json(problem['data']['proofData'])
-
+    print(problem)
     return jsonify(solve(problem))
 
 

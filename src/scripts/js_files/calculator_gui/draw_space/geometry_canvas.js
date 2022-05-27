@@ -504,7 +504,7 @@ class GeometryCanvas extends React.Component {
           })
       })
 
-      this.nextIndex = drawing.lastIndex
+      this.nextIndex = drawing.nextIndex
   }
 
   render() {

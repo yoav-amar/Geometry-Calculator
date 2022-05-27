@@ -222,7 +222,11 @@ class Graph:
         if line_1 is None or line_2 is None:
             return None, None
 
-        inter_dot = self.get_dot_name_from_id(self.get_lines_intersection_id(line_from, line_to))
+        inter_dot_id = self.get_lines_intersection_id(line_from, line_to)
+        if inter_dot_id is None:
+            return None, None
+
+        inter_dot = self.get_dot_name_from_id(inter_dot_id)
 
         if inter_dot is None:
             return None, None
