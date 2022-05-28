@@ -98,7 +98,7 @@ def add_permission(gang_name, admin_name, admin_password, member_name, permissio
 
 
 def remove_permission(gang_name, admin_name, admin_password, member_name, permission):
-    gang = gangs_db.find_one({"gang_name": gang_name}, {"members": True})
+    gang = gangs_db.find_one({"gang_name": gang_name})
     if not gang:
         raise GangNotFound()
     is_user_ok(admin_name, admin_password)
@@ -113,15 +113,22 @@ def remove_permission(gang_name, admin_name, admin_password, member_name, permis
     raise UserNotFound()
 
 
-def add_problem(gang_name, username, password, problem):
+def add_problem(gang_name, username, password, problem_name, problem):
+    is_user_ok(username, password)
+    gang = gangs_db.find_one({"gang_name": gang_name})
+    problems = gang["problems"]
+    if problem_name in problems.key():
+        raise ProblemExists()
+    problems[problem_name] = {"problem": problem, "solutions": []}
+    gangs_db.update_one({"gang_name": gang_name}, {
+        "$set": {"problems": problems}})
+
+
+def add_solution(gang_name, username, password, problem_name, solution):
     pass
 
 
-def add_solution(gang_name, username, password, solution):
-    pass
-
-
-def remove_problem(gang_name, username, password, solution):
+def remove_problem(gang_name, username, password, problem_name):
     pass
 
 

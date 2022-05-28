@@ -27,6 +27,11 @@ class GangExists(Exception):
         super().__init__()
         self.args += (message,)
 
+class ProblemExists(Exception):
+    def __init__(self, message="יש כבר בעייה עם אותו השם"):
+        super().__init__()
+        self.args += (message,)
+
 
 class GangNotFound(Exception):
     def __init__(self, message="הגיאו-מטריקה לא נמצאה"):

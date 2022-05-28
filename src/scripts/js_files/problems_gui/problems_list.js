@@ -1,12 +1,11 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 class Problem extends React.Component {
     constructor(props) {
         super(props)
     }
-    direct_problem_page(){
-    alert("add new gang")
+    direct_problem_page() {
+        alert("add new gang")
     }
     render() {
         return (
@@ -17,4 +16,10 @@ class Problem extends React.Component {
     }
 }
 
-export default Problem
+class ProblemsList extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+}
+
+export default ProblemsList
