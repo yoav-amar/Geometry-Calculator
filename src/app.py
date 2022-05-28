@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, session, url_for,jsonify
+from flask import Flask, render_template, redirect, request, session, url_for, jsonify
 from flask_session import Session
 import backend.db.users_manager as users_manager
 import backend.exceptions as exceptions
@@ -75,10 +75,10 @@ def logout():
 
 @app.route('/sign_up', methods=["POST", "GET"])
 def sign_up():
+    username = session['username']
+    password = session['password']
     if request.method == "POST":
         req = request.get_json()
-        username = req['username']
-        password = req['password']
         email = req['email']
         auto_share = req['auto_share']
         if type(username) != str or type(password) != str or type(email) != str or type(auto_share) != bool:
@@ -92,16 +92,18 @@ def sign_up():
             return str(e), HTTP_DUPLICATE
         except Exception as o:
             return str(o), HTTP_DUPLICATE
-    else:
+    else:  # get request
+        if username or password:  # already connected
+            return redirect('/')
         return render_template("/sign_up.html")
 
 
 @app.route('/sign_in', methods=["POST", "GET"])
 def sign_in():
+    username = session['username']
+    password = session['password']
     if request.method == "POST":
         req = request.get_json()
-        username = req['username']
-        password = req['password']
         if type(username) != str or type(password) != str:
             return "all types should be strings", HTTP_BAD
         try:
@@ -113,6 +115,8 @@ def sign_in():
             return "שם המשתמש או סיסמא לא נכונים", HTTP_BAD
 
     # GET request
+    if username or password:  # already connected
+        return redirect('/')
     return render_template("/sign_in.html")
 
 
