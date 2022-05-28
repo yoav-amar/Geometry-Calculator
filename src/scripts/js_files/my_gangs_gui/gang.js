@@ -5,8 +5,7 @@ class Gang extends React.Component {
         super(props)
     }
     open_gang() {
-        window.location.replace("http://127.0.0.1:5000/problems/" + this.props.value)
-        // alert("open the gang: " + this.props.value)
+        window.location.href = "http://127.0.0.1:5000/problems/" + this.props.value
     }
     render() {
         return (

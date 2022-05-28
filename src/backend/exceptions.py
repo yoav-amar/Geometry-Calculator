@@ -5,7 +5,13 @@ class UserNotFound(Exception):
 
 
 class UserExists(Exception):
-    def __init__(self, message="there is another user with this username"):
+    def __init__(self, message="השם משתמש כבר קיים"):
+        super().__init__()
+        self.args += (message,)
+
+
+class MemberInGang(Exception):
+    def __init__(self, message="את\ה כבר בקבוצה"):
         super().__init__()
         self.args += (message,)
 
@@ -23,7 +29,7 @@ class GangExists(Exception):
 
 
 class GangNotFound(Exception):
-    def __init__(self, message="there isn't a gang with this name"):
+    def __init__(self, message="הגיאו-מטריקה לא נמצאה"):
         super().__init__()
         self.args += (message,)
 

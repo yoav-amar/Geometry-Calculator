@@ -75,10 +75,10 @@ def logout():
 
 @app.route('/sign_up', methods=["POST", "GET"])
 def sign_up():
-    username = session['username']
-    password = session['password']
     if request.method == "POST":
         req = request.get_json()
+        username = req['username']
+        password = req['password']
         email = req['email']
         auto_share = req['auto_share']
         if type(username) != str or type(password) != str or type(email) != str or type(auto_share) != bool:
@@ -93,6 +93,8 @@ def sign_up():
         except Exception as o:
             return str(o), HTTP_DUPLICATE
     else:  # get request
+        username = session.get("username")
+        password = session.get("password")
         if username or password:  # already connected
             return redirect('/')
         return render_template("/sign_up.html")
@@ -100,10 +102,10 @@ def sign_up():
 
 @app.route('/sign_in', methods=["POST", "GET"])
 def sign_in():
-    username = session['username']
-    password = session['password']
     if request.method == "POST":
         req = request.get_json()
+        username = req["username"]
+        password = req["password"]
         if type(username) != str or type(password) != str:
             return "all types should be strings", HTTP_BAD
         try:
@@ -115,6 +117,8 @@ def sign_in():
             return "שם המשתמש או סיסמא לא נכונים", HTTP_BAD
 
     # GET request
+    username = session.get("username")
+    password = session.get("password")
     if username or password:  # already connected
         return redirect('/')
     return render_template("/sign_in.html")
@@ -138,6 +142,22 @@ def get_gangs():
         gangs = users_manager.get_gangs(username, password)
         print(gangs)
         return jsonify(gangs), HTTP_OK
+    except Exception as e:
+        return str(e), HTTP_BAD
+
+
+@app.route('/join_gang', methods=["POST"])
+def join_gangs():
+    username = session["username"]
+    password = session["password"]
+    req = request.get_json()
+    gang_code = req["gang_code"]
+    if not username or not password:
+        return "חייבים להיות מחוברים לפני", HTTP_BAD
+    try:
+        gang_name = gang_manager.add_member_to_gang(gang_code, username, password)
+        users_manager.add_gang(username, password, gang_name)
+        return "OK", HTTP_OK
     except Exception as e:
         return str(e), HTTP_BAD
 
