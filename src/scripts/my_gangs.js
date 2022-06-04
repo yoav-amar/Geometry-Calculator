@@ -5,6 +5,9 @@ import GangList from 'js_files/my_gangs_gui/gang'
 import NewGang from 'js_files/my_gangs_gui/new_gang.js'
 import JoinGang from 'js_files/my_gangs_gui/join_gang.js'
 
+import "./css_files/gangs_style/new_gang.css"
+
+
 let domContainer = document.querySelector('.my_gangs')
 ReactDOM.render(<GangList />, domContainer)
 

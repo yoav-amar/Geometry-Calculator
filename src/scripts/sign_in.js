@@ -61,7 +61,7 @@ class SignIn extends React.Component {
                 <button className={"sign up"} onClick={function () {
                     window.location.href = "sign_up";
                 }}> הרשמה
-                < /button>
+                </button>
             </div>
 
 

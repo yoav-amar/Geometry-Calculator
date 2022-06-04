@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import Flask, render_template, redirect, request, session, url_for, jsonify
 from flask_session import Session
 import backend.db.users_manager as users_manager
@@ -36,6 +37,10 @@ def setting_page():
 
 @app.route('/my_gangs')
 def my_gangs_page():
+    username = session.get("username")
+    password = session.get("password")
+    if not username or not password:
+        return redirect(url_for("sign_in"))
     return render_template("my_gangs.html")
 
 
@@ -136,8 +141,10 @@ def delete_user():
 
 @app.route('/get_gangs', methods=["GET"])
 def get_gangs():
-    username = session["username"]
-    password = session["password"]
+    username = session.get("username")
+    password = session.get("password")
+    if not password or not username:
+        return "חייבים להיות מחוברים לפני", HTTP_BAD
     try:
         gangs = users_manager.get_gangs(username, password)
         print(gangs)
@@ -148,8 +155,8 @@ def get_gangs():
 
 @app.route('/join_gang', methods=["POST"])
 def join_gangs():
-    username = session["username"]
-    password = session["password"]
+    username = session.get("username")
+    password = session.get("password")
     req = request.get_json()
     gang_code = req["gang_code"]
     if not username or not password:
@@ -160,6 +167,13 @@ def join_gangs():
         return "OK", HTTP_OK
     except Exception as e:
         return str(e), HTTP_BAD
+    
+@app.route('/create_gang', methods=["POST"])
+def create_gang():
+    username = session.get("username")
+    password = session.get("password")
+    if not password or not username:
+        return "חייבים להיות מחוברים לפני", HTTP_BAD
 
 
 if __name__ == '__main__':
