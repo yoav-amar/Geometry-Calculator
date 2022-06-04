@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import Flask, render_template, redirect, request, session, url_for, jsonify
 from flask_session import Session
 import backend.db.users_manager as users_manager
@@ -167,13 +166,22 @@ def join_gangs():
         return "OK", HTTP_OK
     except Exception as e:
         return str(e), HTTP_BAD
-    
+
+
 @app.route('/create_gang', methods=["POST"])
 def create_gang():
     username = session.get("username")
     password = session.get("password")
     if not password or not username:
         return "חייבים להיות מחוברים לפני", HTTP_BAD
+    try:
+        req = request.get_json()
+        gang_name = req["gang_name"]
+        gang_manager.add_gang(gang_name, username, password)
+        users_manager.add_gang(username, password, gang_name)
+        return "OK", HTTP_OK
+    except Exception as e:
+        return str(e), HTTP_BAD
 
 
 if __name__ == '__main__':

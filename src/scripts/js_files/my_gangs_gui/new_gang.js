@@ -6,18 +6,21 @@ class NewGang extends React.Component {
     }
     add_new_gang(event) {
         let gang_name = event.target.gang_name.value
-        if(gang_name.includes("<")){
-            alert("אי אפשר להכניס את התו הזה")
+        if (gang_name.includes("<")) {
+            alert("אי אפשר להכניס את התו >")
             event.preventDefault()
             return
         }
+        let data = {
+            gang_name: gang_name
+        }
         jQuery.ajax({
-            url: "change_field",
+            url: "create_gang",
             data: JSON.stringify(data),
             contentType: 'application/json;charset=UTF-8',
             type: "post",
             success: function () {
-                window.location.replace("http://127.0.0.1:5000/")
+                location.reload();
             },
             error: function (jqXHR) {
                 if (jqXHR.status == 400) {
@@ -31,7 +34,7 @@ class NewGang extends React.Component {
     open_form() {
         document.getElementById("new_gang_form").style.display = "block";
     }
-    close_form(){
+    close_form() {
         document.getElementById("new_gang_form").style.display = "none";
     }
     render() {
