@@ -10,13 +10,23 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./scripts/js_files/problems_gui/problems_list.js":
+/*!********************************************************!*\
+  !*** ./scripts/js_files/problems_gui/problems_list.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\n\nclass Problem extends react__WEBPACK_IMPORTED_MODULE_0__.Component {\n  constructor(props) {\n    super(props);\n  }\n\n  direct_problem_page() {\n    window.location.href = \"http://127.0.0.1:5000/problem/\" + this.props.value;\n  }\n\n  render() {\n    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(\"button\", {\n      className: \"problem\",\n      onClick: this.direct_problem_page.bind(this)\n    }, this.props.value);\n  }\n\n}\n\nclass ProblemsList extends react__WEBPACK_IMPORTED_MODULE_0__.Component {\n  constructor(props) {\n    super(props);\n  }\n\n  render() {\n    jQuery.ajax({\n      url: \"get_problem\",\n      contentType: 'application/json;charset=UTF-8',\n      type: \"get\",\n      async: false,\n      success: function (data) {\n        this.problems = data;\n      }.bind(this),\n      error: function (jqXHR) {\n        if (jqXHR.status == 400) {\n          alert(jqXHR.responseText);\n        }\n      }\n    });\n    return (\n      /*#__PURE__*/\n      // <div>\n      //     {this.problems.map(function (problem_name) {\n      //         return <Problem value={problem_name} key={problem_name} />\n      //     })}\n      // </div>\n      react__WEBPACK_IMPORTED_MODULE_0__.createElement(\"p\", null, \"hey\")\n    );\n  }\n\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProblemsList);\n\n//# sourceURL=webpack://server/./scripts/js_files/problems_gui/problems_list.js?");
+
+/***/ }),
+
 /***/ "./scripts/problems.js":
 /*!*****************************!*\
   !*** ./scripts/problems.js ***!
   \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\n\n\nalert(1);\nlet domContainer = document.querySelector('.problems_list');\nreact_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(\"button\", null), domContainer);\n\n//# sourceURL=webpack://server/./scripts/problems.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\n/* harmony import */ var js_files_problems_gui_problems_list_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! js_files/problems_gui/problems_list.js */ \"./scripts/js_files/problems_gui/problems_list.js\");\n\n\n\nalert(1);\nlet domContainer = document.querySelector('.problems_list');\nreact_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(js_files_problems_gui_problems_list_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"], null), domContainer);\n\n//# sourceURL=webpack://server/./scripts/problems.js?");
 
 /***/ }),
 
@@ -137,6 +147,23 @@ eval("\n\nif (false) {} else {\n  module.exports = __webpack_require__(/*! ./cjs
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports

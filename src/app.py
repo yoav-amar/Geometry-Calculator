@@ -43,7 +43,7 @@ def my_gangs_page():
     return render_template("my_gangs.html")
 
 
-@app.route('/problems/<gang_name>')
+@app.route('/problems/<gang_name>', methods=["GET"])
 def problems_page(gang_name):
     username = session['username']
     password = session['password']
@@ -51,7 +51,8 @@ def problems_page(gang_name):
         if username and password and gang_manager.is_user_in_gang(gang_name, username, password):
             # check if user in gang
             # need to send gang as parameter
-            return render_template("problems.html")
+            data = {"gang_name": gang_name}
+            return render_template("problems.html", data=data)
         return "not found", HTTP_BAD
     except Exception as e:
         return str(e), HTTP_BAD
@@ -182,6 +183,11 @@ def create_gang():
         return "OK", HTTP_OK
     except Exception as e:
         return str(e), HTTP_BAD
+
+
+@app.route('/get_problem', methods=["GET"])
+def get_problem():
+    return "OK", HTTP_OK
 
 
 if __name__ == '__main__':
