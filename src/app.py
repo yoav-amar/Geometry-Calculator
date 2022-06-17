@@ -45,14 +45,13 @@ def my_gangs_page():
 
 @app.route('/problems/<gang_name>', methods=["GET"])
 def problems_page(gang_name):
-    username = session['username']
-    password = session['password']
+    username = session.get("username")
+    password = session.get("password")
     try:
         if username and password and gang_manager.is_user_in_gang(gang_name, username, password):
             # check if user in gang
             # need to send gang as parameter
-            data = {"gang_name": gang_name}
-            return render_template("problems.html", data=data)
+            return render_template("problems.html", gang_name=gang_name)
         return "not found", HTTP_BAD
     except Exception as e:
         return str(e), HTTP_BAD
@@ -162,7 +161,8 @@ def join_gangs():
     if not username or not password:
         return "חייבים להיות מחוברים לפני", HTTP_BAD
     try:
-        gang_name = gang_manager.add_member_to_gang(gang_code, username, password)
+        gang_name = gang_manager.add_member_to_gang(
+            gang_code, username, password)
         users_manager.add_gang(username, password, gang_name)
         return "OK", HTTP_OK
     except Exception as e:
@@ -185,9 +185,48 @@ def create_gang():
         return str(e), HTTP_BAD
 
 
-@app.route('/get_problem', methods=["GET"])
-def get_problem():
-    return "OK", HTTP_OK
+@app.route('/get_problems', methods=["GET"])
+def get_problems():
+    username = session.get("username")
+    password = session.get("password")
+    gang_name = request.args.get("gang_name")
+    problem_name = request.args.get("problem_name")
+    try:
+        if username and password and gang_manager.is_user_in_gang(gang_name, username, password):
+            problem = gang_manager.get_problem(
+                gang_name, problem_name, username, password)
+            return problem, HTTP_OK
+        return "not found", HTTP_BAD
+    except Exception as e:
+        return str(e), HTTP_BAD
+
+
+@app.route('/problems_names', methods=["GET"])
+def get_problems_names():
+    username = session.get("username")
+    password = session.get("password")
+    gang_name = request.args.get("gang_name")
+    try:
+        if username and password and gang_manager.is_user_in_gang(gang_name, username, password):
+            names = list(gang_manager.get_problems_names(
+                gang_name, username, password))
+            return jsonify(names), HTTP_OK
+        return "not found", HTTP_BAD
+    except Exception as e:
+        return str(e), HTTP_BAD
+
+
+@app.route('/problems/<gang_name>/<problem_name>')
+def get_problem(gang_name, problem_name):
+    username = session.get("username")
+    password = session.get("password")
+    try:
+        if username and password and gang_manager.is_user_in_gang(gang_name, username, password):
+            problem = gang_manager.get_problem(gang_name, problem_name, username, password)
+            return problem
+        return "not found", HTTP_BAD
+    except Exception as e:
+        return str(e), HTTP_BAD
 
 
 if __name__ == '__main__':

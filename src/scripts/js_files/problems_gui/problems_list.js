@@ -5,7 +5,7 @@ class Problem extends React.Component {
         super(props)
     }
     direct_problem_page() {
-        window.location.href = "http://127.0.0.1:5000/problem/" + this.props.value
+        window.location.href =  window.location.href + "/" + this.props.value
     }
     render() {
         return (
@@ -19,10 +19,17 @@ class Problem extends React.Component {
 class ProblemsList extends React.Component {
     constructor(props) {
         super(props)
+        this.gang_name = null
+        this.problems = null
     }
     render() {
+        
+        this.gang_name = document.getElementById("gang_name").innerHTML
+        
+        let data = {gang_name: this.gang_name}
         jQuery.ajax({
-            url: "get_problem",
+            url: "/problems_names",
+            data: data,
             contentType: 'application/json;charset=UTF-8',
             type: "get",
             async: false,
@@ -32,18 +39,16 @@ class ProblemsList extends React.Component {
             error: function (jqXHR) {
                 if (jqXHR.status == 400) {
                     alert(jqXHR.responseText)
-
                 }
             }
         });
         return (
-            // <div>
-            //     {this.problems.map(function (problem_name) {
-            //         return <Problem value={problem_name} key={problem_name} />
+            <div>
+                {this.problems.map(function (problem_name) {
+                    return <Problem value={problem_name} key={problem_name} />
 
-            //     })}
-            // </div>
-            <p>hey</p>
+                })}
+            </div>
         )
     }
 }
