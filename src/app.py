@@ -51,7 +51,8 @@ def problems_page(gang_name):
         if username and password and gang_manager.is_user_in_gang(gang_name, username, password):
             # check if user in gang
             # need to send gang as parameter
-            return render_template("problems.html", gang_name=gang_name)
+            gang_code = gang_manager.get_gang_code(username, password, gang_name)
+            return render_template("problems.html", gang_name=gang_name, gang_code = gang_code)
         return "not found", HTTP_BAD
     except Exception as e:
         return str(e), HTTP_BAD

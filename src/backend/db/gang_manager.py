@@ -54,6 +54,11 @@ def is_user_in_gang(gang_name, username, password):
     members = gang["members"]
     return username in members
 
+def get_gang_code(username,password,gang_name):
+    is_user_in_gang(gang_name, username, password)
+    gang = gangs_db.find_one({"gang_name": gang_name}, {"gang_code": True})
+    return gang["gang_code"]
+
 
 def remove_member_from_gang(gang_name, admin_name, admin_password, member_name):
     gang = gangs_db.find_one({"gang_name": gang_name}, {"members": True})
