@@ -26,7 +26,7 @@ class ChangeOption extends React.Component {
             return
         }
         if (!field.localeCompare("password")) {
-            let check_password = event.target.check_password
+            let check_password = event.target.check_password.value
             if (check_password.localeCompare(new_val)) {
                 alert("הסיסמאות אינן תואמות")
                 event.preventDefault()
@@ -43,6 +43,7 @@ class ChangeOption extends React.Component {
             contentType: 'application/json;charset=UTF-8',
             type: "post",
             success: function () {
+                alert("השדה שונה בהצלחה")
                 window.location.replace("http://127.0.0.1:5000/")
             },
             error: function (jqXHR) {
@@ -60,8 +61,9 @@ class ChangeOption extends React.Component {
         jQuery.ajax({
             url: "delete_user",
             contentType: 'application/json;charset=UTF-8',
-            type: "post",
+            type: "delete",
             success: function () {
+                alert("המשתמש נמחק בהצלחה")
                 window.location.replace("http://127.0.0.1:5000/")
             },
             error: function (jqXHR) {

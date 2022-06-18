@@ -128,10 +128,14 @@ def sign_in():
     return render_template("/sign_in.html")
 
 
-@app.route('/delete_user', methods=["POST"])
+@app.route('/delete_user', methods=["DELETE"])
 def delete_user():
     try:
-        users_manager.delete_user(session['username'], session['password'])
+        username = session['username']
+        password = session['password']
+        users_manager.delete_user(username, password)
+        logout()
+        return "OK", HTTP_OK
     except exceptions.UserNotFound as e:
         return str(e), HTTP_BAD
     except Exception as o:
