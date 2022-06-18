@@ -10,6 +10,16 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./scripts/js_files/problems_gui/add_problem.js":
+/*!******************************************************!*\
+  !*** ./scripts/js_files/problems_gui/add_problem.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\n\nclass AddProblem extends react__WEBPACK_IMPORTED_MODULE_0__.Component {\n  constructor(props) {\n    super(props);\n  }\n\n  create_new_problem() {\n    window.location.href = \"/calculator\";\n  }\n\n  render() {\n    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(\"button\", {\n      onClick: this.create_new_problem\n    }, \"\\u05D4\\u05D5\\u05E1\\u05E3 \\u05D1\\u05E2\\u05D9\\u05D4 \\u05D7\\u05D3\\u05E9\\u05D4\");\n  }\n\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AddProblem);\n\n//# sourceURL=webpack://server/./scripts/js_files/problems_gui/add_problem.js?");
+
+/***/ }),
+
 /***/ "./scripts/js_files/problems_gui/problems_list.js":
 /*!********************************************************!*\
   !*** ./scripts/js_files/problems_gui/problems_list.js ***!
@@ -26,7 +36,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\n/* harmony import */ var js_files_problems_gui_problems_list_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! js_files/problems_gui/problems_list.js */ \"./scripts/js_files/problems_gui/problems_list.js\");\n\n\n\nlet domContainer = document.querySelector('.problems_list');\nreact_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(js_files_problems_gui_problems_list_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"], null), domContainer);\n\n//# sourceURL=webpack://server/./scripts/problems.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\n/* harmony import */ var js_files_problems_gui_problems_list_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! js_files/problems_gui/problems_list.js */ \"./scripts/js_files/problems_gui/problems_list.js\");\n/* harmony import */ var js_files_problems_gui_add_problem_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! js_files/problems_gui/add_problem.js */ \"./scripts/js_files/problems_gui/add_problem.js\");\n\n\n\n\nlet domContainer = document.querySelector('.problems_list');\nreact_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(js_files_problems_gui_problems_list_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"], null), domContainer);\ndomContainer = document.querySelector('.add_problem');\nreact_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(js_files_problems_gui_add_problem_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"], null), domContainer);\n\n//# sourceURL=webpack://server/./scripts/problems.js?");
 
 /***/ }),
 

@@ -48,3 +48,8 @@ class ProblemNotFound(Exception):
     def __init__(self, message="הבעיה לא נמצאה"):
         super().__init__()
         self.args += (message,)
+
+class SolutionExists(Exception):
+    def __init__(self, message="יש כבר פתרון עם אותו השם"):
+        super().__init__()
+        self.args += (message,)

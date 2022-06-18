@@ -1,5 +1,5 @@
 import pymongo
-from .users_manager import is_user_ok
+from users_manager import is_user_ok
 from src.backend.exceptions import *
 from random import randint
 
@@ -121,7 +121,7 @@ def add_problem(gang_name, username, password, problem_name, problem):
     problems = gang["problems"]
     if problem_name in problems.keys():
         raise ProblemExists()
-    problems[problem_name] = {"problem": problem, "solutions": []}
+    problems[problem_name] = {"problem": problem, "solutions": {}}
     gangs_db.update_one({"gang_name": gang_name}, {
         "$set": {"problems": problems}})
 
@@ -156,14 +156,17 @@ def add_solution(gang_name, username, password, problem_name, solution_name, sol
     problem = problems.get(problem_name)
     if not problem:
         raise ProblemNotFound
-    problem["solutions"].append(solution)
+    solutions = problem["solutions"]
+    if solution_name in solutions.keys():
+        raise SolutionExists()
+    solutions[solution_name] = solution
     problems[problem_name] = problem
     gangs_db.update_one({"gang_name": gang_name}, {
         "$set": {"problems": problems}})
 
 
 def remove_problem(gang_name, username, password, problem_name):
-    gang = gangs_db.find_one({"gang_name": gang_name}, {"members": True})
+    gang = gangs_db.find_one({"gang_name": gang_name})
     is_user_in_gang(gang_name, username, password)
     problems = gang["problems"]
     if problem_name in problems.keys():
@@ -172,9 +175,19 @@ def remove_problem(gang_name, username, password, problem_name):
         "$set": {"problems": problems}})
 
 
-def remove_solution(gang_name, username, password, problem_name, solution):
-    pass
+def remove_solution(gang_name, username, password, problem_name, solution_name):
+    gang = gangs_db.find_one({"gang_name": gang_name})
+    is_user_in_gang(gang_name, username, password)
+    problems = gang["problems"]
+    problem = problems.get(problem_name)
+    if not problem:
+        raise ProblemNotFound()
+    solutions = problem["solutions"]
+    if solution_name in solutions.keys():
+        solutions.pop(solution_name)
+    gangs_db.update_one({"gang_name": gang_name}, {
+        "$set": {"problems": problems}})
 
 
 if __name__ == '__main__':
-    add_problem("first", "yoavyoav", "hutc12", "hey", {"12": "hh", "65": "98"})
+    remove_solution("first", "yoavyoav", "hutc12", "hey", "hui")
