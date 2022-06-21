@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import ProblemsList from 'js_files/problems_gui/problems_list.js'
 import AddProblem from 'js_files/problems_gui/add_problem.js'
+import "./css_files/gang_style/gang.css"
+
 
 
 

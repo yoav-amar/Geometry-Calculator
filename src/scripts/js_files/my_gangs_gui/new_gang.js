@@ -47,7 +47,7 @@ class NewGang extends React.Component {
             return (<div class="form_cantainer" id="new_gang_form">
                 <form class="new_gang_form" onSubmit={this.add_new_gang} dir='rtl'>
                     <label for={"gang_name"}>שם הגיאו-מטריקה</label>
-                    <input type={"text"} name={"gang_name"} required></input>
+                    <input type={"text"} name={"gang_name"} placeholder="הכנס שם" required></input>
                     <input type={"submit"} value={"צור"}></input>
                 </form>
                 <button class="cancel_button" onClick={this.close_form.bind(this)}>סגור</button>

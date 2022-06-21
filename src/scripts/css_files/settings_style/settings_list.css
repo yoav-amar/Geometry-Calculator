@@ -8,13 +8,13 @@ div.settings_list {
     align-items: center;
     text-align: center;
     margin: auto;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     width: 40%;
     max-width: 360px;
 }
 
 div.outer_settings {
-    background-color: #5c6169;
+    background-color: #9ad1d4;
     border-radius: 25px;
     border: 2px solid #000000;
     display: block;
@@ -22,7 +22,7 @@ div.outer_settings {
     text-align: center;
     margin: auto;
     width: 55%;
-    margin-top: 3%;
+    margin-top: 5%;
 
 }
 

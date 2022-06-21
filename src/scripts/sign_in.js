@@ -46,7 +46,7 @@ class SignIn extends React.Component {
         // TODO make good alignment
         return (
             <div className="sign_in_wrapper">
-                <h1> התחבר</h1>
+                <h1> התחברות</h1>
                 <form className="sign_up_list" onSubmit={this.sign_in.bind(this)} dir={"rtl"} method={"post"}>
                     <span>
                         <input name={"username"} type={"text"} placeholder={"שם משתמש"}/><br/>

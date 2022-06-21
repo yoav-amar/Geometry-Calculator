@@ -1,5 +1,5 @@
 div.sign_in_wrapper, div.sign_up_wrapper {
-    background-color: #5c6169;
+    background-color: #9ad1d4;
     border-radius: 25px;
     border: 2px solid #000000;
     display: block;
@@ -44,7 +44,7 @@ input[type="submit"]:hover, button:hover {
 
 h1 {
     font-style: italic;
-    color: #000000;
+    color: #444646;
     text-align: center;
     font-size: 1.4em;
     margin-top: 5%;
