@@ -1,0 +1,19 @@
+.problem_name {
+    grid-area: header;
+}
+
+.problem {
+    grid-area: problem;
+}
+
+.solutions {
+    grid-area: solutions;
+}
+
+.problem_wrapper {
+    display: grid;
+    grid-template-areas:
+        'header header'
+        'solutions problem';
+    grid-gap: 20px;
+}

@@ -2,7 +2,7 @@ div.problems {
     background-color: #9ad1d4;
     border-radius: 25px;
     border: 2px solid #000000;
-    display:block;
+    display: block;
     align-items: center;
     text-align: center;
     margin: auto;
@@ -11,12 +11,15 @@ div.problems {
     font-family: Arial, Helvetica, sans-serif;
 
 }
-form{
+
+form {
     text-align: right;
     padding-right: 20%;
     margin-top: 7px;
 }
-input, button {
+
+input,
+button {
     border: none;
     outline: none;
     height: 34px;
@@ -28,10 +31,10 @@ input, button {
     width: 30%;
     box-sizing: border-box;
     width: 20%;
-    
+
 }
 
-div.gangs_list{
+div.gangs_list {
     background-color: #000000;
     margin-right: 10%;
     margin-left: 10%;
@@ -39,20 +42,25 @@ div.gangs_list{
 }
 
 
-input[type="submit"], button {
+input[type="submit"],
+button {
     background: #3597c5 ! important;
     color: #fff;
     margin: 3%;
     width: 15%;
     opacity: 100%;
 }
-input[type="submit"]:hover, button:hover {
+
+input[type="submit"]:hover,
+button:hover {
     background: #036897 ! important;
 }
+
 button.new_gang {
     width: 30%;
 }
-button.gangs_list{
+
+button.gangs_list {
     flex: 1 0 34%;
 }
 

@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import SolutionsList from 'js_files/problem_gui/solutions.js'
 import AddSolution from 'js_files/problem_gui/add_solution.js'
+import './css_files/problem_style/problem.css'
+import './css_files/problem_style/solutions.css'
 
 class SolutionsManager extends React.Component {
     constructor(props) {
@@ -43,6 +45,3 @@ class SolutionsManager extends React.Component {
 }
 let domContainer = document.querySelector('.solutions')
 ReactDOM.render(<SolutionsManager />, domContainer)
-
-// domContainer = document.querySelector('.add_solution')
-// ReactDOM.render(<AddSolution />, domContainer)

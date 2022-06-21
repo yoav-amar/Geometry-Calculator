@@ -1,5 +1,5 @@
 import pymongo
-from .users_manager import is_user_ok
+from users_manager import is_user_ok
 from src.backend.exceptions import *
 from random import randint
 
@@ -207,4 +207,11 @@ def get_solution(gang_name, username, password, problem_name, solution_name):
 
 
 if __name__ == '__main__':
-    add_solution("אדוי המלכה", "yoavyoav", "hutc12", "עמוד 32", "פתרון 1", "hrer")
+    add_problem("שלום", "yoavyoav", "hutc12", " שאלה 3", "heyhhhh")
+    add_problem("שלום", "yoavyoav", "hutc12", " שאלה 4", "heyhhhh")
+    add_problem("שלום", "yoavyoav", "hutc12", " שאלה 5", "heyhhhh")
+    add_problem("שלום", "yoavyoav", "hutc12", " שאלה 53", "heyhhhh")
+    add_problem("שלום", "yoavyoav", "hutc12", " שאלה 6", "heyhhhh")
+    add_problem("שלום", "yoavyoav", "hutc12", " שאלה 7", "heyhhhh")
+    add_problem("שלום", "yoavyoav", "hutc12", " שאלה 8", "heyhhhh")
+    add_problem("שלום", "yoavyoav", "hutc12", " שאלה 9", "heyhhhh")
