@@ -1,19 +1,20 @@
 
 
 div.settings_list {
-    background-color: #a5a5a5;
+    background-color: #a0b5c9;
     border-radius: 25px;
     border: 2px solid #000000;
     display: block;
     align-items: center;
     text-align: center;
     margin: auto;
-    width: 60%;
+    margin-bottom: 5px;
+    width: 40%;
     max-width: 360px;
 }
 
 div.outer_settings {
-    background-color: #707070;
+    background-color: #5c6169;
     border-radius: 25px;
     border: 2px solid #000000;
     display: block;
@@ -38,15 +39,8 @@ div.page_name {
 }
 
 div.settings_wrapper {
-    display: grid;
-    grid-template-columns: auto auto;
-    align-self: center;
-    text-align: center;
-    margin: auto;
-    margin-bottom: 15px;
-    width: auto;
+    display: flex;
 }
-
 
 input{
     border: none;
@@ -56,6 +50,7 @@ input{
     vertical-align: middle;
     position: relative;
     bottom: 14px;
+    margin-top: 5px;
     right: 9px;
     border-radius: 22px;
     width: 50%;
@@ -64,11 +59,16 @@ input{
 }
 
 input[type="submit"]{
-    background: rgba(0, 0, 0, 0.33) ! important;
+    background: #3597c5 ! important;
     color: #fff;
     margin: 3%;
+    margin-top: 5px;
     width: 30%;
     opacity: 100%;
+}
+
+input[type="submit"]:hover {
+    background: #036897 ! important;
 }
 
 input[type="checkbox"] {
@@ -81,6 +81,11 @@ input[type="checkbox"] {
     right: auto;
 }
 
+
+label {
+    margin-top: 5px;
+    display: block;
+  }
 
 
 

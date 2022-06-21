@@ -83,8 +83,10 @@ class ChangeOption extends React.Component {
             <form onSubmit={this.change_field.bind(this)} dir={"rtl"} method={"post"}>
                 <span>
                     <input name={"field"} value={this.props.field} type={"hidden"} />
-                    <input name={"new_val"} type={"checkbox"} defaultChecked />
-                    <label htmlFor={this.props.field}>שתף תרגילים אוטומטית</label>
+
+                    <label htmlFor={this.props.field}>
+                        <input name={"new_val"} type={"checkbox"} defaultChecked />
+                        שתף תרגילים אוטומטית</label>
                 </span><br />
                 <input type={"submit"} value={"הירשם"} /><br />
 
@@ -188,7 +190,7 @@ class SettingsMenu extends React.Component {
 
 
     render() {
-        alert(this.state.field + ":\n" + this.state.placeholder + ':\n' + this.state.txt + ':\n' + this.state.isOpened)
+        // alert(this.state.field + ":\n" + this.state.placeholder + ':\n' + this.state.txt + ':\n' + this.state.isOpened)
         if (this.state.isOpened) {
             return (
                 <div className="outer_settings">
@@ -197,7 +199,7 @@ class SettingsMenu extends React.Component {
                     </div>
                     <div className="settings_wrapper">
                         <ChangeOption className={'change_setting_option'}
-                            ref={this.changeOption} field={this.state.field} placeholder={this.state.placeholder} txt={this.state.txt}/>
+                            ref={this.changeOption} field={this.state.field} placeholder={this.state.placeholder} txt={this.state.txt} />
                         <div className="settings_list">
                             <SettingsOption text="עדכן סיסמא" onClick={() => {
                                 this.onButtonClick("הכנס סיסמא", "password", "סיסמא").bind(this)
