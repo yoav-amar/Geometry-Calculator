@@ -3,6 +3,9 @@ import React from 'react'
 class NewGang extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            is_open: false
+        }
     }
     add_new_gang(event) {
         let gang_name = event.target.gang_name.value
@@ -32,29 +35,26 @@ class NewGang extends React.Component {
         event.preventDefault()
     }
     open_form() {
-        document.getElementById("new_gang_form").style.display = "block";
+        this.setState({ is_open: true })
+        // document.getElementById("new_gang_form").style.display = "block";
     }
     close_form() {
-        document.getElementById("new_gang_form").style.display = "none";
+        this.setState({ is_open: false })
+        // document.getElementById("new_gang_form").style.display = "none";
     }
     render() {
-        return (
-            <div>
-                <button className="new_gang" onClick={this.open_form}>
-                    {"הוסף גיאו-מטריקה חדשה"}
-                </button>
-                <div class="form_cantainer" id="new_gang_form">
-                    <form class="form_popup" onSubmit={this.add_new_gang}>
-                        <label for={"gang_name"}>שם הגיאו-מטריקה</label>
-                        <input type={"text"} name={"gang_name"} required></input>
-                        <input type={"submit"} value={"צור"}></input>
-                    </form>
-                    <button class="cancel_button" onClick={this.close_form}>סגור</button>
-                </div>
-            </div>
-
-
-        )
+        if (this.state.is_open) {
+            return (<div class="form_cantainer" id="new_gang_form">
+                <form class="new_gang_form" onSubmit={this.add_new_gang} dir='rtl'>
+                    <label for={"gang_name"}>שם הגיאו-מטריקה</label>
+                    <input type={"text"} name={"gang_name"} required></input>
+                    <input type={"submit"} value={"צור"}></input>
+                </form>
+                <button class="cancel_button" onClick={this.close_form.bind(this)}>סגור</button>
+            </div>)
+        }
+        return (<button className="new_gang" onClick={this.open_form.bind(this)}>
+            {"הוסף גיאו-מטריקה חדשה"}</button>)
     }
 }
 

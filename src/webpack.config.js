@@ -9,7 +9,8 @@ module.exports = {
     'sign_up':path.resolve(__dirname, 'scripts/sign_up.js'),
     'settings':path.resolve(__dirname, 'scripts/settings.js'),
     'my_gangs':path.resolve(__dirname, 'scripts/my_gangs.js'),
-    'problems':path.resolve(__dirname, 'scripts/problems.js')
+    'problems':path.resolve(__dirname, 'scripts/problems.js'),
+    'problem':path.resolve(__dirname, 'scripts/problem.js')
   },
   output: {
     filename: '[name].js',

@@ -3,6 +3,7 @@ from flask_session import Session
 import backend.db.users_manager as users_manager
 import backend.exceptions as exceptions
 import backend.db.gang_manager as gang_manager
+import json
 
 HTTP_OK = 200
 HTTP_BAD = 400
@@ -52,7 +53,7 @@ def problems_page(gang_name):
             # check if user in gang
             # need to send gang as parameter
             gang_code = gang_manager.get_gang_code(username, password, gang_name)
-            return render_template("problems.html", gang_name=gang_name, gang_code = gang_code)
+            return render_template("problems.html", gang_name=gang_name, gang_code=gang_code)
         return "not found", HTTP_BAD
     except Exception as e:
         return str(e), HTTP_BAD
@@ -227,8 +228,26 @@ def get_problem(gang_name, problem_name):
     password = session.get("password")
     try:
         if username and password and gang_manager.is_user_in_gang(gang_name, username, password):
-            problem = gang_manager.get_problem(gang_name, problem_name, username, password)
-            return problem
+            problem, solutions = gang_manager.get_problem(gang_name, problem_name, username, password)
+            return render_template("/problem.html",
+                                   gang_name=gang_name, problem_name=problem_name,
+                                   solutions_names=json.dumps(list(solutions)))
+        return "not found", HTTP_BAD
+    except Exception as e:
+        return str(e), HTTP_BAD
+
+
+@app.route("/get_solution", methods=["GET"])
+def get_solution():
+    username = session.get("username")
+    password = session.get("password")
+    gang_name = request.args.get("gang_name")
+    problem_name = request.args.get("problem_name")
+    solution_name = request.args.get("solution_name")
+    try:
+        if username and password and gang_manager.is_user_in_gang(gang_name, username, password):
+            solution = gang_manager.get_solution(gang_name, username, password, problem_name, solution_name)
+            return solution, HTTP_OK
         return "not found", HTTP_BAD
     except Exception as e:
         return str(e), HTTP_BAD

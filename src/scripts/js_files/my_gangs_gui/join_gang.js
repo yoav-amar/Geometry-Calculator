@@ -7,7 +7,9 @@ class JoinGang extends React.Component {
     join_gang(event) {
         let gang_code = parseInt(event.target.gang_code.value)
         if(!gang_code){
-            alert("יש צורך למלא את הקוד")
+            alert("הקוד צריך להיות מספר בן 6 ספרות")
+            event.preventDefault()
+            return
         }
         let data = {
             gang_code: gang_code
@@ -31,7 +33,7 @@ class JoinGang extends React.Component {
     }
     render() {
         return (
-            <form onSubmit={this.join_gang} method="post">
+            <form onSubmit={this.join_gang} method="post" dir='rtl'>
                 <label for={"gang_code"}>הכנס קוד של גיאו-מטריקה</label>
                 <input type={"text"} id={"gang_code"} name={"gang_code"}></input>
                 <input type={"submit"} value={"אשר"}></input>

@@ -80,7 +80,7 @@ class ChangeOption extends React.Component {
     render_auto_share() {
 
         return (<div className={this.props.className}>
-            <form  onSubmit={this.change_field.bind(this)} dir={"rtl"} method={"post"}>
+            <form onSubmit={this.change_field.bind(this)} dir={"rtl"} method={"post"}>
                     <span>
                         <input name={"field"} value={this.state.field} type={"hidden"}/>
                         <input name={"new_val"} type={"checkbox"} defaultChecked/>

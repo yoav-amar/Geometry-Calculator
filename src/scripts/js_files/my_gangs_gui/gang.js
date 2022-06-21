@@ -39,7 +39,7 @@ class GangList extends React.Component {
             }
         });
         return (
-            <div>
+            <div className='gangs_list'>
                 {this.gangs.map(function (gang_name) {
                     return <Gang value={gang_name} key={gang_name} />
 

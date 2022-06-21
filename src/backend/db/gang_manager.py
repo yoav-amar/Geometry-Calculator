@@ -54,7 +54,8 @@ def is_user_in_gang(gang_name, username, password):
     members = gang["members"]
     return username in members
 
-def get_gang_code(username,password,gang_name):
+
+def get_gang_code(username, password, gang_name):
     is_user_in_gang(gang_name, username, password)
     gang = gangs_db.find_one({"gang_name": gang_name}, {"gang_code": True})
     return gang["gang_code"]
@@ -149,7 +150,8 @@ def get_problem(gang_name, problem_name, username, password):
     problem = problems.get(problem_name)
     if not problem:
         raise ProblemNotFound
-    return problem
+    solutions = problem["solutions"].keys()
+    return problem["problem"], solutions
 
 
 def add_solution(gang_name, username, password, problem_name, solution_name, solution):
@@ -194,5 +196,15 @@ def remove_solution(gang_name, username, password, problem_name, solution_name):
         "$set": {"problems": problems}})
 
 
+def get_solution(gang_name, username, password, problem_name, solution_name):
+    gang = gangs_db.find_one({"gang_name": gang_name})
+    is_user_in_gang(gang_name, username, password)
+    problems = gang["problems"]
+    problem = problems.get(problem_name)
+    if not problem:
+        raise ProblemNotFound()
+    solutions = problem["solutions"]
+
+
 if __name__ == '__main__':
-    remove_solution("first", "yoavyoav", "hutc12", "hey", "hui")
+    add_solution("אדוי המלכה", "yoavyoav", "hutc12", "עמוד 32", "פתרון 1", "hrer")

@@ -1,15 +1,30 @@
 import React from 'react'
-
 class Solution extends React.Component {
     constructor(props) {
         super(props)
     }
-    direct_solution_page() {
-        window.location.href = window.location.href + "/" + this.props.value
+    show_solution() {
+        // jQuery.ajax({
+        //     url: "change_field",
+        //     data: JSON.stringify(data),
+        //     contentType: 'application/json;charset=UTF-8',
+        //     type: "get",
+        //     success: function (data) {
+        //         let picture = data
+        //         this.props.onClick(picture)                
+        //     },
+        //     error: function (jqXHR) {
+        //         if (jqXHR.status == 400) {
+        //             alert(jqXHR.responseText)
+
+        //         }
+        //     }
+        // });
+        this.props.onClick("hey")
     }
     render() {
         return (
-            <button className="solution" onClick={this.direct_solution_page.bind(this)}>
+            <button className="solution" onClick={this.show_solution.bind(this)}>
                 {this.props.value}
             </button>
         )
@@ -22,34 +37,20 @@ class SolutionsList extends React.Component {
         this.gang_name = null
         this.problem_name = null
         this.solutions = null
+        this.state = {
+            is_solution_open: false
+        }
     }
     render() {
-
         this.gang_name = document.getElementById("gang_name").innerHTML
-        this.problem_name = document.getElementById("problame_name").innerHTML
-
-        let data = { gang_name: this.gang_name, problem_name: this.problem_name }
-        jQuery.ajax({
-            url: "/solutions_names",
-            data: data,
-            contentType: 'application/json;charset=UTF-8',
-            type: "get",
-            async: false,
-            success: function (data) {
-                this.solutions = data
-            }.bind(this),
-            error: function (jqXHR) {
-                if (jqXHR.status == 400) {
-                    alert(jqXHR.responseText)
-                }
-            }
-        });
+        this.problem_name = document.getElementById("problem_name").innerHTML
+        this.solutions = JSON.parse(document.getElementById("solutions_names").innerHTML)
         return (
             <div>
                 {this.solutions.map(function (solution_name) {
-                    return <Solution value={solution_name} key={solution_name} />
+                    return <Solution value={solution_name} onClick={this.props.onClick} key={solution_name} />
 
-                })}
+                }.bind(this))}
             </div>
         )
     }
