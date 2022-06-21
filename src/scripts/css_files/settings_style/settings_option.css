@@ -14,9 +14,9 @@ button.settings_option {
     touch-action: manipulation;
     padding: 7px;
     margin: 15px;
-    width: 250px;
+    width: 90%;
+    max-width: 310px;
     display: block;
-    vertical-align: center;
 
 }
 

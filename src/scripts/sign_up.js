@@ -61,26 +61,28 @@ class SignUp extends React.Component {
                 <h1> הצטרף לקהילה</h1>
                 <form className="sign_up_list" onSubmit={this.resign.bind(this)} dir={"rtl"} method={"post"}>
                     <span>
-                        <input id={"username"} name={"username"} type={"text"} placeholder={"שם משתמש"}/><br/>
-                    </span><br/>
+                        <input id={"username"} name={"username"} type={"text"} placeholder={"שם משתמש"} /><br />
+                    </span><br />
                     <span>
                         <input id={"password"} name={"password"} type={"password"} placeholder={'סיסמא'}
-                               minLength={"6"}/><br/>
-                    </span><br/>
+                            minLength={"6"} /><br />
+                    </span><br />
                     <span>
                         <input id={"check_password"} name={"check_password"} type={"password"}
-                               placeholder={'אימות סיסמא'}/><br/>
-                    </span><br/>
+                            placeholder={'אימות סיסמא'} /><br />
+                    </span><br />
                     <span>
-                        <input name={"email"} type={"email"} placeholder={'דוא"ל'}/><br/>
-                    </span><br/>
+                        <input name={"email"} type={"email"} placeholder={'דוא"ל'} /><br />
+                    </span><br />
                     <span>
-                        <input id={"auto_share"} name={"auto_share"} type={"checkbox"} defaultChecked={true}/>
-                        <label for={"auto_share"}>שתף תרגילים אוטומטית</label>
+                        <label for={"auto_share"} className="checkbox_container">
+                            <input id={"auto_share"} name={"auto_share"} className="checkbox" type={"checkbox"} defaultChecked={true} />
+                            שתף תרגילים אוטומטית
+                        </label>
 
-                    </span><br/>
+                    </span><br />
                     <span>
-                        <input type={"submit"} value={"הירשם"}/><br/>
+                        <input type={"submit"} value={"הירשם"} /><br />
                     </span>
                 </form>
             </div>
@@ -91,5 +93,5 @@ class SignUp extends React.Component {
 
 const domContainers = document.querySelectorAll('.sign_up')
 domContainers.forEach(domContainer => ReactDOM.render(
-    <SignUp/>
+    <SignUp />
     , domContainer))

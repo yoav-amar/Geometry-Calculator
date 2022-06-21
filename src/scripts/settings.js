@@ -81,135 +81,160 @@ class ChangeOption extends React.Component {
 
         return (<div className={this.props.className}>
             <form onSubmit={this.change_field.bind(this)} dir={"rtl"} method={"post"}>
-                    <span>
-                        <input name={"field"} value={this.state.field} type={"hidden"}/>
-                        <input name={"new_val"} type={"checkbox"} defaultChecked/>
-                        <label htmlFor={this.state.field}>שתף תרגילים אוטומטית</label>
-                        </span><br/>
-                <input type={"submit"} value={"הירשם"}/><br/>
+                <span>
+                    <input name={"field"} value={this.props.field} type={"hidden"} />
+                    <input name={"new_val"} type={"checkbox"} defaultChecked />
+                    <label htmlFor={this.props.field}>שתף תרגילים אוטומטית</label>
+                </span><br />
+                <input type={"submit"} value={"הירשם"} /><br />
 
             </form>
         </div>)
     }
-    render_password(){
-    return (
+    render_password() {
+        return (
             <div className={this.props.className}>
-                <h1>{this.state.txt}</h1>
+                <h1>{this.props.txt}</h1>
                 <form name={"password form"} onSubmit={this.change_field.bind(this)} method={"post"} dir={"rtl"}>
-                        <span>
-                            <input name={"field"} type={"hidden"} value={this.state.field}/>
-                            <input name={"new_val"} type={"password"} placeholder={this.state.placeholder}
-                                   minLength={"6"}/><br/>
-                        </span><br/>
                     <span>
-                            <input name={"check_password"} type={"password"} placeholder={"אשר סיסמא"}
-                                   minLength={"6"}/><br/>
-                        </span><br/>
+                        <input name={"field"} type={"hidden"} value={this.props.field} />
+                        <input name={"new_val"} type={"password"} placeholder={this.props.placeholder}
+                            minLength={"6"} /><br />
+                    </span><br />
                     <span>
-                            <input type={"submit"} value={"אשר"}/><br/>
-                        </span>
+                        <input name={"check_password"} type={"password"} placeholder={"אשר סיסמא"}
+                            minLength={"6"} /><br />
+                    </span><br />
+                    <span>
+                        <input type={"submit"} value={"אשר"} /><br />
+                    </span>
                 </form>
             </div>
 
         )
     }
-    render_delete(){
-                return (
-                <div className={this.props.className}>
-                    <form name={"delete form"} onSubmit={this.delete_user}>
-                        <label htmlFor={this.state.field}>{this.state.txt}</label><br/>
-                        <input type={"submit"} value={"אשר"}/>
-                    </form>
-                </div>
-            )
+    render_delete() {
+        return (
+            <div className={this.props.className}>
+                <form name={"delete form"} onSubmit={this.delete_user}>
+                    <label htmlFor={this.props.field}>{this.props.txt}</label><br />
+                    <input type={"submit"} value={"אשר"} />
+                </form>
+            </div>
+        )
     }
-    regular_render(){
-                return (
-                <div className={this.props.className}>
-                    <h1>{this.state.txt}</h1>
-                    <form name={this.state.field + "form"} onSubmit={this.change_field.bind(this)} method={"post"}
-                          dir={"rtl"}>
-                        <span>
-                            <input name={"field"} type={"hidden"} value={this.state.field}/>
-                            <input name={"new_val"} type={"text"} placeholder={this.state.placeholder}/><br/>
-                        </span><br/>
-                        <span>
-                            <input name={"check_password"} type={"hidden"}
-                                 /><br/>
-                        </span><br/>
-                        <span>
-                            <input type={"submit"} value={"אשר"}/><br/>
-                        </span>
-                    </form>
-                </div>
-            )
+    regular_render() {
+        return (
+            <div className={this.props.className}>
+                <h1>{this.props.txt}</h1>
+                <form name={this.props.field + "form"} onSubmit={this.change_field.bind(this)} method={"post"}
+                    dir={"rtl"}>
+                    <span>
+                        <input name={"field"} type={"hidden"} value={this.props.field} />
+                        <input name={"new_val"} type={"text"} placeholder={this.props.placeholder} /><br />
+                    </span><br />
+                    <span>
+                        <input name={"check_password"} type={"hidden"}
+                        /><br />
+                    </span><br />
+                    <span>
+                        <input type={"submit"} value={"אשר"} /><br />
+                    </span>
+                </form>
+            </div>
+        )
     }
 
 
 
     render() {
-        if (!this.state.field.localeCompare("auto_share")) {
+        if (!this.props.field.localeCompare("auto_share")) {
             return this.render_auto_share()
-        } else if (!this.state.field.localeCompare("delete")) {
+        } else if (!this.props.field.localeCompare("delete")) {
             return this.render_delete()
-        } else if (!this.state.field.localeCompare("password")) {
+        } else if (!this.props.field.localeCompare("password")) {
             return this.render_password()
         } else {
             return this.regular_render()
 
         }
-        alert(3)
     }
 }
 
 class SettingsMenu extends React.Component {
     constructor(props) {
         super(props);
-        this.onButtonClick = this.onButtonClick.bind(this)
-        this.changeOption = React.createRef();
         this.state = {
             isOpened: false,
-            txt: ""
+            txt: "",
+            field: "",
+            placeholder: ""
         }
     }
 
     onButtonClick(txt, field, placeholder) {
-    if(field != undefined){
-        this.changeOption.current.setState({field: field})
-    }
-    if(txt != undefined){
-        this.changeOption.current.setState({txt: txt})
-    }
-    if(placeholder != undefined){
-        this.changeOption.current.setState({placeholder: placeholder})
-    }
-        this.setState({isOpened: true})
+
+        if (field != undefined) {
+            this.setState({ field: field })
+        }
+        if (txt != undefined) {
+            this.setState({ txt: txt })
+        }
+        if (placeholder != undefined) {
+            this.setState({ placeholder: placeholder })
+        }
+        this.setState({ isOpened: true })
     }
 
 
     render() {
+        alert(this.state.field + ":\n" + this.state.placeholder + ':\n' + this.state.txt + ':\n' + this.state.isOpened)
+        if (this.state.isOpened) {
+            return (
+                <div className="outer_settings">
+                    <div className="page_name">
+                        <h1> הגדרות</h1>
+                    </div>
+                    <div className="settings_wrapper">
+                        <ChangeOption className={'change_setting_option'}
+                            ref={this.changeOption} field={this.state.field} placeholder={this.state.placeholder} txt={this.state.txt}/>
+                        <div className="settings_list">
+                            <SettingsOption text="עדכן סיסמא" onClick={() => {
+                                this.onButtonClick("הכנס סיסמא", "password", "סיסמא").bind(this)
+                            }} />
+                            <SettingsOption text='עדכן דוא"ל' onClick={() => {
+                                this.onButtonClick('הכנס דוא"ל חדש', "email", "מייל").bind(this)
+                            }} />
+                            <SettingsOption text="שתף תרגילים אוטומטית" onClick={() => {
+                                this.onButtonClick('האם אתה רוצה לשתף תרגילים אוטומטית?', "auto_share").bind(this)
+                            }} />
+                            <SettingsOption text="😟 מחיקת משתמש " onClick={() => {
+                                this.onButtonClick('אשר מחיקת משתמש', "delete").bind(this)
+                            }} />
+                        </div>
+                    </div>
+
+                </div>
+            )
+        }
         return (
             <div className="outer_settings">
                 <div className="page_name">
                     <h1> הגדרות</h1>
                 </div>
-                <div className="settings_wrapper">
-                    <ChangeOption className={'change_setting_option' + (this.state.isOpened ? ' open' : '')}
-                                  ref={this.changeOption}/>
-                    <div className="settings_list">
-                        <SettingsOption text="עדכן סיסמא" onClick={() => {
-                            this.onButtonClick("הכנס סיסמא", "password", "סיסמא")
-                        }}/>
-                        <SettingsOption text='עדכן דוא"ל' onClick={() => {
-                            this.onButtonClick('הכנס דוא"ל חדש', "email", "מייל")
-                        }}/>
-                        <SettingsOption text="שתף תרגילים אוטומטית" onClick={() => {
-                            this.onButtonClick('האם אתה רוצה לשתף תרגילים אוטומטית?', "auto_share")
-                        }}/>
-                        <SettingsOption text="😟 מחיקת משתמש " onClick={() => {
-                            this.onButtonClick('אשר מחיקת משתמש', "delete")
-                        }}/>
-                    </div>
+                <div className="settings_list">
+                    <SettingsOption text="עדכן סיסמא" onClick={() => {
+                        this.onButtonClick("הכנס סיסמא", "password", "סיסמא")
+                    }} />
+                    <SettingsOption text='עדכן דוא"ל' onClick={() => {
+                        this.onButtonClick('הכנס דוא"ל חדש', "email", "מייל")
+                    }} />
+                    <SettingsOption text="שתף תרגילים אוטומטית" onClick={() => {
+                        this.onButtonClick('האם אתה רוצה לשתף תרגילים אוטומטית?', "auto_share")
+                    }} />
+                    <SettingsOption text="😟 מחיקת משתמש " onClick={() => {
+                        this.onButtonClick('אשר מחיקת משתמש', "delete")
+                    }} />
                 </div>
 
             </div>
@@ -221,7 +246,7 @@ class SettingsMenu extends React.Component {
 
 const domContainers = document.querySelectorAll('.settings')
 domContainers.forEach(domContainer => ReactDOM.render(
-    <SettingsMenu/>
+    <SettingsMenu />
     , domContainer))
 
 
