@@ -1,0 +1,64 @@
+div.sign_in_wrapper,
+div.sign_up_wrapper {
+    background-color: #9ad1d4;
+    border-radius: 25px;
+    border: 2px solid #000000;
+    display: block;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    width: 40%;
+    min-width: 400px;
+    margin-top: 3%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="submit"],
+button {
+    border: none;
+    outline: none;
+    display: inline-block;
+    height: 34px;
+    vertical-align: middle;
+    position: relative;
+    bottom: 14px;
+    right: 9px;
+    border-radius: 22px;
+    width: 30%;
+    min-width: 160px;
+    box-sizing: border-box;
+    padding: 0 18px;
+}
+
+input[type="submit"],
+button {
+    background: #3597c5 ! important;
+    color: #fff;
+    margin: 3%;
+    width: 15%;
+    opacity: 100%;
+    min-width: 100px;
+    margin-top: 20px;
+
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background: #036897 ! important;
+}
+
+h1 {
+    font-style: italic;
+    color: #444646;
+    text-align: center;
+    font-size: 1.4em;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+span.auto_share {
+    padding-left: 5%;
+}

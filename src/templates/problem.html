@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>C&E</title>
+
+</head>
+<body style="width: 100%; height: 100%; margin: 0;">
+
+    <div class="problem_wrapper">
+        <h1 class="problem_name" id="problem_name">{{problem_name}}</h1>
+        <p class="gang_name" id="gang_name" hidden>{{gang_name}}</p>
+        <p id="solutions_names" hidden>{{solutions_names}}</p>
+        <div class="problem">
+        </div>
+        <div class="solutions">
+            <div class="solutions_list"></div>
+            <div class="add_solution"></div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{url_for('static', filename='problem.js')}}"></script>
+</body>
+</html>

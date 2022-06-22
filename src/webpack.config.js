@@ -5,6 +5,12 @@ module.exports = {
   entry: {
     'index': path.resolve(__dirname, 'scripts/index.js'),
     'calculator':path.resolve(__dirname, 'scripts/calculator.js'),
+    'sign_in':path.resolve(__dirname, 'scripts/sign_in.js'),
+    'sign_up':path.resolve(__dirname, 'scripts/sign_up.js'),
+    'settings':path.resolve(__dirname, 'scripts/settings.js'),
+    'my_gangs':path.resolve(__dirname, 'scripts/my_gangs.js'),
+    'problems':path.resolve(__dirname, 'scripts/problems.js'),
+    'problem':path.resolve(__dirname, 'scripts/problem.js'),
     'solution':path.resolve(__dirname, 'scripts/solution.js')
   },
   output: {

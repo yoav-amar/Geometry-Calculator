@@ -1,0 +1,11 @@
+div.change_setting_option {
+    display: block;
+    width: 40%;
+    max-width: 330px;
+    font-family: "Georgia", serif;
+    font-size: 14px;
+    background-color: #a0b5c9;
+    border-radius: 25px;
+    border: 2px solid #000000;
+    margin: auto;
+}
