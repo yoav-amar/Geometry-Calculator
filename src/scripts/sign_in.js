@@ -29,7 +29,8 @@ class SignIn extends React.Component {
             contentType: 'application/json;charset=UTF-8',
             type: "post",
             success: function () {
-                window.location.replace("http://127.0.0.1:5000/")
+
+                window.location.replace(window.location.href)
             },
             error: function (jqXHR) {
                 if (jqXHR.status == 400) {
@@ -49,16 +50,16 @@ class SignIn extends React.Component {
                 <h1> התחברות</h1>
                 <form className="sign_up_list" onSubmit={this.sign_in.bind(this)} dir={"rtl"} method={"post"}>
                     <span>
-                        <input name={"username"} type={"text"} placeholder={"שם משתמש"}/><br/>
+                        <input className="gang" name={"username"} type={"text"} placeholder={"שם משתמש"}/><br/>
                     </span><br/>
                     <span>
-                        <input name={"password"} type={"password"} placeholder={'סיסמא'}/><br/>
+                        <input className="gang" name={"password"} type={"password"} placeholder={'סיסמא'}/><br/>
                     </span><br/>
                     <span>
-                        <input type={"submit"} value={"התחבר"}/><br/>
+                        <input className="gang" type={"submit"} value={"התחבר"}/><br/>
                     </span>
                 </form>
-                <button className={"sign up"} onClick={function () {
+                <button className={"style_1"} onClick={function () {
                     window.location.href = "sign_up";
                 }}> הרשמה
                 </button>

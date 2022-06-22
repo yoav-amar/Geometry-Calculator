@@ -5,7 +5,7 @@ class Problem extends React.Component {
         super(props)
     }
     direct_problem_page() {
-        window.location.href =  window.location.href + "/" + this.props.value
+        $("#main_body").load( '/problems' + "/" + this.gang_name + "/" + this.props.value)
     }
     render() {
         return (

@@ -9,3 +9,13 @@ div.change_setting_option {
     border: 2px solid #000000;
     margin: auto;
 }
+
+div.background_wrapper{
+    background-color:#ffffff;
+    width: 100%;
+    height: 100%;
+    background-size: 30px 30px;
+    background-image:
+        linear-gradient(to right, grey 1px, transparent 1px),
+        linear-gradient(to bottom, grey 1px, transparent 1px);margin: 0;
+}

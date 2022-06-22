@@ -3,6 +3,7 @@ import React from 'react'
 class NewGang extends React.Component {
     constructor(props) {
         super(props)
+        this.add_new_gang = this.add_new_gang.bind(this)
         this.state = {
             is_open: false
         }
@@ -23,8 +24,8 @@ class NewGang extends React.Component {
             contentType: 'application/json;charset=UTF-8',
             type: "post",
             success: function () {
-                location.reload();
-            },
+                $("#main_body").load('/my_gangs')
+            }.bind(this),
             error: function (jqXHR) {
                 if (jqXHR.status == 400) {
                     alert(jqXHR.responseText)
@@ -44,13 +45,13 @@ class NewGang extends React.Component {
     }
     render() {
         if (this.state.is_open) {
-            return (<div class="form_cantainer" id="new_gang_form">
-                <form class="new_gang_form" onSubmit={this.add_new_gang} dir='rtl'>
-                    <label for={"gang_name"}>שם הגיאו-מטריקה</label>
-                    <input type={"text"} name={"gang_name"} placeholder="הכנס שם" required></input>
-                    <input type={"submit"} value={"צור"}></input>
+            return (<div className="form_cantainer" id="new_gang_form">
+                <form className="new_gang_form" onSubmit={this.add_new_gang} dir='rtl'>
+                    <label htmlFor={"gang_name"}>שם הגיאו-מטריקה</label>
+                    <input className="gang" type={"text"} name={"gang_name"} placeholder="הכנס שם" required></input>
+                    <input className="gang" type={"submit"} value={"צור"}></input>
                 </form>
-                <button class="cancel_button" onClick={this.close_form.bind(this)}>סגור</button>
+                <button className="style_1" onClick={this.close_form.bind(this)}>סגור</button>
             </div>)
         }
         return (<button className="new_gang" onClick={this.open_form.bind(this)}>

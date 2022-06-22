@@ -1,6 +1,6 @@
 import pymongo
 from .users_manager import is_user_ok
-from src.backend.exceptions import *
+from backend.exceptions import *
 from random import randint
 
 DB_NAME = "geometry-calculator"

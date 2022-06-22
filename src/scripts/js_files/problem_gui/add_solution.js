@@ -63,9 +63,9 @@ function AddSolution() {
     return (
         <form id="form-file-upload" onDragEnter={handleDrag} onSubmit={(e) => e.preventDefault()}>
             <label>הוסף שם לפתרון
-                <input type={"text"} id="new_solution_name" name='new_solution_name'></input>
+                <input className="gang" type={"text"} id="new_solution_name" name='new_solution_name'></input>
             </label>
-            <input ref={inputRef} type="file" id="input-file-upload" multiple={true} onChange={handleChange} accept='.png,.jpeg,.jpg' />
+            <input className="gang" ref={inputRef} type="file" id="input-file-upload" multiple={true} onChange={handleChange} accept='.png,.jpeg,.jpg' />
             <label id="label-file-upload" htmlFor="input-file-upload" className={dragActive ? "drag-active" : ""}>
                 <div>
                     <p>העלה תמונה של פתרון</p>

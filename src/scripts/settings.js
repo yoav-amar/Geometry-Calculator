@@ -44,7 +44,6 @@ class ChangeOption extends React.Component {
             type: "post",
             success: function () {
                 alert("השדה שונה בהצלחה")
-                window.location.replace("http://127.0.0.1:5000/")
             },
             error: function (jqXHR) {
                 if (jqXHR.status == 400) {
@@ -64,7 +63,7 @@ class ChangeOption extends React.Component {
             type: "delete",
             success: function () {
                 alert("המשתמש נמחק בהצלחה")
-                window.location.replace("http://127.0.0.1:5000/")
+                window.location.href = window.location.href + '/logout'
             },
             error: function (jqXHR) {
                 if (jqXHR.status == 400) {
@@ -82,13 +81,13 @@ class ChangeOption extends React.Component {
         return (<div className={this.props.className}>
             <form onSubmit={this.change_field.bind(this)} dir={"rtl"} method={"post"}>
                 <span>
-                    <input name={"field"} value={this.props.field} type={"hidden"} />
+                    <input className="gang" name={"field"} value={this.props.field} type={"hidden"} />
 
-                    <label htmlFor={this.props.field}>
-                        <input name={"new_val"} type={"checkbox"} defaultChecked />
-                        שתף תרגילים אוטומטית</label>
+                    <label className="gang" htmlFor={this.props.field}>
+                        <input className="gang" name={"new_val"} type={"checkbox"} defaultChecked />
+                        שתף תרגילים אוטומטית</ label>
                 </span><br />
-                <input type={"submit"} value={"הירשם"} /><br />
+                <input className="gang" type={"submit"} value={"הירשם"} /><br />
 
             </form>
         </div>)
@@ -99,16 +98,16 @@ class ChangeOption extends React.Component {
                 <h1>{this.props.txt}</h1>
                 <form name={"password form"} onSubmit={this.change_field.bind(this)} method={"post"} dir={"rtl"}>
                     <span>
-                        <input name={"field"} type={"hidden"} value={this.props.field} />
-                        <input name={"new_val"} type={"password"} placeholder={this.props.placeholder}
+                        <input className="gang" name={"field"} type={"hidden"} value={this.props.field} />
+                        <input className="gang" name={"new_val"} type={"password"} placeholder={this.props.placeholder}
                             minLength={"6"} /><br />
                     </span><br />
                     <span>
-                        <input name={"check_password"} type={"password"} placeholder={"אשר סיסמא"}
+                        <input className="gang" name={"check_password"} type={"password"} placeholder={"אשר סיסמא"}
                             minLength={"6"} /><br />
                     </span><br />
                     <span>
-                        <input type={"submit"} value={"אשר"} /><br />
+                        <input className="gang" type={"submit"} value={"אשר"} /><br />
                     </span>
                 </form>
             </div>
@@ -119,8 +118,8 @@ class ChangeOption extends React.Component {
         return (
             <div className={this.props.className}>
                 <form name={"delete form"} onSubmit={this.delete_user}>
-                    <label htmlFor={this.props.field}>{this.props.txt}</label><br />
-                    <input type={"submit"} value={"אשר"} />
+                    <label className="gang" htmlFor={this.props.field}>{this.props.txt}</label><br />
+                    <input className="gang" type={"submit"} value={"אשר"} />
                 </form>
             </div>
         )
@@ -132,15 +131,15 @@ class ChangeOption extends React.Component {
                 <form name={this.props.field + "form"} onSubmit={this.change_field.bind(this)} method={"post"}
                     dir={"rtl"}>
                     <span>
-                        <input name={"field"} type={"hidden"} value={this.props.field} />
-                        <input name={"new_val"} type={"text"} placeholder={this.props.placeholder} /><br />
+                        <input className="gang" name={"field"} type={"hidden"} value={this.props.field} />
+                        <input className="gang" name={"new_val"} type={"text"} placeholder={this.props.placeholder} /><br />
                     </span><br />
                     <span>
-                        <input name={"check_password"} type={"hidden"}
+                        <input className="gang" name={"check_password"} type={"hidden"}
                         /><br />
                     </span><br />
                     <span>
-                        <input type={"submit"} value={"אשר"} /><br />
+                        <input className="gang" type={"submit"} value={"אשר"} /><br />
                     </span>
                 </form>
             </div>

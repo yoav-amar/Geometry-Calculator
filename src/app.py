@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, request, session, url_for, jsonify
+from solving_algorithm import solve
 from flask_session import Session
 import backend.db.users_manager as users_manager
 import backend.exceptions as exceptions
@@ -17,12 +18,56 @@ Session(app)
 
 @app.route('/')
 def home_page():
+    username = session.get("username")
+    password = session.get("password")
+
+    if not username or not password:
+        return redirect(url_for("sign_in"))
+
     return render_template("index.html")
 
 
 @app.route('/calculator')
 def calculator_page():
     return render_template("calculator.html")
+
+
+@app.route('/my_history')
+def my_history_page():
+    return render_template("my_history.html")
+
+
+@app.route('/solution', methods=['POST'])
+def solution_page():
+    print(request.form)
+    solution = request.form['solution']
+    drawing = request.form['drawing']
+    return render_template("solution.html", solution=solution, drawing=drawing)
+
+
+def list_str_to_list_json(list_str):
+    for i in range(0, len(list_str)):
+        list_str[i] = json.loads(list_str[i])
+
+
+@app.route('/calculator/solve', methods=['POST'])
+def calculator_solve():
+    problem = request.get_json()['problem']
+
+    list_str_to_list_json(problem['data']['givenData'])
+    list_str_to_list_json(problem['data']['proofData'])
+    print(problem)
+    return jsonify(solve(problem))
+
+
+@app.route('/calculator/save', methods=['POST'])
+def calculator_save():
+    problem = request.get_json()['problem']
+    print(problem)
+    # list_str_to_list_json(problem['data']['givenData'])
+    # list_str_to_list_json(problem['data']['proofData'])
+
+    return 'Problem Saved'
 
 
 @app.route('/settings', methods=["GET"])
@@ -77,6 +122,8 @@ def change_field():
 def logout():
     session['username'] = None
     session['password'] = None
+
+    return redirect(url_for("sign_in"))
 
 
 @app.route('/sign_up', methods=["POST", "GET"])

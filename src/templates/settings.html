@@ -5,11 +5,10 @@
     <title>C&E</title>
 
 </head>
-<body>
-    <div>
-        <div class="settings" style="margin-left: auto"></div>
+<body style="width: 100%; height: 100%; margin: 0; direction: rtl">
+    <div class="background_wrapper">
+        <div class="settings" style="width: 100%; height: 100%;" style="margin-left: auto"></div>
     </div>
-
 
     <!-- Load React. -->
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
@@ -18,5 +17,6 @@
 
     <!-- Load our React component. -->
     <script src="{{url_for('static', filename='settings.js')}}"></script>
+
 </body>
 </html>

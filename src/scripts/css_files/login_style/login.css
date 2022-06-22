@@ -13,11 +13,11 @@ div.sign_up_wrapper {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="submit"],
-button {
+input.gang[type="text"],
+input.gang[type="password"],
+input.gang[type="email"],
+input.gang[type="submit"],
+button.style_1 {
     border: none;
     outline: none;
     display: inline-block;
@@ -33,8 +33,8 @@ button {
     padding: 0 18px;
 }
 
-input[type="submit"],
-button {
+input.gang[type="submit"],
+button.style_1 {
     background: #3597c5 ! important;
     color: #fff;
     margin: 3%;
@@ -45,8 +45,8 @@ button {
 
 }
 
-input[type="submit"]:hover,
-button:hover {
+input.gang[type="submit"]:hover,
+button.style_1:hover {
     background: #036897 ! important;
 }
 
@@ -61,4 +61,14 @@ h1 {
 
 span.auto_share {
     padding-left: 5%;
+}
+
+body {
+    background-color:#ffffff;
+    width: 100%;
+    height: 100%;
+    background-size: 30px 30px;
+    background-image:
+        linear-gradient(to right, grey 1px, transparent 1px),
+        linear-gradient(to bottom, grey 1px, transparent 1px);margin: 0;
 }

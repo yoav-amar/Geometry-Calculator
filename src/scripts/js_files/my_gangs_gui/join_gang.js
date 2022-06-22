@@ -21,7 +21,7 @@ class JoinGang extends React.Component {
             type: "post",
             success: function () {
                 alert("נוספת בהצלחה")
-                location.reload();
+                $("#main_body").load('/my_gangs')
             },
             error: function (jqXHR) {
                 if (jqXHR.status == 400) {
@@ -34,11 +34,12 @@ class JoinGang extends React.Component {
     render() {
         return (
             <form onSubmit={this.join_gang} method="post" dir='rtl'>
-                <label for={"gang_code"}>הצטרף לגיאו-מטריקה נוספת
-                    <input type={"text"} id={"gang_code"} name={"gang_code"} placeholder='הכנס קוד'></input>
+                <label htmlFor={"gang_code"}>הצטרף לגיאו-מטריקה נוספת
+                    <input className="gang" type={"text"} id={"gang_code"} name={"gang_code"} placeholder='הכנס קוד'>
+                    </input>
                 </label>
 
-                <input type={"submit"} value={"אשר"}></input>
+                <input className="gang" type={"submit"} value={"אשר"}></input>
             </form>
         )
     }

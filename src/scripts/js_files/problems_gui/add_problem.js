@@ -5,11 +5,11 @@ class AddProblem extends React.Component {
         super(props)
     }
     create_new_problem(){
-        window.location.href = "/calculator"
+        $("#main_body").load('/calculator')
     }
     render() {
         return (
-            <button onClick={this.create_new_problem}>הוסף בעיה חדשה</button>
+            <button className="style_1" onClick={this.create_new_problem}>הוסף בעיה חדשה</button>
         )
     }
 }

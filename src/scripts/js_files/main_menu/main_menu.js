@@ -28,11 +28,11 @@ class MainMenu extends React.Component {
                 <br/>
                 <MenuOption text="הגיאומטריק-ות שלי" action="my_gangs"/>
                 <br/>
-                <MenuOption text="ההיסטוריה שלי" action="sign_in"/>
+                <MenuOption text="ההיסטוריה שלי" action="my_history"/>
                 <br/>
                 <MenuOption text="הגדרות" action="settings"/>
                 <br/>
-                <MenuOption text="התנתק" isMarked={true}/>
+                <MenuOption text="התנתק" isMarked={true} action="logout"/>
               </div>
           </div>
       </div>

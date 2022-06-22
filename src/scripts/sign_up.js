@@ -41,7 +41,7 @@ class SignUp extends React.Component {
             contentType: 'application/json;charset=UTF-8',
             type: "post",
             success: function () {
-                window.location.replace("http://127.0.0.1:5000/")
+                window.location.replace(window.location.href)
             },
             error: function (jqXHR) {
                 if (jqXHR.status == 409) {
@@ -61,28 +61,28 @@ class SignUp extends React.Component {
                 <h1> הצטרף לקהילה</h1>
                 <form className="sign_up_list" onSubmit={this.resign.bind(this)} dir={"rtl"} method={"post"}>
                     <span>
-                        <input id={"username"} name={"username"} type={"text"} placeholder={"שם משתמש"} /><br />
+                        <input className="gang" id={"username"} name={"username"} type={"text"} placeholder={"שם משתמש"} /><br />
                     </span><br />
                     <span>
-                        <input id={"password"} name={"password"} type={"password"} placeholder={'סיסמא'}
+                        <input className="gang" id={"password"} name={"password"} type={"password"} placeholder={'סיסמא'}
                             minLength={"6"} /><br />
                     </span><br />
                     <span>
-                        <input id={"check_password"} name={"check_password"} type={"password"}
+                        <input className="gang" id={"check_password"} name={"check_password"} type={"password"}
                             placeholder={'אימות סיסמא'} /><br />
                     </span><br />
                     <span>
-                        <input name={"email"} type={"email"} placeholder={'דוא"ל'} /><br />
+                        <input className="gang" name={"email"} type={"email"} placeholder={'דוא"ל'} /><br />
                     </span><br />
                     <span>
                         <label for={"auto_share"} className="checkbox_container">
-                            <input id={"auto_share"} name={"auto_share"} className="checkbox" type={"checkbox"} defaultChecked={true} />
+                            <input className="gang" id={"auto_share"} name={"auto_share"} className="checkbox" type={"checkbox"} defaultChecked={true} />
                             שתף תרגילים אוטומטית
                         </label>
 
                     </span><br />
                     <span>
-                        <input type={"submit"} value={"הירשם"} /><br />
+                        <input className="gang" type={"submit"} value={"הירשם"} /><br />
                     </span>
                 </form>
             </div>

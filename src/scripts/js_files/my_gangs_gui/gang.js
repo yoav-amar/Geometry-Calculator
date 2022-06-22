@@ -4,12 +4,12 @@ class Gang extends React.Component {
     constructor(props) {
         super(props)
     }
-    open_gang() {
-        window.location.href = "http://127.0.0.1:5000/problems/" + this.props.value
+    open_gang() {$("#main_body").load('/my_gangs')
+        $("#main_body").load('/problems/'+this.props.value)
     }
     render() {
         return (
-            <button className="gang" onClick={this.open_gang.bind(this)}>
+            <button className="style_1" onClick={this.open_gang.bind(this)}>
                 {this.props.value}
             </button>
         )
