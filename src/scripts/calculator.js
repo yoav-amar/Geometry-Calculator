@@ -35,4 +35,4 @@ domContainer = document.querySelector('.popup_window')
 let popupWindow = ReactDOM.render(<PopupWindow popupWindowPlane={popupWindowPlane}/>, domContainer)
 
 domContainer = document.querySelector('.data_space')
-ReactDOM.render(<DataSpace geometryCanvas={geometryCanvas} popupWindow={popupWindow}/>, domContainer)
+ReactDOM.render(<DataSpace geometryCanvas={geometryCanvas} popupWindow={popupWindow} />, domContainer)

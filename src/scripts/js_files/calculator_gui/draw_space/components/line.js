@@ -17,7 +17,16 @@ class Line extends React.Component {
           isOver: false
       }
 
-      this.dots = [this.props.dot1Id, this.props.dot2Id]
+      // we want the order from left to right (and if the line || y then from bottom to up)
+      if(this.props.x1 < this.props.x2) {
+        this.dots = [this.props.dot1Id, this.props.dot2Id]
+      } else if(this.props.x1 > this.props.x2){
+        this.dots = [this.props.dot2Id, this.props.dot1Id]
+      } else if(this.props.y1 > this.props.y2) {
+        this.dots = [this.props.dot1Id, this.props.dot2Id]
+      } else{
+        this.dots = [this.props.dot2Id, this.props.dot1Id]
+      }
 
       // y = m * x +b || x = b
       if(this.props.x2 === this.props.x1) {

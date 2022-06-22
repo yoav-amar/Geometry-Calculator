@@ -11,16 +11,23 @@ class SubmitButton extends React.Component {
   onClick(e){
       let data = this.props.dataSpace.getDataRepresentation()
       let drawing = this.props.geometryCanvas.getDrawing()
+      let drawingSaveInfo = this.props.geometryCanvas.getSaveInfo()
 
       let problem = {data: data, drawing: drawing}
-
       $.ajax({
           type: 'POST',
           contentType: 'application/json',
           url: '/calculator/solve',
           data : JSON.stringify({problem: problem}),
           success : (data) => {
-              alert(data)
+              let solution = data.solution
+              if(solution.length == 0){
+                    alert("no solution found")
+              } else {
+                    $("#main_body").load('/solution',
+                     {solution: JSON.stringify({solution:solution}),
+                      drawing: JSON.stringify({drawing:drawingSaveInfo})})
+              }
           },
           error : (data) => {
               alert('Got An Error Sending To Server Please Try Again')
