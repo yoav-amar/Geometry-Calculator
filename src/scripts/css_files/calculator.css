@@ -1,0 +1,20 @@
+div.popup_window_plane{
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top:0;
+    z-index: 1;
+    background-color: rgba(85,85,85, 0.1);
+}
+
+div.popup_window{
+    width: 60%;
+    height: 6%;
+    position: absolute;
+    left: 0;
+    top: 40%;
+    right: 0;
+    margin-left: auto; margin-right: auto;  z-index: 2; padding: 5px
+}

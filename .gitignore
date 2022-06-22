@@ -132,3 +132,4 @@ node_modules/
 package-lock.json
 
 flask_session/
+static/

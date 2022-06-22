@@ -1,3 +1,6 @@
+import React from 'react'
+import 'css_files/main_menu/components/menu_option.css'
+
 class MenuOption extends React.Component {
   constructor(props) {
     super(props)
@@ -12,3 +15,5 @@ class MenuOption extends React.Component {
     )
   }
 }
+
+export default MenuOption
