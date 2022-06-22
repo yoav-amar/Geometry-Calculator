@@ -70,8 +70,11 @@ class DataManager:
         if data.from_sentence is not None:
             sentence_representation = get_sentence_representation(data.from_sentence)
 
+        if moves_needed != '':
+            sentence_representation += f' ({moves_needed})'
+
         solution.append({'numMove': num_move, 'claim': {'dataType': data.data_type, 'fields': data.fields},
-                         'explain': sentence_representation + f' ({moves_needed})'})
+                         'explain': sentence_representation})
 
     def get_proof_solution(self):
         solution = []

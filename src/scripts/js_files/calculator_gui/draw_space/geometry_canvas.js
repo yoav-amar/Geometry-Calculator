@@ -28,19 +28,21 @@ class GeometryCanvas extends React.Component {
 
       this.painterStatus = ''
 
-      this.props.toolBar.painterNotifier = function (status) {
-          this.painterStatus = status
-          this.currentLine.dot1Id = ''
-          this.currentCircle.centerDotId = ''
-          this.helpDrawingDots = []
-          this.helpLine = null
+      if(this.props.toolBar !== null){
+          this.props.toolBar.painterNotifier = function (status) {
+              this.painterStatus = status
+              this.currentLine.dot1Id = ''
+              this.currentCircle.centerDotId = ''
+              this.helpDrawingDots = []
+              this.helpLine = null
 
-          if(status === "clear") {
-              this.clear()
-          }
+              if(status === "clear") {
+                  this.clear()
+              }
 
-          this.setState({})
-      }.bind(this)
+              this.setState({})
+          }.bind(this)
+      }
 
       this.state = {
           geometryElements: {
@@ -522,17 +524,17 @@ class GeometryCanvas extends React.Component {
         <svg className="geometry_grid" onClick={e=>this.onClick(e)}
              onMouseDown={e=>this.onMouseDown(e)} ref={ip => this.geometrySvg = ip}>
             {this.painterStatus === "eraser"? helpDotsTypes : []}
-            <g id="help_lines">
+            <g class="help_lines">
                 {this.helpLine}
             </g>
-            <g id="circles">
+            <g class="circles">
                 {this.state.geometryElements.circles}
             </g>
-            <g id="lines">
+            <g class="lines">
                 {this.state.geometryElements.lines}
             </g>
             {this.painterStatus !== "eraser"? helpDotsTypes : []}
-            <g id="dots">
+            <g class="dots">
                 {this.state.geometryElements.dots}
             </g>
         </svg>

@@ -4,7 +4,8 @@ module.exports = {
   mode: 'development',
   entry: {
     'index': path.resolve(__dirname, 'scripts/index.js'),
-    'calculator':path.resolve(__dirname, 'scripts/calculator.js')
+    'calculator':path.resolve(__dirname, 'scripts/calculator.js'),
+    'solution':path.resolve(__dirname, 'scripts/solution.js')
   },
   output: {
     filename: '[name].js',

@@ -1,0 +1,21 @@
+div.drawing_loc{
+    width: 50%;
+    height: 100%;
+    margin: 0;
+}
+
+div.solution_loc{
+    width: 50%;
+    height: 100%;
+    margin: 0;
+}
+
+div.drawing_loc svg g.lines{
+    transform: translate(-120px, 0);
+}
+div.drawing_loc svg g.circles{
+    transform: translate(-120px, 0);
+}
+div.drawing_loc svg g.dots{
+    transform: translate(-120px, 0);
+}

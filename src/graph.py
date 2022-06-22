@@ -191,12 +191,17 @@ class Graph:
     def get_related_lines(self, data):
         lines = []
         for field in data.fields:
+            if not isinstance(field, str):
+                continue
+
             string = field + field[0]
             regex = '(?=([A-Z][A-Z]))'
             matches = re.findall(regex, string)
 
             for match in matches:
-                lines += self.get_line_from_string(match)
+                line = self.get_line_from_string(match)
+                if line is not None:
+                    lines.append(line)
 
         return lines
 
@@ -207,7 +212,7 @@ class Graph:
         lines = self.get_related_lines(data)
 
         for line in lines:
-            if len(set(loc.boundaries.dots).intersection(line['dots'])) > 0:
+            if len(set(loc.boundaries['dots']).intersection(line['dots'])) > 0:
                 return True
 
         return False

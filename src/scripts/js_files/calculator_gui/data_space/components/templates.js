@@ -19,6 +19,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `${ts1} תיכון במשולש ${ts2}△`
         }
     },
     {
@@ -45,6 +51,13 @@ let templates = [
                     ts3
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+            let ts3 = fields[2]
+
+            return `קטע ${ts1} משיק למעגל ${ts2} בנק' ${ts3}`
         }
     },
     {
@@ -71,6 +84,13 @@ let templates = [
                     ts3
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+            let ts3 = fields[2]
+
+            return `מעגלים ${ts2} , ${ts1} משיקים בנק' ${ts3}`
         }
     },
     {
@@ -92,6 +112,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `${ts1} קוטר במעגל ${ts2}`
         }
     },
     {
@@ -114,6 +140,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `${ts1} קטע אמצעיים ב- ${ts2}△`
         }
     },
     {
@@ -140,6 +172,13 @@ let templates = [
                     ts3
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+            let ts3 = fields[2]
+
+            return `${ts1} טרפז (${ts3} || ${ts2})`
         }
     },
     {
@@ -158,6 +197,11 @@ let templates = [
                     ts1
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+
+            return `${ts1}  מקבילית`
         }
     },
     {
@@ -176,6 +220,11 @@ let templates = [
                     ts1
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+
+            return `${ts1}  מעויין`
         }
     },
     {
@@ -194,6 +243,11 @@ let templates = [
                     ts1
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+
+            return `${ts1}  ריבוע`
         }
     },
     {
@@ -229,6 +283,15 @@ let templates = [
                     ts5
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+            let ts3 = fields[2]
+            let ts4 = fields[3]
+            let ts5 = fields[4]
+
+            return `${ts1} דלתון (${ts5} = ${ts4}, ${ts3} = ${ts2})`
         }
     },
     {
@@ -255,6 +318,13 @@ let templates = [
                     ts3
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+            let ts3 = fields[2]
+
+            return `${ts1} טרפז שווה שוקיים (${ts3} || ${ts2})`
         }
     },
     {
@@ -273,6 +343,11 @@ let templates = [
                     ts1
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+
+            return `${ts1}  מלבן`
         }
     },
     {
@@ -296,6 +371,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `${ts1}△ משולש ישר זווית (90° =${ts2}⦠)`
         }
     },
     {
@@ -314,6 +395,11 @@ let templates = [
                     ts1
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+
+            return `${ts1}△ משולש שווה צלעות`
         }
     },
     {
@@ -340,6 +426,13 @@ let templates = [
                     ts3
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+            let ts3 = fields[2]
+
+            return `${ts1}△ משולש שווה שוקיים (${ts3} = ${ts2})`
         }
     },
     {
@@ -362,6 +455,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `${ts1} חוצה זווית ${ts2}⦠`
         }
     },
     {
@@ -386,6 +485,12 @@ let templates = [
                     b
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let a = fields[0]
+            let b = fields[1]
+
+            return `|${a}| = |${b}|`
         }
     },
     {
@@ -408,6 +513,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `${ts1} חסום במעגל ${ts2}`
         }
     },
     {
@@ -430,6 +541,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `${ts1} חוסם מעגל ${ts2}`
         }
     },
     {
@@ -452,6 +569,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `${ts2} || ${ts1}`
         }
     },
     {
@@ -474,6 +597,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `${ts2} ⊥ ${ts1}`
         }
     },
     {
@@ -498,6 +627,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `|${ts2}| = |${ts1}|`
         }
     },
     {
@@ -529,6 +664,14 @@ let templates = [
                     ts4
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+            let ts3 = fields[2]
+            let ts4 = fields[3]
+
+            return `${ts4}| / |${ts3}| = ${ts2} / ${ts1}|`
         }
     },
     {
@@ -552,6 +695,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `${ts2} = ∢${ts1}⦠`
         }
     },
     {
@@ -575,6 +724,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `${ts2}| = ${ts1}|`
         }
     },
     {
@@ -599,6 +754,12 @@ let templates = [
                     ts2
                 ]
             }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `°${ts2} = ${ts1}⦠`
         }
     }
 ]
