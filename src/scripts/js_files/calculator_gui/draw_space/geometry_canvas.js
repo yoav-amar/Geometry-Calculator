@@ -28,7 +28,7 @@ class GeometryCanvas extends React.Component {
 
       this.painterStatus = ''
 
-      if(this.props.toolBar !== null){
+      if(typeof this.props.toolBar !== 'undefined'){
           this.props.toolBar.painterNotifier = function (status) {
               this.painterStatus = status
               this.currentLine.dot1Id = ''

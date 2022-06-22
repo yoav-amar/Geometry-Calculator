@@ -15,5 +15,5 @@ let drawing = drawingElement.innerHTML
 drawingElement.remove()
 
 ReactDOM.render(<SolutionTable solution={solution}/>, document.querySelector('.solution_loc'))
-let geometryCanvas = ReactDOM.render(<GeometryCanvas toolBar={null}/>, document.querySelector('.drawing_loc'))
+let geometryCanvas = ReactDOM.render(<GeometryCanvas/>, document.querySelector('.drawing_loc'))
 geometryCanvas.loadData(JSON.parse(drawing).drawing)
