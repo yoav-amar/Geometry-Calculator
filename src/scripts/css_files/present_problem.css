@@ -1,0 +1,10 @@
+div.draw_space_present{
+    width: 70%;
+    height: 100%;
+}
+
+div.data_space_present{
+    display:flex;
+    background-color: #969696;
+    width: 30%;
+}

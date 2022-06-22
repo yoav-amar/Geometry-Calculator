@@ -32,6 +32,21 @@ def calculator_page():
     return render_template("calculator.html")
 
 
+@app.route('/calculator', methods=['POST'])
+def calculator_page_with_problem_to_load():
+    return render_template("calculator.html", problem=request.form['problem'])
+
+
+@app.route('/present_problem/<gang_id>', methods=['POST'])
+def present_problem(gang_id):
+    return render_template("present_problem.html", problem=request.form['problem'], gang_id=gang_id)
+
+
+@app.route('/calculator/<gang_id>', methods=['POST'])
+def calculator_page_for_gang_problem(gang_id):
+    return render_template("calculator.html", problem=request.form['problem'], gang_id=gang_id)
+
+
 @app.route('/my_history')
 def my_history_page():
     return render_template("my_history.html")

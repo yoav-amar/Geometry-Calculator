@@ -5,7 +5,6 @@ class SaveButton extends React.Component {
   constructor(props) {
       super(props)
       this.onClick = this.onClick.bind(this)
-
   }
 
   onClick(e){
@@ -20,7 +19,8 @@ class SaveButton extends React.Component {
   render() {
     return(
         <div className="save">
-            <button className="submit" onClick={this.onClick}> שמור שאלה </button>
+            <button className="submit" onClick={this.onClick}>
+             {this.props.gangId === ''? 'שמור שאלה' : 'שמור בגיאומטריקה'} </button>
         </div>
     )
   }
