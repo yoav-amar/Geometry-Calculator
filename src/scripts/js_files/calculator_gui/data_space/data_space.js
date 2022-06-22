@@ -11,6 +11,11 @@ class DataSpace extends React.Component {
   constructor(props) {
       super(props)
 
+      this.isPresentMode = this.props.isPresentMode
+      if(typeof this.props.isPresentMode === 'undefined'){
+          this.isPresentMode = false
+      }
+
       this.getDataRepresentation = this.getDataRepresentation.bind(this)
       this.loadProblem = this.loadProblem.bind(this)
       this.getSaveInfo = this.getSaveInfo.bind(this)
@@ -50,7 +55,9 @@ class DataSpace extends React.Component {
 
       problem.data.givenData.forEach((gd) => this.addData(JSON.parse(gd)))
       problem.data.proofData.forEach((pd) => this.addData(JSON.parse(pd)))
-      this.dataInput.dataId = problem.data.dataId
+      if(!this.isPresentMode){
+         this.dataInput.dataId = problem.data.dataId
+      }
 
       this.setState({})
 
@@ -61,6 +68,7 @@ class DataSpace extends React.Component {
   addData(objData){
       let dl = <DataLabel id={objData.dataId} dataStr={JSON.stringify(objData)}
                           isNeedProof={objData.isNeedProof}
+                          isPresentMode={this.isPresentMode}
                           key={objData.dataId} onDelete={()=>{
                               this.proofDataLabels = this.proofDataLabels.filter(e => e.props.id !== objData.dataId)
                               this.givenDataLabels = this.givenDataLabels.filter(e => e.props.id !== objData.dataId)
@@ -87,17 +95,23 @@ class DataSpace extends React.Component {
   render() {
     return(
         <div className="data_container">
-            <DataInput ref={ref => this.dataInput = ref} onAdd={this.addData}/>
-
-            <SymbolTable onSymbolSelected={(symbol) => this.dataInput.addSymbol(symbol)}/>
-            <div className="data">
+        { !this.isPresentMode ?
+            [<DataInput ref={ref => this.dataInput = ref} onAdd={this.addData}/>,
+            <SymbolTable onSymbolSelected={(symbol) => this.dataInput.addSymbol(symbol)}/>]
+         : []
+        }
+            <div className="data" style={this.isPresentMode ? {display: "flex", justifyContent: "center"}: {}}>
                 {this.givenDataLabels.concat(this.proofDataLabels)}
             </div>
 
+        { !this.isPresentMode ?
             <div style={{display:"flex", width: "100%"}}>
-                <SaveButton geometryCanvas={this.props.geometryCanvas} popupWindow={this.props.popupWindow} dataSpace={this}/>
+                <SaveButton geometryCanvas={this.props.geometryCanvas} gangId={this.props.gangId}
+                popupWindow={this.props.popupWindow} dataSpace={this}/>
                 <SubmitButton geometryCanvas={this.props.geometryCanvas} dataSpace={this}/>
             </div>
+          : []
+        }
         </div>
     )
   }
