@@ -10,7 +10,7 @@ class Gang extends React.Component {
     render() {
         return (
             <button className="style_1" onClick={this.open_gang.bind(this)}>
-                {this.props.value}
+                {this.props.gang_name}
             </button>
         )
     }
@@ -40,10 +40,10 @@ class GangList extends React.Component {
         });
         return (
             <div className='gangs_list'>
-                {this.gangs.map(function (gang_name) {
-                    return <Gang value={gang_name} key={gang_name} />
+                {Object.keys(this.gangs).map(function (gang_code) {
+                    return <Gang value={gang_code} gang_name={this.gangs[gang_code]} key={gang_code} />
 
-                })}
+                }.bind(this))}
             </div>
         )
     }

@@ -2,7 +2,7 @@ import random
 
 import pymongo
 import hashlib
-from backend.exceptions import UserNotFound, WrongPassword, UserExists
+from backend.exceptions import UserNotFound, WrongPassword, UserExists, UserInGang
 
 SALT_SIZE = 1024
 
@@ -20,7 +20,7 @@ def add_user(username: str, password: str, email: str, auto_share: bool):
         raise UserExists()
     salt = random.randint(0, SALT_SIZE)
     password = hashlib.sha256((password + str(salt)).encode()).hexdigest()
-    user_dict = {"username": username, "password": password, "email": email, "auto_share": auto_share, "my_gangs": [],
+    user_dict = {"username": username, "password": password, "email": email, "auto_share": auto_share, "my_gangs": {},
                  "salt": salt}
     users.insert_one(user_dict)
 
@@ -32,15 +32,16 @@ def delete_user(username: str, password: str):
     raise Exception("unknown exception")
 
 
-def add_gang(username, password, gang_name):
+def add_gang(username, password, gang_code, gang_name):
     is_user_ok(username, password)
     query = {"username": username}
     user = users.find_one(query)
-    gangs = set(user["my_gangs"])
-    gangs.add(gang_name)
-    gangs = list(gangs)
+    gangs = user["my_gangs"]
+    if gang_code in gangs.keys():
+        raise UserInGang()
+    gangs[f"{gang_code}"] = gang_name
     users.update_one({"username": username}, {
-                        "$set": {"my_gangs": gangs}})
+        "$set": {"my_gangs": gangs}})
 
 
 def is_user_ok(username: str, password: str):
@@ -58,7 +59,7 @@ def get_gangs(username, password):
     is_user_ok(username, password)
     query = {"username": username}
     user = users.find_one(query)
-    gangs = tuple(user["my_gangs"])
+    gangs = user["my_gangs"]
     return gangs
 
 

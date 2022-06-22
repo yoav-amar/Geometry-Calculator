@@ -5,11 +5,11 @@ class Problem extends React.Component {
         super(props)
     }
     direct_problem_page() {
-        $("#main_body").load( '/problems' + "/" + this.gang_name + "/" + this.props.value)
+        $("#main_body").load( '/problems' + "/" + this.props.gang_code + "/" + this.props.value)
     }
     render() {
         return (
-            <button className="problem" onClick={this.direct_problem_page.bind(this)}>
+            <button className="style_1" onClick={this.direct_problem_page.bind(this)}>
                 {this.props.value}
             </button>
         )
@@ -20,13 +20,15 @@ class ProblemsList extends React.Component {
     constructor(props) {
         super(props)
         this.gang_name = null
+        this.gang_code = null
         this.problems = null
     }
     render() {
         
         this.gang_name = document.getElementById("gang_name").innerHTML
+        this.gang_code = document.getElementById("gang_code").innerHTML.substring(16)
         
-        let data = {gang_name: this.gang_name}
+        let data = {gang_code: this.gang_code}
         jQuery.ajax({
             url: "/problems_names",
             data: data,
@@ -45,9 +47,9 @@ class ProblemsList extends React.Component {
         return (
             <div>
                 {this.problems.map(function (problem_name) {
-                    return <Problem value={problem_name} key={problem_name} />
+                    return <Problem value={problem_name} gang_code={this.gang_code} key={problem_name} />
 
-                })}
+                }.bind(this))}
             </div>
         )
     }

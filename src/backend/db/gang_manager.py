@@ -23,7 +23,7 @@ def random_with_n_digits(n):
 
 def add_gang(gang_name, admin_name, admin_password):
     is_user_ok(admin_name, admin_password)
-    if gang_name == CODES or gangs_db.find_one({"gang_name": gang_name}):
+    if gang_name == CODES:
         raise GangExists()
     gang_code = random_with_n_digits(NUMBER_OF_CODE_DIGITS)
     gang_codes = gangs_db.find_one({"gang_name": CODES})
@@ -39,37 +39,39 @@ def add_gang(gang_name, admin_name, admin_password):
     gangs_db.insert_one(
         {"gang_name": gang_name, "admin": admin_name, "gang_code": gang_code, "problems": {},
          "members": {admin_name: []}})
+    return gang_code
 
 
-def delete_gang(gang_name, admin_name, admin_password):
+def delete_gang(gang_code, admin_name, admin_password):
     is_user_ok(admin_name, admin_password)
-    gangs_db.delete_one({"gang_name": gang_name})
+    gangs_db.delete_one({"gang_code": gang_code})
 
 
-def is_user_in_gang(gang_name, username, password):
+def is_user_in_gang(gang_code, username, password):
     is_user_ok(username, password)
-    gang = gangs_db.find_one({"gang_name": gang_name}, {"members": True})
+    gang = gangs_db.find_one({"gang_code": int(gang_code)}, {"members": True})
     if not gang:
         raise GangNotFound()
     members = gang["members"]
     return username in members
 
 
-def get_gang_code(username, password, gang_name):
-    is_user_in_gang(gang_name, username, password)
-    gang = gangs_db.find_one({"gang_name": gang_name}, {"gang_code": True})
-    return gang["gang_code"]
+# check if in use
+def get_gang_name(username, password, gang_code):
+    is_user_in_gang(gang_code, username, password)
+    gang = gangs_db.find_one({"gang_code": int(gang_code)}, {"gang_name": True})
+    return gang["gang_name"]
 
 
-def remove_member_from_gang(gang_name, admin_name, admin_password, member_name):
-    gang = gangs_db.find_one({"gang_name": gang_name}, {"members": True})
+def remove_member_from_gang(gang_code, admin_name, admin_password, member_name):
+    gang = gangs_db.find_one({"gang_code": int(gang_code)}, {"members": True})
     if not gang:
         raise GangNotFound()
     is_user_ok(admin_name, admin_password)
     members = gang["members"]
     if member_name in members.keys():
         members.pop(member_name)
-    gangs_db.update_one({"gang_name": gang_name}, {
+    gangs_db.update_one({"gang_code": int(gang_code)}, {
         "$set": {"members": members}})
 
 
@@ -84,11 +86,12 @@ def add_member_to_gang(gang_code, username, password):
     members[username] = []
     gangs_db.update_one({"gang_code": gang_code}, {
         "$set": {"members": members}})
-    return gang["gang_name"]
+    gang_name = gang["gang_name"]
+    return gang_name
 
 
-def add_permission(gang_name, admin_name, admin_password, member_name, permission):
-    gang = gangs_db.find_one({"gang_name": gang_name}, {"members": True})
+def add_permission(gang_code, admin_name, admin_password, member_name, permission):
+    gang = gangs_db.find_one({"gang_code": int(gang_code)}, {"members": True})
     if not gang:
         raise GangNotFound()
     is_user_ok(admin_name, admin_password)
@@ -97,14 +100,14 @@ def add_permission(gang_name, admin_name, admin_password, member_name, permissio
         permissions = set(members[member_name])
         permissions.add(permission)
         members[member_name] = list(permissions)
-        gangs_db.update_one({"gang_name": gang_name}, {
+        gangs_db.update_one({"gang_code": gang_code}, {
             "$set": {"members": members}})
         return True
     raise UserNotFound()
 
 
-def remove_permission(gang_name, admin_name, admin_password, member_name, permission):
-    gang = gangs_db.find_one({"gang_name": gang_name})
+def remove_permission(gang_code, admin_name, admin_password, member_name, permission):
+    gang = gangs_db.find_one({"gang_code": int(gang_code)})
     if not gang:
         raise GangNotFound()
     is_user_ok(admin_name, admin_password)
@@ -113,37 +116,37 @@ def remove_permission(gang_name, admin_name, admin_password, member_name, permis
         permissions = set(members[member_name])
         permissions.discard(permission)
         members[member_name] = list(permissions)
-        gangs_db.update_one({"gang_name": gang_name}, {
+        gangs_db.update_one({"gang_code": int(gang_code)}, {
             "$set": {"members": members}})
         return True
     raise UserNotFound()
 
 
-def add_problem(gang_name, username, password, problem_name, problem):
+def add_problem(gang_code, username, password, problem_name, problem):
     is_user_ok(username, password)
-    gang = gangs_db.find_one({"gang_name": gang_name})
+    gang = gangs_db.find_one({"gang_code": int(gang_code)})
     if not gang:
         raise GangNotFound()
     problems = gang["problems"]
     if problem_name in problems.keys():
         raise ProblemExists()
     problems[problem_name] = {"problem": problem, "solutions": {}}
-    gangs_db.update_one({"gang_name": gang_name}, {
+    gangs_db.update_one({"gang_code": int(gang_code)}, {
         "$set": {"problems": problems}})
 
 
-def get_problems_names(gang_name, username, password):
-    is_user_in_gang(gang_name, username, password)
-    gang = gangs_db.find_one({"gang_name": gang_name})
+def get_problems_names(gang_code, username, password):
+    is_user_in_gang(gang_code, username, password)
+    gang = gangs_db.find_one({"gang_code": int(gang_code)})
     if not gang:
         raise GangNotFound()
     problems = gang["problems"]
     return problems.keys()
 
 
-def get_problem(gang_name, problem_name, username, password):
-    is_user_in_gang(gang_name, username, password)
-    gang = gangs_db.find_one({"gang_name": gang_name})
+def get_problem(gang_code, problem_name, username, password):
+    is_user_in_gang(gang_code, username, password)
+    gang = gangs_db.find_one({"gang_code": int(gang_code)})
     if not gang:
         raise GangNotFound()
     problems = gang["problems"]
@@ -154,9 +157,9 @@ def get_problem(gang_name, problem_name, username, password):
     return problem["problem"], solutions
 
 
-def add_solution(gang_name, username, password, problem_name, solution_name, solution):
-    is_user_in_gang(gang_name, username, password)
-    gang = gangs_db.find_one({"gang_name": gang_name})
+def add_solution(gang_code, username, password, problem_name, solution_name, solution):
+    is_user_in_gang(gang_code, username, password)
+    gang = gangs_db.find_one({"gang_code": int(gang_code)})
     if not gang:
         raise GangNotFound()
     problems = gang["problems"]
@@ -168,23 +171,23 @@ def add_solution(gang_name, username, password, problem_name, solution_name, sol
         raise SolutionExists()
     solutions[solution_name] = solution
     problems[problem_name] = problem
-    gangs_db.update_one({"gang_name": gang_name}, {
+    gangs_db.update_one({"gang_code": int(gang_code)}, {
         "$set": {"problems": problems}})
 
 
-def remove_problem(gang_name, username, password, problem_name):
-    gang = gangs_db.find_one({"gang_name": gang_name})
-    is_user_in_gang(gang_name, username, password)
+def remove_problem(gang_code, username, password, problem_name):
+    gang = gangs_db.find_one({"gang_code": int(gang_code)})
+    is_user_in_gang(gang_code, username, password)
     problems = gang["problems"]
     if problem_name in problems.keys():
         problems.pop(problem_name)
-    gangs_db.update_one({"gang_name": gang_name}, {
+    gangs_db.update_one({"gang_name": int(gang_code)}, {
         "$set": {"problems": problems}})
 
 
-def remove_solution(gang_name, username, password, problem_name, solution_name):
-    gang = gangs_db.find_one({"gang_name": gang_name})
-    is_user_in_gang(gang_name, username, password)
+def remove_solution(gang_code, username, password, problem_name, solution_name):
+    gang = gangs_db.find_one({"gang_name": int(gang_code)})
+    is_user_in_gang(gang_code, username, password)
     problems = gang["problems"]
     problem = problems.get(problem_name)
     if not problem:
@@ -192,13 +195,13 @@ def remove_solution(gang_name, username, password, problem_name, solution_name):
     solutions = problem["solutions"]
     if solution_name in solutions.keys():
         solutions.pop(solution_name)
-    gangs_db.update_one({"gang_name": gang_name}, {
+    gangs_db.update_one({"gang_name": int(gang_code)}, {
         "$set": {"problems": problems}})
 
 
-def get_solution(gang_name, username, password, problem_name, solution_name):
-    gang = gangs_db.find_one({"gang_name": gang_name})
-    is_user_in_gang(gang_name, username, password)
+def get_solution(gang_code, username, password, problem_name, solution_name):
+    gang = gangs_db.find_one({"gang_code": int(gang_code)})
+    is_user_in_gang(gang_code, username, password)
     problems = gang["problems"]
     problem = problems.get(problem_name)
     if not problem:
@@ -211,4 +214,4 @@ def get_solution(gang_name, username, password, problem_name, solution_name):
 
 
 if __name__ == '__main__':
-    add_solution("first", "yoavyoav", "hutc12", "hey", "lol", "12345")
+    add_problem(693121, "yoavyoav", "hutc12", "hey", "hrthrthtrh")
