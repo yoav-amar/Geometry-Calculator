@@ -53,3 +53,8 @@ class SolutionExists(Exception):
     def __init__(self, message="יש כבר פתרון עם אותו השם"):
         super().__init__()
         self.args += (message,)
+        
+class SolutionNotFound(Exception):
+    def __init__(self, message="הפתרון לא נמצא"):
+        super().__init__()
+        self.args += (message,)

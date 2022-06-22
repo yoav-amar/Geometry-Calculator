@@ -4,23 +4,28 @@ class Solution extends React.Component {
         super(props)
     }
     show_solution() {
-        // jQuery.ajax({
-        //     url: "change_field",
-        //     data: JSON.stringify(data),
-        //     contentType: 'application/json;charset=UTF-8',
-        //     type: "get",
-        //     success: function (data) {
-        //         let picture = data
-        //         this.props.onClick(picture)                
-        //     },
-        //     error: function (jqXHR) {
-        //         if (jqXHR.status == 400) {
-        //             alert(jqXHR.responseText)
+        let data = {
+            gang_name: this.props.gang_name,
+            problem_name: this.props.problem_name,
+            solution_name: this.props.value
+        }
+        jQuery.ajax({
+            url: "/get_solution",
+            data: data,
+            contentType: 'application/json;charset=UTF-8',
+            type: "get",
+            success: function (data) {
+                let picture = data.picture
+                let solution_name = data.solution_name
+                this.props.onClick(solution_name,picture)
+            }.bind(this),
+            error: function (jqXHR) {
+                if (jqXHR.status == 400) {
+                    alert(jqXHR.responseText)
 
-        //         }
-        //     }
-        // });
-        this.props.onClick("hey")
+                }
+            }
+        });
     }
     render() {
         return (
@@ -48,7 +53,8 @@ class SolutionsList extends React.Component {
         return (
             <div>
                 {this.solutions.map(function (solution_name) {
-                    return <Solution value={solution_name} onClick={this.props.onClick} key={solution_name} />
+                    return <Solution value={solution_name} onClick={this.props.onClick} gang_name={this.gang_name}
+                    problem_name={this.problem_name} key={solution_name} />
 
                 }.bind(this))}
             </div>

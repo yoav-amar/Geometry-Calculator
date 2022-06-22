@@ -10,24 +10,24 @@ class SolutionsManager extends React.Component {
         super(props)
         this.state = {
             picture: null,
-            is_solution_presented: false
+            is_solution_presented: false,
+            solution_name: ""
         }
     }
 
-    on_present_solution(pic) {
-        this.setState({ is_solution_presented: true })
-
-        this.setState({ picture: pic })
+    on_present_solution(name, pic) {
+        alert(1)
+        this.setState({ is_solution_presented: true, solution_name: name, picture: pic })
     }
     on_present_solutions_list() {
-        this.setState({ is_solution_presented: false })
-        this.setState({ picture: null })
+        this.setState({ is_solution_presented: false, solution_name: "", picture: null })
     }
 
     render() {
         if (this.state.is_solution_presented) {
             return (
                 <div>
+                    <p>{this.state.solution_name}</p>
                     <p>{this.state.picture}</p>
                     <button onClick={this.on_present_solutions_list.bind(this)}>חזור לרשימת הפתרונות</button>
                 </div>
