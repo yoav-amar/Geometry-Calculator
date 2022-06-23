@@ -13,7 +13,7 @@ class SaveButton extends React.Component {
 
       let problem = {data: data, drawing: drawing}
 
-      this.props.popupWindow.show(problem)
+      this.props.popupWindow.show(problem, this.props.gangId)
   }
 
   render() {

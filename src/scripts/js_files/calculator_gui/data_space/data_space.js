@@ -6,6 +6,7 @@ import DataLabel from "./components/data_label"
 import SymbolTable from "./components/symbol_table"
 import SubmitButton from "./components/submit_button"
 import SaveButton from "./components/save_button"
+import DirectSolutions from "./components/direct_solutions_button"
 
 class DataSpace extends React.Component {
   constructor(props) {
@@ -97,7 +98,9 @@ class DataSpace extends React.Component {
         <div className="data_container">
         { !this.isPresentMode ?
             [<DataInput ref={ref => this.dataInput = ref} onAdd={this.addData}/>,
-            <SymbolTable onSymbolSelected={(symbol) => this.dataInput.addSymbol(symbol)}/>]
+            <SymbolTable onSymbolSelected={(symbol) => this.dataInput.addSymbol(symbol)}/>
+        
+        ]
          : []
         }
             <div className="data" style={this.isPresentMode ? {display: "flex", justifyContent: "center"}: {}}>
@@ -111,6 +114,11 @@ class DataSpace extends React.Component {
                 <SubmitButton geometryCanvas={this.props.geometryCanvas} dataSpace={this}/>
             </div>
           : []
+        }
+        {
+            this.isPresentMode? 
+            <DirectSolutions gang_code={this.props.gangId}/>
+            : []
         }
         </div>
     )

@@ -12,20 +12,21 @@ class PopupWindow extends React.Component {
       this.problem = {}
   }
 
-  show(problem) {
+  show(problem, gangId) {
       this.problem = problem
+      this.gangId = gangId
 
       this.props.popupWindowPlane.style.display = "block"
   }
 
   saveProblem(){
-      this.problem.title = this.input.value
+//      this.problem.title = this.input.value
 
       $.ajax({
           type: 'POST',
           contentType: 'application/json',
           url: '/calculator/save',
-          data : JSON.stringify({problem: this.problem}),
+          data : JSON.stringify({problem: this.problem, problem_name: this.input.value, gang_code: this.gangId}),
           success : (data) => {
               alert(data)
           },
