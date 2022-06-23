@@ -5,7 +5,23 @@ class Problem extends React.Component {
         super(props)
     }
     direct_problem_page() {
-        $("#main_body").load( '/problems' + "/" + this.props.gang_code + "/" + this.props.value)
+        // $("#main_body").load('/problem', { gang_code: this.props.gang_code, problem_name: this.props.value })
+        jQuery.ajax({
+            url: "/get_problem",
+            data: { gang_code: this.props.gang_code, problem_name: this.props.value },
+            contentType: 'application/json;charset=UTF-8',
+            type: "get",
+            success: function (data) {
+                alert(this.props.problem_name)
+                $("#main_body").load('/present_problem/' + this.props.gang_code, {problem: data, problem_name: this.props.problem_name})
+            }.bind(this),
+            error: function (jqXHR) {
+                if (jqXHR.status == 400) {
+                    alert(jqXHR.responseText)
+        
+                }
+            }
+        });
     }
     render() {
         return (
@@ -24,11 +40,11 @@ class ProblemsList extends React.Component {
         this.problems = null
     }
     render() {
-        
+
         this.gang_name = document.getElementById("gang_name").innerHTML
         this.gang_code = document.getElementById("gang_code").innerHTML.substring(16)
-        
-        let data = {gang_code: this.gang_code}
+
+        let data = { gang_code: this.gang_code }
         jQuery.ajax({
             url: "/problems_names",
             data: data,
