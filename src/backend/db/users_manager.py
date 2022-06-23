@@ -2,7 +2,7 @@ import random
 
 import pymongo
 import hashlib
-from backend.exceptions import UserNotFound, WrongPassword, UserExists, UserInGang
+from backend.exceptions import UserNotFound, WrongPassword, UserExists, UserInGang, HistoryExists
 
 SALT_SIZE = 1024
 
@@ -21,7 +21,7 @@ def add_user(username: str, password: str, email: str, auto_share: bool):
     salt = random.randint(0, SALT_SIZE)
     password = hashlib.sha256((password + str(salt)).encode()).hexdigest()
     user_dict = {"username": username, "password": password, "email": email, "auto_share": auto_share, "my_gangs": {},
-                 "salt": salt}
+                 "my_history": "0", "salt": salt}
     users.insert_one(user_dict)
 
 
@@ -42,6 +42,23 @@ def add_gang(username, password, gang_code, gang_name):
     gangs[f"{gang_code}"] = gang_name
     users.update_one({"username": username}, {
         "$set": {"my_gangs": gangs}})
+
+
+def add_history(username, password, history_code):
+    is_user_ok(username, password)
+    query = {"username": username}
+    user = users.find_one(query)
+    if user.get("my_history") != '0':
+        raise HistoryExists()
+    users.update_one({"username": username}, {
+        "$set": {"my_history": history_code}})
+
+
+def get_history(username, password):
+    is_user_ok(username, password)
+    query = {"username": username}
+    user = users.find_one(query)
+    return user["my_history"]
 
 
 def is_user_ok(username: str, password: str):

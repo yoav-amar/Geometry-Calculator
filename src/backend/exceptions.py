@@ -10,6 +10,12 @@ class UserExists(Exception):
         self.args += (message,)
 
 
+class HistoryExists(Exception):
+    def __init__(self, message="ההיסטוריה כבר קיימת"):
+        super().__init__()
+        self.args += (message,)
+
+
 class UserInGang(Exception):
     def __init__(self, message="המשתמש כבר בקבוצה"):
         super().__init__()
