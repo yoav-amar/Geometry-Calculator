@@ -43,5 +43,26 @@ class SolutionsManager extends React.Component {
 
     }
 }
+
+
 let domContainer = document.querySelector('.solutions')
 ReactDOM.render(<SolutionsManager />, domContainer)
+let gang_code = document.getElementById("gang_code").innerHTML
+let problem_name = document.getElementById("problem_name").innerHTML
+
+jQuery.ajax({
+    url: "/get_problem",
+    data: { gang_code: gang_code, problem_name: problem_name },
+    contentType: 'application/json;charset=UTF-8',
+    type: "get",
+    success: function (data) {
+        $("#main_body").load('/present_problem/' + gang_code, {problem: data})
+    },
+    error: function (jqXHR) {
+        if (jqXHR.status == 400) {
+            alert(jqXHR.responseText)
+
+        }
+    }
+});
+
