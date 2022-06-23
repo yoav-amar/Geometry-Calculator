@@ -133,3 +133,4 @@ package-lock.json
 
 flask_session/
 static/
+src/static

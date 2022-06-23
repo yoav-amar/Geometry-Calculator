@@ -39,17 +39,29 @@ def calculator_page_with_problem_to_load():
 
 @app.route('/present_problem/<gang_id>', methods=['POST'])
 def present_problem(gang_id):
-    return render_template("present_problem.html", problem=request.form['problem'], gang_id=gang_id)
+    return render_template("present_problem.html", problem=request.form['problem'], gang_id=gang_id,
+                           problem_name=request.form['problem_name'])
 
 
 @app.route('/calculator/<gang_id>', methods=['POST'])
 def calculator_page_for_gang_problem(gang_id):
-    return render_template("calculator.html", problem=request.form['problem'], gang_id=gang_id)
+    print(request.form.get('problem'))
+    return render_template("calculator.html", problem=request.form.get('problem'), gang_id=gang_id)
+
+
+@app.route('/calculator/<gang_id>', methods=['GET'])
+def calculator_page_for_gang_problem_get(gang_id):
+    return render_template("calculator.html", gang_id=gang_id)
 
 
 @app.route('/my_history')
 def my_history_page():
-    return render_template("my_history.html")
+    username = session.get("username")
+    password = session.get("password")
+    if not username or not password:
+        return "not found", HTTP_BAD
+    history_code = users_manager.get_history(username, password)
+    return problems_page(history_code)
 
 
 @app.route('/solution', methods=['POST'])
@@ -77,12 +89,26 @@ def calculator_solve():
 
 @app.route('/calculator/save', methods=['POST'])
 def calculator_save():
-    problem = request.get_json()['problem']
-    print(problem)
-    # list_str_to_list_json(problem['data']['givenData'])
-    # list_str_to_list_json(problem['data']['proofData'])
+    try:
+        username = session.get("username")
+        password = session.get("password")
+        if not username or not password:
+            return "not found", HTTP_BAD
+        req = request.get_json()
+        problem = req['problem']
+        problem_name = req["problem_name"]
+        print(problem)
+        # list_str_to_list_json(problem['data']['givenData'])
+        # list_str_to_list_json(problem['data']['proofData'])
 
-    return 'Problem Saved'
+        gang_code = req.get("gang_code")
+        if not gang_code or gang_code == "" or gang_code == "0":
+            gang_code = users_manager.get_history(username, password)
+            pass
+        gang_manager.add_problem(gang_code, username, password, problem_name, problem)
+        return 'הבעיה נשמרה', HTTP_OK
+    except Exception as e:
+        return str(e), HTTP_BAD
 
 
 @app.route('/settings', methods=["GET"])
@@ -155,6 +181,9 @@ def sign_up():
             users_manager.add_user(username, password, email, auto_share)
             session['username'] = username
             session['password'] = password
+            gang_code = gang_manager.add_gang("ההיסטוריה שלי", username, password)
+            users_manager.add_history(username, password, gang_code)
+            users_manager.add_gang(username, password, gang_code, "ההיסטוריה שלי")
             return "OK", HTTP_OK
         except exceptions.UserExists as e:
             return str(e), HTTP_DUPLICATE
@@ -251,37 +280,25 @@ def create_gang():
         return str(e), HTTP_BAD
 
 
-@app.route('/get_problems', methods=["GET"])
-def get_problems():
+@app.route('/get_problem', methods=["GET"])
+def get_problem():
     username = session.get("username")
     password = session.get("password")
     gang_code = request.args.get("gang_code")
     problem_name = request.args.get("problem_name")
     try:
         if username and password and gang_manager.is_user_in_gang(gang_code, username, password):
-            problem = gang_manager.get_problem(gang_code, problem_name, username, password)
-            return problem, HTTP_OK
+            problem, solutions = gang_manager.get_problem(gang_code, problem_name, username, password)
+            return json.dumps(problem), HTTP_OK
         return "not found", HTTP_BAD
     except Exception as e:
         return str(e), HTTP_BAD
 
 
-@app.route('/problems_names', methods=["GET"])
-def get_problems_names():
-    username = session.get("username")
-    password = session.get("password")
-    gang_code = request.args.get("gang_code")
-    try:
-        if username and password and gang_manager.is_user_in_gang(gang_code, username, password):
-            names = list(gang_manager.get_problems_names(gang_code, username, password))
-            return jsonify(names), HTTP_OK
-        return "not found", HTTP_BAD
-    except Exception as e:
-        return str(e), HTTP_BAD
-
-
-@app.route('/problems/<gang_code>/<problem_name>')
-def get_problem(gang_code, problem_name):
+@app.route('/problem', methods=["POST"])
+def get_problem_page():
+    gang_code = request.form["gang_code"]
+    problem_name = request.form["problem_name"]
     username = session.get("username")
     password = session.get("password")
     try:
@@ -290,6 +307,20 @@ def get_problem(gang_code, problem_name):
             return render_template("/problem.html",
                                    gang_code=gang_code, problem_name=problem_name,
                                    solutions_names=json.dumps(list(solutions)))
+        return "not found", HTTP_BAD
+    except Exception as e:
+        return str(e), HTTP_BAD
+
+
+@app.route('/problems_names')
+def get_problems_names():
+    username = session.get("username")
+    password = session.get("password")
+    gang_code = request.args.get("gang_code")
+    try:
+        if username and password and gang_manager.is_user_in_gang(gang_code, username, password):
+            names = list(gang_manager.get_problems_names(gang_code, username, password))
+            return jsonify(names), HTTP_OK
         return "not found", HTTP_BAD
     except Exception as e:
         return str(e), HTTP_BAD
