@@ -18,7 +18,7 @@ function AddSolution() {
             return
         }
         file = files[0]
-        if (!file.name.endsWith(".jpg") && !file.name.endsWith(".jpeg") && !file.name.endsWith(".png")) {
+        if (!file.type.startsWith("image")) {
             alert("הקובץ צריך להיות תמונה")
             file = null
             return

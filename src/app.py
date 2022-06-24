@@ -183,7 +183,7 @@ def sign_up():
             users_manager.add_user(username, password, email, auto_share)
             session['username'] = username
             session['password'] = password
-            history_name = "ההיסטוריה של " + username
+            history_name = "ההיסטוריה של: " + username
             gang_code = gang_manager.add_gang(history_name, username, password)
             users_manager.add_history(username, password, gang_code)
             users_manager.add_gang(username, password, gang_code, history_name)

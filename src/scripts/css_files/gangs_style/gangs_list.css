@@ -48,6 +48,7 @@ button.style_1, button.new_gang {
     background: #3597c5 ! important;
     color: #fff;
     margin: 3%;
+    min-width: 100px;
     width: 15%;
     opacity: 100%;
 }

@@ -15,5 +15,5 @@ ReactDOM.render(<ProblemsList/>, domContainer)
 domContainer = document.querySelector('.add_problem')
 ReactDOM.render(<AddProblem gang_code={gang_code}/>, domContainer)
 
-document.querySelector('.unsubscribe')
+domContainer = document.querySelector('.unsubscribe')
 ReactDOM.render(<UnsubscribeGang gang_code={gang_code}/>, domContainer)
