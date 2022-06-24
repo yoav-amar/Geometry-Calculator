@@ -59,8 +59,9 @@ def is_user_in_gang(gang_code, username, password):
 # check if in use
 def get_gang_name(username, password, gang_code):
     is_user_in_gang(gang_code, username, password)
-    gang = gangs_db.find_one({"gang_code": int(gang_code)}, {"gang_name": True})
-    return gang["gang_name"]
+    gang = gangs_db.find_one({"gang_code": int(gang_code)}, {"gang_name": True, "admin": True})
+    is_admin = gang["admin"] == username
+    return is_admin, gang["gang_name"]
 
 
 def remove_member_from_gang(gang_code, admin_name, admin_password, member_name):
