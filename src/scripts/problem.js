@@ -28,7 +28,7 @@ class SolutionsManager extends React.Component {
                 <div >
                     <h3>שם הפתרון: {this.state.solution_name}</h3>
                     <img src={this.state.picture}></img>
-                    <button onClick={this.on_present_solutions_list.bind(this)}>חזור לרשימת הפתרונות</button>
+                    <button class="style_1" onClick={this.on_present_solutions_list.bind(this)}>חזור לרשימת הפתרונות</button>
                 </div>
 
             )

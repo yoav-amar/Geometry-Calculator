@@ -11,7 +11,7 @@ class Problem extends React.Component {
             contentType: 'application/json;charset=UTF-8',
             type: "get",
             success: function (data) {
-                $("#main_body").load('/present_problem/' + this.props.gang_code, {problem: data, problem_name: this.props.value})
+                $("#main_body").load('/present_problem/' + this.props.gang_code, {problem: data, problem_name: this.props.value, is_admin: this.props.is_admin})
             }.bind(this),
             error: function (jqXHR) {
                 if (jqXHR.status == 400) {
@@ -36,6 +36,7 @@ class ProblemsList extends React.Component {
         this.gang_name = null
         this.gang_code = null
         this.problems = null
+        this.is_admin = JSON.parse(document.getElementById("is_admin").innerHTML)
     }
     render() {
 
@@ -61,7 +62,7 @@ class ProblemsList extends React.Component {
         return (
             <div>
                 {this.problems.map(function (problem_name) {
-                    return <Problem value={problem_name} gang_code={this.gang_code} key={problem_name} />
+                    return <Problem value={problem_name} gang_code={this.gang_code} is_admin={this.is_admin} key={problem_name} />
 
                 }.bind(this))}
             </div>
