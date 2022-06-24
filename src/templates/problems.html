@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>C&E</title>
+
+</head>
+<body style="width: 100%; height: 100%; margin: 0;">
+   <div class="background_wrapper">
+        <div class="problems">
+            <h1 class="gang_name" id="gang_name" direction="rtl">{{gang_name}}</h1>
+            <p class="is_admin" id="is_admin" hidden>{{is_admin}}</p>
+            <h2 class="gang_code" id="gang_code">קוד הקבוצה הוא: {{gang_code}}</h2>
+            <div class="problems_list">
+            </div>
+            <div class="add_problem"></div>
+            <div class="unsubscribe"></div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{url_for('static', filename='problems.js')}}"></script>
+</body>
+</html>

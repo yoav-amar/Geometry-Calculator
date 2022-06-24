@@ -1,0 +1,77 @@
+div.problems {
+    background-color: #9ad1d4;
+    border-radius: 25px;
+    border: 2px solid #000000;
+    display: block;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    width: 50%;
+    margin-top: 3%;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+form {
+    text-align: right;
+    padding-right: 20%;
+    margin-top: 7px;
+}
+
+input.gang_2,
+button.style_1,button.new_gang_2, button.gangs_list_2 {
+    border: none;
+    outline: none;
+    height: 34px;
+    vertical-align: middle;
+    position: relative;
+    bottom: 14px;
+    right: 9px;
+    border-radius: 22px;
+    width: 30%;
+    box-sizing: border-box;
+    min-width: 100px;
+
+}
+
+
+input.gang_2[type="submit"],
+button.style_1, button.new_gang_2, button.gangs_list_2 {
+    background: #3597c5 ! important;
+    color: #fff;
+    margin: 3%;
+    width: 15%;
+    opacity: 100%;
+}
+
+input.gang_2[type="submit"]:hover,
+button.style_1:hover, button.new_gang_2:hover, button.gangs_list_2:hover {
+    background: #036897 ! important;
+}
+
+button.new_gang_2 {
+    width: 30%;
+}
+
+button.gangs_list_2 {
+    flex: 1 0 34%;
+}
+
+h1 {
+    font-style: italic;
+    color: #000000;
+    text-align: center;
+    font-size: 1.4em;
+    margin: 5%;
+}
+
+div.background_wrapper{
+    background-color:#ffffff;
+    width: 100%;
+    height: 100%;
+    background-size: 30px 30px;
+    background-image:
+        linear-gradient(to right, grey 1px, transparent 1px),
+        linear-gradient(to bottom, grey 1px, transparent 1px);
+    margin: 0;
+}

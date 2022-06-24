@@ -1,0 +1,86 @@
+div.settings_list {
+    background-color: #a0b5c9;
+    border-radius: 25px;
+    border: 2px solid #000000;
+    display: block;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 10px;
+    width: 40%;
+    max-width: 360px;
+}
+
+div.outer_settings {
+    background-color: #9ad1d4;
+    border-radius: 25px;
+    border: 2px solid #000000;
+    display: block;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    width: 55%;
+    margin-top: 5%;
+
+}
+
+div.page_name {
+    display: inline-block;
+    vertical-align: middle;
+    height: min-content;
+    font-family: "Georgia", serif;
+    font-size: 32px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #000;
+}
+
+div.settings_wrapper {
+    display: flex;
+}
+
+input.gang_1 {
+    border: none;
+    outline: none;
+    display: inline-block;
+    height: 34px;
+    vertical-align: middle;
+    position: relative;
+    bottom: 14px;
+    margin-top: 5px;
+    right: 9px;
+    border-radius: 22px;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 0 18px;
+}
+
+input.gang_1[type="submit"] {
+    background: #3597c5 ! important;
+    color: #fff;
+    margin: 3%;
+    margin-top: 5px;
+    width: 30%;
+    opacity: 100%;
+}
+
+input.gang_1[type="submit"]:hover {
+    background: #036897 ! important;
+}
+
+input.gang_1[type="checkbox"] {
+    background: rgba(101, 106, 106, 0.33) ! important;
+    color: #fff;
+    position: relative;
+    width: 10px;
+    opacity: 100%;
+    bottom: auto;
+    right: auto;
+}
+
+
+label.gang_1 {
+    margin-top: 5px;
+    display: block;
+}

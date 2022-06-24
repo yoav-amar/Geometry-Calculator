@@ -1,0 +1,52 @@
+div.solution_table{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+table.solution_table{
+    border-left: black solid 3px;
+    box-sizing: border-box;
+    background-color: #68b2d4;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    border-spacing:0;
+    border-collapse: collapse;
+}
+
+table.solution_table th{
+    border-bottom: black solid 3px;
+    background-color: #bfbfbf;
+    box-sizing: border-box;
+}
+
+table.solution_table th.title{
+    font-size: 25px;
+}
+
+table.solution_table td{
+    border-bottom: black solid 1px;
+    border-left: black solid 1px;
+    vertical-align: top;
+    padding: 3px;
+}
+
+table.solution_table td.claim{
+    font-size: 20px;
+    text-align: center;
+    direction: rtl;
+}
+
+table.solution_table td.explain{
+    font-size: 20px;
+    direction: rtl;
+}
+
+table.solution_table tr{
+    height: 0;
+}
+
+table.solution_table tr:last-child{
+    height:auto;
+}

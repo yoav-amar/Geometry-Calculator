@@ -1,0 +1,35 @@
+html, body {
+    height: 100%;
+}
+div.menu_options_wrapper {
+    display: table-cell;
+    padding: 3px;
+}
+
+div.menu_options {
+    display: block;
+    vertical-align: middle;
+    max-width: 0;
+    visibility: hidden;
+    opacity: 0;
+
+    transition: all 0.7s linear;
+    overflow: hidden;
+}
+
+div.menu_options.open {
+    max-width: 200px;
+    visibility: visible;
+    opacity: 1;
+}
+
+div.menu_button{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+div.main_menu{
+    display: table;
+    position: relative;
+    float: right;
+}

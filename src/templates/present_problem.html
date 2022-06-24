@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="width: 100%; height: 100%; margin: 0;">
+    <p id="problem">{{problem}}</p>
+    <p id="gang_id">{{gang_id}}</p>
+    <p id="problem_name" hidden>{{problem_name}}</p>
+    <p id="is_admin" hidden>{{is_admin}}</p>
+
+    <div class="draw_space_present" id="draw_space_present"></div>
+    <div class="data_space_present" id="data_space_present"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{url_for('static', filename='present_problem.js')}}"></script>
+</body>
+</html>
