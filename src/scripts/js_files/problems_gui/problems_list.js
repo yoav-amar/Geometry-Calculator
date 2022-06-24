@@ -5,15 +5,13 @@ class Problem extends React.Component {
         super(props)
     }
     direct_problem_page() {
-        // $("#main_body").load('/problem', { gang_code: this.props.gang_code, problem_name: this.props.value })
         jQuery.ajax({
             url: "/get_problem",
             data: { gang_code: this.props.gang_code, problem_name: this.props.value },
             contentType: 'application/json;charset=UTF-8',
             type: "get",
             success: function (data) {
-                alert(this.props.problem_name)
-                $("#main_body").load('/present_problem/' + this.props.gang_code, {problem: data, problem_name: this.props.problem_name})
+                $("#main_body").load('/present_problem/' + this.props.gang_code, {problem: data, problem_name: this.props.value})
             }.bind(this),
             error: function (jqXHR) {
                 if (jqXHR.status == 400) {

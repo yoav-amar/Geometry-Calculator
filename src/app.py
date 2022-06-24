@@ -342,5 +342,24 @@ def get_solution():
         return str(e), HTTP_BAD
 
 
+@app.route("/add_solution", methods=["POST"])
+def add_solution():
+    req = request.get_json()
+    username = session.get("username")
+    password = session.get("password")
+    gang_code = req.get("gang_code")
+    problem_name = req.get("problem_name")
+    solution_name = req.get("solution_name")
+    solution = req.get("solution")
+    try:
+        if username and password and gang_code and problem_name and solution_name and solution \
+                and gang_manager.is_user_in_gang(gang_code, username, password):
+            gang_manager.add_solution(gang_code, username, password, problem_name, solution_name, solution)
+            return "OK", HTTP_OK
+        return "not found", HTTP_BAD
+    except Exception as e:
+        return str(e), HTTP_BAD
+
+
 if __name__ == '__main__':
     app.run()

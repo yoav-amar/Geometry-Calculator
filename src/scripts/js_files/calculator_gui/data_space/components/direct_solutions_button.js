@@ -9,9 +9,7 @@ class DirectSolutions extends React.Component {
     }
 
     onClick(e) {
-        alert(this.props.gang_code)
         let prob_name = document.getElementById("problem_name").innerHTML
-        alert(prob_name)
         $("#main_body").load('/problem', { gang_code: this.props.gang_code, problem_name: prob_name })
 
     }

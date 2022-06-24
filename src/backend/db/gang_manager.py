@@ -214,4 +214,4 @@ def get_solution(gang_code, username, password, problem_name, solution_name):
 
 
 if __name__ == '__main__':
-    add_problem(693121, "yoavyoav", "hutc12", "hey", "hrthrthtrh")
+    add_solution(944093, "nadav", "hutc12", "שלום", "hello", "heyhtey")

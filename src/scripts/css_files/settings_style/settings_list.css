@@ -40,7 +40,7 @@ div.settings_wrapper {
     display: flex;
 }
 
-input.gang {
+input.gang_1 {
     border: none;
     outline: none;
     display: inline-block;
@@ -56,7 +56,7 @@ input.gang {
     padding: 0 18px;
 }
 
-input.gang[type="submit"] {
+input.gang_1[type="submit"] {
     background: #3597c5 ! important;
     color: #fff;
     margin: 3%;
@@ -65,11 +65,11 @@ input.gang[type="submit"] {
     opacity: 100%;
 }
 
-input.gang[type="submit"]:hover {
+input.gang_1[type="submit"]:hover {
     background: #036897 ! important;
 }
 
-input.gang[type="checkbox"] {
+input.gang_1[type="checkbox"] {
     background: rgba(101, 106, 106, 0.33) ! important;
     color: #fff;
     position: relative;
@@ -80,7 +80,7 @@ input.gang[type="checkbox"] {
 }
 
 
-label.gang {
+label.gang_1 {
     margin-top: 5px;
     display: block;
 }

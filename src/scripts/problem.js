@@ -16,7 +16,6 @@ class SolutionsManager extends React.Component {
     }
 
     on_present_solution(name, pic) {
-        alert(1)
         this.setState({ is_solution_presented: true, solution_name: name, picture: pic })
     }
     on_present_solutions_list() {
@@ -26,9 +25,9 @@ class SolutionsManager extends React.Component {
     render() {
         if (this.state.is_solution_presented) {
             return (
-                <div>
-                    <p>{this.state.solution_name}</p>
-                    <p>{this.state.picture}</p>
+                <div >
+                    <h3>שם הפתרון: {this.state.solution_name}</h3>
+                    <img src={this.state.picture}></img>
                     <button onClick={this.on_present_solutions_list.bind(this)}>חזור לרשימת הפתרונות</button>
                 </div>
 
@@ -37,7 +36,9 @@ class SolutionsManager extends React.Component {
         return (
             <div>
                 <SolutionsList onClick={this.on_present_solution.bind(this)} />
-                <AddSolution />
+                <div className='add_solution'>
+                    <AddSolution />
+                </div>
             </div>
         )
 
@@ -47,22 +48,4 @@ class SolutionsManager extends React.Component {
 
 let domContainer = document.querySelector('.solutions')
 ReactDOM.render(<SolutionsManager />, domContainer)
-let gang_code = document.getElementById("gang_code").innerHTML
-let problem_name = document.getElementById("problem_name").innerHTML
-
-jQuery.ajax({
-    url: "/get_problem",
-    data: { gang_code: gang_code, problem_name: problem_name },
-    contentType: 'application/json;charset=UTF-8',
-    type: "get",
-    success: function (data) {
-        $("#main_body").load('/present_problem/' + gang_code, {problem: data})
-    },
-    error: function (jqXHR) {
-        if (jqXHR.status == 400) {
-            alert(jqXHR.responseText)
-
-        }
-    }
-});
 

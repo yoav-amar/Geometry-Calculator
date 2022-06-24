@@ -18,8 +18,8 @@ form {
     margin-top: 7px;
 }
 
-input.gang,
-button.style_1,button.new_gang, button.gangs_list {
+input.gang_2,
+button.style_1,button.new_gang_2, button.gangs_list_2 {
     border: none;
     outline: none;
     height: 34px;
@@ -35,8 +35,8 @@ button.style_1,button.new_gang, button.gangs_list {
 }
 
 
-input.gang[type="submit"],
-button.style_1, button.new_gang, button.gangs_list {
+input.gang_2[type="submit"],
+button.style_1, button.new_gang_2, button.gangs_list_2 {
     background: #3597c5 ! important;
     color: #fff;
     margin: 3%;
@@ -44,16 +44,16 @@ button.style_1, button.new_gang, button.gangs_list {
     opacity: 100%;
 }
 
-input.gang[type="submit"]:hover,
-button.style_1:hover, button.new_gang:hover, button.gangs_list:hover {
+input.gang_2[type="submit"]:hover,
+button.style_1:hover, button.new_gang_2:hover, button.gangs_list_2:hover {
     background: #036897 ! important;
 }
 
-button.new_gang {
+button.new_gang_2 {
     width: 30%;
 }
 
-button.gangs_list {
+button.gangs_list_2 {
     flex: 1 0 34%;
 }
 
