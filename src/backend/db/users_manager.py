@@ -44,6 +44,17 @@ def add_gang(username, password, gang_code, gang_name):
         "$set": {"my_gangs": gangs}})
 
 
+def remove_gang(username, password, gang_code):
+    is_user_ok(username, password)
+    query = {"username": username}
+    user = users.find_one(query)
+    gangs = user["my_gangs"]
+    if gang_code in gangs.keys():
+        gangs.pop(gang_code)
+    users.update_one({"username": username}, {
+        "$set": {"my_gangs": gangs}})
+
+
 def add_history(username, password, history_code):
     is_user_ok(username, password)
     query = {"username": username}

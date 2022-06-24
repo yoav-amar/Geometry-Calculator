@@ -401,6 +401,23 @@ def delete_solution():
         return str(e), HTTP_BAD
 
 
+@app.route("/remove_user_from_gang", methods=["DELETE"])
+def remove_user_from_gang():
+    username = session.get("username")
+    password = session.get("password")
+    req = request.get_json()
+    gang_code = req.get("gang_code")
+    try:
+        if username and password and gang_code and gang_manager.is_user_in_gang(gang_code, username,
+                                                                                password):
+            gang_manager.remove_member_from_gang(gang_code, username, password)
+            users_manager.remove_gang(username, password, gang_code)
+            return "OK", HTTP_OK
+        return "not found", HTTP_BAD
+    except Exception as e:
+        return str(e), HTTP_BAD
+
+
 if __name__ == '__main__':
     with open("backend/db/one_time_config.json", "r") as file:
         config = json.load(file)

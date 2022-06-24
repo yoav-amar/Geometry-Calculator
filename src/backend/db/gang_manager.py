@@ -64,14 +64,14 @@ def get_gang_name(username, password, gang_code):
     return is_admin, gang["gang_name"]
 
 
-def remove_member_from_gang(gang_code, admin_name, admin_password, member_name):
+def remove_member_from_gang(gang_code, username, password):
     gang = gangs_db.find_one({"gang_code": int(gang_code)}, {"members": True})
     if not gang:
         raise GangNotFound()
-    is_user_ok(admin_name, admin_password)
+    is_user_ok(username, password)
     members = gang["members"]
-    if member_name in members.keys():
-        members.pop(member_name)
+    if username in members.keys():
+        members.pop(username)
     gangs_db.update_one({"gang_code": int(gang_code)}, {
         "$set": {"members": members}})
 
