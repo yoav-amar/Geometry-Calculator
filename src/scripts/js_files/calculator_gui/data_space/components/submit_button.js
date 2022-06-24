@@ -29,9 +29,12 @@ class SubmitButton extends React.Component {
                       drawing: JSON.stringify({drawing:drawingSaveInfo})})
               }
           },
-          error : (data) => {
-              alert('Got An Error Sending To Server Please Try Again')
-          }
+          error: function (jqXHR) {
+            if (jqXHR.status == 400) {
+                alert(jqXHR.responseText)
+
+            }
+        }
       });
   }
 

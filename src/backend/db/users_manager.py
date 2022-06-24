@@ -85,3 +85,9 @@ def change_field(username: str, password: str, field: str, new_value: str):
         users.update_one({"username": username}, {"$set": {field: new_value}})
         return True
     raise Exception("unknown exception")
+
+
+def is_auto_share(username, password):
+    is_user_ok(username, password)
+    user = users.find_one({"username": username}, {"auto_share": True})
+    return user["auto_share"]

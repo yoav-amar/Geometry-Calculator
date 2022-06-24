@@ -1,11 +1,14 @@
 import React from 'react'
 
+
+let file = null
+
+
 function AddSolution() {
     // drag state
     const [dragActive, setDragActive] = React.useState(false);
     // ref
     const inputRef = React.useRef(null);
-    let file = null
     let gang_code = document.getElementById("gang_code").innerHTML
     let problem_name = document.getElementById("problem_name").innerHTML.substring(21)
 
@@ -17,6 +20,7 @@ function AddSolution() {
         file = files[0]
         if (!file.name.endsWith(".jpg") && !file.name.endsWith(".jpeg") && !file.name.endsWith(".png")) {
             alert("הקובץ צריך להיות תמונה")
+            file = null
             return
         }
         document.getElementById("upload_button").innerHTML = "נבחר קובץ"
@@ -101,7 +105,7 @@ function AddSolution() {
         [<h1> העלה פתרון חדש</h1>,
         <form id="form-file-upload" onDragEnter={handleDrag} onSubmit={(e) => e.preventDefault()}>
             <label>
-                <input className="gang_3" type={"text"} id="new_solution_name" name='new_solution_name'></input>
+                <input className="gang_3" type={"text"} dir="rtl" placeholder="שם הפתרון" id="new_solution_name" name='new_solution_name'></input>
                 הוסף שם לפתרון
             </label>
             <input className="new_solution" ref={inputRef} type="file" id="input-file-upload" multiple={false} onChange={handleChange} accept='image/*' />

@@ -80,3 +80,9 @@ class SolutionNotFound(Exception):
     def __init__(self, message="הפתרון לא נמצא"):
         super().__init__()
         self.args += (message,)
+
+
+class BadName(Exception):
+    def __init__(self, message="אי אפשר לתת שם ריק"):
+        super().__init__()
+        self.args += (message,)

@@ -77,7 +77,7 @@ def remove_member_from_gang(gang_code, admin_name, admin_password, member_name):
 
 
 def add_member_to_gang(gang_code, username, password):
-    gang = gangs_db.find_one({"gang_code": gang_code})
+    gang = gangs_db.find_one({"gang_code": int(gang_code)})
     if not gang:
         raise GangNotFound()
     is_user_ok(username, password)
@@ -131,6 +131,8 @@ def add_problem(gang_code, username, password, problem_name, problem):
     problems = gang["problems"]
     if problem_name in problems.keys():
         raise ProblemExists()
+    if problem_name == "":
+        raise BadName()
     problems[problem_name] = {"problem": problem, "solutions": {}}
     gangs_db.update_one({"gang_code": int(gang_code)}, {
         "$set": {"problems": problems}})
@@ -184,7 +186,7 @@ def remove_problem(gang_code, username, password, problem_name):
     problems = gang["problems"]
     if problem_name in problems.keys():
         problems.pop(problem_name)
-    gangs_db.update_one({"gang_name": int(gang_code)}, {
+    gangs_db.update_one({"gang_code": int(gang_code)}, {
         "$set": {"problems": problems}})
 
 

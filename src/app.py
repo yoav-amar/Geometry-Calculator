@@ -9,6 +9,7 @@ import json
 HTTP_OK = 200
 HTTP_BAD = 400
 HTTP_DUPLICATE = 409
+question_pool_code = 0
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -100,12 +101,12 @@ def calculator_save():
         print(problem)
         # list_str_to_list_json(problem['data']['givenData'])
         # list_str_to_list_json(problem['data']['proofData'])
-
         gang_code = req.get("gang_code")
         if not gang_code or gang_code == "" or gang_code == "0":
             gang_code = users_manager.get_history(username, password)
-            pass
         gang_manager.add_problem(gang_code, username, password, problem_name, problem)
+        if users_manager.is_auto_share(username, password):
+            gang_manager.add_problem(question_pool_code, username, password, problem_name, problem)
         return 'הבעיה נשמרה', HTTP_OK
     except Exception as e:
         return str(e), HTTP_BAD
@@ -185,6 +186,8 @@ def sign_up():
             gang_code = gang_manager.add_gang("ההיסטוריה שלי", username, password)
             users_manager.add_history(username, password, gang_code)
             users_manager.add_gang(username, password, gang_code, "ההיסטוריה שלי")
+            users_manager.add_gang(username, password, question_pool_code, "מאגר שאלות עולמי")
+            gang_manager.add_member_to_gang(question_pool_code, username, password)
             return "OK", HTTP_OK
         except exceptions.UserExists as e:
             return str(e), HTTP_DUPLICATE
@@ -380,4 +383,18 @@ def delete_problem():
 
 
 if __name__ == '__main__':
+    with open("backend/db/one_time_config.json", "r") as file:
+        config = json.load(file)
+        password = config["password"]
+        username = config["username"]
+        email = config["email"]
+        auto_share = config["auto_share"]
+    try:
+        users_manager.add_user(username, password, email, auto_share)
+        question_pool_code = gang_manager.add_gang("מאגר שאלות עולמי", username, password)
+        users_manager.add_gang(username, password, question_pool_code, "מאגר שאלות עולמי")
+    except Exception:
+        pool_gangs = users_manager.get_gangs(username, password)
+        question_pool_code = list(pool_gangs.keys()).pop()
+
     app.run()

@@ -17,7 +17,7 @@ class DeleteProblem extends React.Component {
             type: "delete",
             success: function (data) {
                 alert("הבעיה נמחקה בהצלחה")
-                $("#main_body").load('/')
+                window.location.href = window.location.href
             }.bind(this),
             error: function (jqXHR) {
                 if (jqXHR.status == 400) {

@@ -30,9 +30,12 @@ class PopupWindow extends React.Component {
           success : (data) => {
               alert(data)
           },
-          error : (data) => {
-              alert('Got An Error Sending To Server Please Try Again')
-          }
+          error: function (jqXHR) {
+            if (jqXHR.status == 400) {
+                alert(jqXHR.responseText)
+
+            }
+        }
       });
 
       this.props.popupWindowPlane.style.display = "none"
