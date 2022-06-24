@@ -28,6 +28,7 @@ table.solution_table th.title{
 table.solution_table td{
     border-bottom: black solid 1px;
     border-left: black solid 1px;
+    vertical-align: top;
     padding: 3px;
 }
 
@@ -40,4 +41,12 @@ table.solution_table td.claim{
 table.solution_table td.explain{
     font-size: 20px;
     direction: rtl;
+}
+
+table.solution_table tr{
+    height: 0;
+}
+
+table.solution_table tr:last-child{
+    height:auto;
 }
