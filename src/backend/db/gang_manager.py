@@ -178,6 +178,8 @@ def add_solution(gang_code, username, password, problem_name, solution_name, sol
 def remove_problem(gang_code, username, password, problem_name):
     gang = gangs_db.find_one({"gang_code": int(gang_code)})
     is_user_in_gang(gang_code, username, password)
+    if gang["admin"] != username:
+        raise Unauthorized()
     problems = gang["problems"]
     if problem_name in problems.keys():
         problems.pop(problem_name)

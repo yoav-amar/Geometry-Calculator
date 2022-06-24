@@ -39,8 +39,8 @@ def calculator_page_with_problem_to_load():
 
 @app.route('/present_problem/<gang_id>', methods=['POST'])
 def present_problem(gang_id):
-    return render_template("present_problem.html", problem=request.form['problem'], gang_id=gang_id,
-                           problem_name=request.form['problem_name'])
+    return render_template("present_problem.html", problem=request.form['problem'], is_admin=request.form['is_admin'],
+                           gang_id=gang_id, problem_name=request.form['problem_name'])
 
 
 @app.route('/calculator/<gang_id>', methods=['POST'])
@@ -355,6 +355,23 @@ def add_solution():
         if username and password and gang_code and problem_name and solution_name and solution \
                 and gang_manager.is_user_in_gang(gang_code, username, password):
             gang_manager.add_solution(gang_code, username, password, problem_name, solution_name, solution)
+            return "OK", HTTP_OK
+        return "not found", HTTP_BAD
+    except Exception as e:
+        return str(e), HTTP_BAD
+
+
+@app.route("/delete_problem", methods=["DELETE"])
+def delete_problem():
+    username = session.get("username")
+    password = session.get("password")
+    req = request.get_json()
+    gang_code = req.get("gang_code")
+    problem_name = req.get("problem_name")
+    try:
+        if username and password and gang_code and problem_name and gang_manager.is_user_in_gang(gang_code, username,
+                                                                                                 password):
+            gang_manager.remove_problem(gang_code, username, password, problem_name)
             return "OK", HTTP_OK
         return "not found", HTTP_BAD
     except Exception as e:

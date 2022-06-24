@@ -10,6 +10,12 @@ class UserExists(Exception):
         self.args += (message,)
 
 
+class Unauthorized(Exception):
+    def __init__(self, message="אין הרשאות לביצוע הפעולה"):
+        super().__init__()
+        self.args += (message,)
+
+
 class HistoryExists(Exception):
     def __init__(self, message="ההיסטוריה כבר קיימת"):
         super().__init__()
