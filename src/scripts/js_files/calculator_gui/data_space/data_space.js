@@ -1,6 +1,6 @@
 import React from 'react'
 import 'css_files/calculator_gui/data_space/data_space.css'
-
+import DeleteProblem from './components/delete_problem'
 import DataInput from "./components/data_input"
 import DataLabel from "./components/data_label"
 import SymbolTable from "./components/symbol_table"
@@ -22,7 +22,12 @@ class DataSpace extends React.Component {
         this.loadProblem = this.loadProblem.bind(this)
         this.getSaveInfo = this.getSaveInfo.bind(this)
         this.addData = this.addData.bind(this)
-
+        this.is_admin = false
+        try{
+            this.is_admin = JSON.parse(document.getElementById("is_admin").innerHTML)
+        }
+        catch(err){
+        }
         this.givenDataLabels = []
         this.proofDataLabels = []
     }
@@ -118,10 +123,19 @@ class DataSpace extends React.Component {
                 }
                 {
                     this.isPresentMode ?
-                        <div style={{ display: "flex", width: "100%" }}>
-                            <DirectSolutions gang_code={this.props.gangId} />
-                            <DirectCalculator gang_code={this.props.gangId} />
-                        </div>
+                        this.is_admin ?
+                            [<div style={{ display: "flex", width: "100%" }}>
+                                <DeleteProblem gang_code={this.props.gangId} />
+                            </div>,
+                            <div style={{ display: "flex", width: "100%" }}>
+                                <DirectSolutions gang_code={this.props.gangId} />
+                                <DirectCalculator gang_code={this.props.gangId} />
+                            </div>
+                            ] :
+                            <div style={{ display: "flex", width: "100%" }}>
+                                <DirectSolutions gang_code={this.props.gangId} />
+                                <DirectCalculator gang_code={this.props.gangId} />
+                            </div>
 
                         : []
                 }
