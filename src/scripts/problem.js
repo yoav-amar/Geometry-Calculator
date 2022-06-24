@@ -2,8 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import SolutionsList from 'js_files/problem_gui/solutions.js'
 import AddSolution from 'js_files/problem_gui/add_solution.js'
+import DeleteSolution from './js_files/problem_gui/delete_solution'
 import './css_files/problem_style/problem.css'
 import './css_files/problem_style/solutions.css'
+
+
+
+
 
 class SolutionsManager extends React.Component {
     constructor(props) {
@@ -24,9 +29,21 @@ class SolutionsManager extends React.Component {
 
     render() {
         if (this.state.is_solution_presented) {
+            let is_admin = JSON.parse(document.getElementById("is_admin").innerHTML)
+            let gang_code = document.getElementById("gang_code").innerHTML
+            if (is_admin){
+                return(
+                    <div >
+                    <h3 id='solution_name'>שם הפתרון: {this.state.solution_name}</h3>
+                    <img src={this.state.picture}></img>
+                    <button class="style_1" onClick={this.on_present_solutions_list.bind(this)}>חזור לרשימת הפתרונות</button>
+                    <DeleteSolution gang_code ={gang_code} ></DeleteSolution>
+                </div>
+                )
+            }
             return (
                 <div >
-                    <h3>שם הפתרון: {this.state.solution_name}</h3>
+                    <h3 id='solution_name'>שם הפתרון: {this.state.solution_name}</h3>
                     <img src={this.state.picture}></img>
                     <button class="style_1" onClick={this.on_present_solutions_list.bind(this)}>חזור לרשימת הפתרונות</button>
                 </div>

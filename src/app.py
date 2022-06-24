@@ -308,8 +308,9 @@ def get_problem_page():
     try:
         if username and password and gang_manager.is_user_in_gang(gang_code, username, password):
             problem, solutions = gang_manager.get_problem(gang_code, problem_name, username, password)
+            is_admin, gang_name = gang_manager.get_gang_name(username, password, gang_code)
             return render_template("/problem.html",
-                                   gang_code=gang_code, problem_name=problem_name,
+                                   gang_code=gang_code, problem_name=problem_name, is_admin=json.dumps(is_admin),
                                    solutions_names=json.dumps(list(solutions)))
         return "not found", HTTP_BAD
     except Exception as e:
@@ -376,6 +377,24 @@ def delete_problem():
         if username and password and gang_code and problem_name and gang_manager.is_user_in_gang(gang_code, username,
                                                                                                  password):
             gang_manager.remove_problem(gang_code, username, password, problem_name)
+            return "OK", HTTP_OK
+        return "not found", HTTP_BAD
+    except Exception as e:
+        return str(e), HTTP_BAD
+
+
+@app.route("/delete_solution", methods=["DELETE"])
+def delete_solution():
+    username = session.get("username")
+    password = session.get("password")
+    req = request.get_json()
+    gang_code = req.get("gang_code")
+    problem_name = req.get("problem_name")
+    solution_name = req.get("solution_name")
+    try:
+        if username and password and gang_code and problem_name and gang_manager.is_user_in_gang(gang_code, username,
+                                                                                                 password):
+            gang_manager.remove_solution(gang_code, username, password, problem_name, solution_name)
             return "OK", HTTP_OK
         return "not found", HTTP_BAD
     except Exception as e:

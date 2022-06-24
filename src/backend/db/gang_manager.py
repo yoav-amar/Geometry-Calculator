@@ -191,7 +191,7 @@ def remove_problem(gang_code, username, password, problem_name):
 
 
 def remove_solution(gang_code, username, password, problem_name, solution_name):
-    gang = gangs_db.find_one({"gang_name": int(gang_code)})
+    gang = gangs_db.find_one({"gang_code": int(gang_code)})
     is_user_in_gang(gang_code, username, password)
     problems = gang["problems"]
     problem = problems.get(problem_name)
@@ -200,7 +200,7 @@ def remove_solution(gang_code, username, password, problem_name, solution_name):
     solutions = problem["solutions"]
     if solution_name in solutions.keys():
         solutions.pop(solution_name)
-    gangs_db.update_one({"gang_name": int(gang_code)}, {
+    gangs_db.update_one({"gang_code": int(gang_code)}, {
         "$set": {"problems": problems}})
 
 
