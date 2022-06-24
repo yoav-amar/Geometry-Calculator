@@ -183,9 +183,10 @@ def sign_up():
             users_manager.add_user(username, password, email, auto_share)
             session['username'] = username
             session['password'] = password
-            gang_code = gang_manager.add_gang("ההיסטוריה שלי", username, password)
+            history_name = "ההיסטוריה של " + username
+            gang_code = gang_manager.add_gang(history_name, username, password)
             users_manager.add_history(username, password, gang_code)
-            users_manager.add_gang(username, password, gang_code, "ההיסטוריה שלי")
+            users_manager.add_gang(username, password, gang_code, history_name)
             users_manager.add_gang(username, password, question_pool_code, "מאגר שאלות עולמי")
             gang_manager.add_member_to_gang(question_pool_code, username, password)
             return "OK", HTTP_OK
