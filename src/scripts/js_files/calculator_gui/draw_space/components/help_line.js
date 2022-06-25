@@ -85,19 +85,21 @@ class HelpLine extends React.Component {
       let firstDist = Math.sqrt((this.line.props.x1 - x)**2 + (this.line.props.y1 - y)**2)
       let secondDist = Math.sqrt((this.line.props.x2 - x)**2 + (this.line.props.y2 - y)**2)
 
-      let x1,y1,x2,y2
+      let x1,y1,x2,y2, dot1Id, dot2Id
       if(firstDist > secondDist){
-          newDots.push(nextId)
-
+          dot1Id = this.line.props.dot1Id
           x1 = this.line.props.x1
           y1 = this.line.props.y1
+
+          dot2Id = nextId
           x2 = x
           y2 = y
       } else {
-          newDots.unshift(nextId)
-
+          dot1Id = nextId
           x1 = x
           y1 = y
+
+          dot2Id = this.line.props.dot2Id
           x2 = this.line.props.x2
           y2 = this.line.props.y2
       }
@@ -108,7 +110,7 @@ class HelpLine extends React.Component {
       // creating the new edge
       this.props.geometryCanvas.state.geometryElements.lines.push(
           <Line id={lineId} key={lineId} x1={x1} y1={y1} x2={x2} y2={y2}
-                dot1Id={newDots.at(0)} dot2Id={newDots.at(-1)}
+                dot1Id={dot1Id} dot2Id={dot2Id}
                 geometryCanvas={this.props.geometryCanvas}
                 isBroken={isBroken} ref={ref => this.line = ref}/>)
 
