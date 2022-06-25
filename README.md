@@ -1,7 +1,7 @@
 # Geometry-Calculator
 
 we created a web application to solve geometry problem. 
-you can a video about the project [link](https://link-url-here.org).
+you can a video about the project [link](https://youtu.be/vOHLU5SjxJI).
 
 
 
