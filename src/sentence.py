@@ -76,6 +76,35 @@ def sentence_25_1(graph, input_data):
     return out_data
 
 
+def sentence_25_2(graph, input_data):
+    print('25_2')
+    out_data = []
+
+    line_1 = input_data.fields[0]
+    line_2 = input_data.fields[1]
+
+    between_lines = graph.get_lines_intersect_with_lines([line_1, line_2])
+
+    for line in between_lines:
+        angle_1_1, angle_1_2 = graph.get_angle_between_lines(line_1, line)
+        angle_2_1, angle_2_2 = graph.get_angle_between_lines(line_2, line)
+
+        if angle_1_1 is not None and angle_2_2 is not None:
+            out_data.append(data.Data("זוויות שוות", [angle_1_1, angle_2_2], [input_data.data_id], '25_2'))
+        if angle_1_2 is not None and angle_2_1 is not None:
+            out_data.append(data.Data("זוויות שוות", [angle_1_2, angle_2_1], [input_data.data_id], '25_2'))
+
+        angle_3_1, angle_3_2 = graph.get_angle_between_lines(line, line_1, False)
+        angle_4_1, angle_4_2 = graph.get_angle_between_lines(line, line_2, False)
+
+        if angle_3_1 is not None and angle_4_2 is not None:
+            out_data.append(data.Data("זוויות שוות", [angle_3_1, angle_4_2], [input_data.data_id], '25_2'))
+        if angle_3_2 is not None and angle_4_1 is not None:
+            out_data.append(data.Data("זוויות שוות", [angle_3_2, angle_4_1], [input_data.data_id], '25_2'))
+
+    return out_data
+
+
 def sentence_105(graph, input_data):
     print('105')
     return graph.angle_manager.apply_transition_rule('105', input_data)
@@ -103,7 +132,7 @@ def sentence_12(graph, input_data):
 
         if num_known_angles == 2:
             out_data.append(data.Data("גודל זווית", [str(180 - known_angles_sum), unknown_angle],
-                                 known_angles_data_id, '12'))
+                                      known_angles_data_id, '12'))
 
     return out_data
 
@@ -118,17 +147,18 @@ def sentence_106(graph, input_data):
     if angle[1] == line[0]:
         dot_new_angles = line[1]
 
-    out_data.append(data.Data("זוויות שוות", [angle[0] + angle[1] + dot_new_angles, dot_new_angles + angle[1] + angle[2]],
-                         [input_data.data_id], '106'))
+    out_data.append(
+        data.Data("זוויות שוות", [angle[0] + angle[1] + dot_new_angles, dot_new_angles + angle[1] + angle[2]],
+                  [input_data.data_id], '106'))
 
     angle_size, data_id = graph.get_angle_size(angle)
 
     if angle_size is not None:
         out_data.append(data.Data("גודל זווית", [str(angle_size / 2), angle[0] + angle[1] + dot_new_angles],
-                             [input_data.data_id, data_id], '106'))
+                                  [input_data.data_id, data_id], '106'))
 
         out_data.append(data.Data("גודל זווית", [str(angle_size / 2), dot_new_angles + angle[1] + angle[2]],
-                             [input_data.data_id, data_id], '106'))
+                                  [input_data.data_id, data_id], '106'))
 
     return out_data
 
@@ -199,6 +229,13 @@ all_regular_sentences = [
         'representation': "זוויות מתאימות בין ישרים מקבילים שוות זו לזו",
         'input_data_type': ["ישרים מקבילים"],
         'apply_func': sentence_25_1
+    },
+    {
+        'sentence_id': '25_2',
+        'loc_type': 'general',
+        'representation': "זוויות מתחלפות בין ישרים מקבילים שוות זו לזו",
+        'input_data_type': ["ישרים מקבילים"],
+        'apply_func': sentence_25_2
     },
     {
         'sentence_id': '105',
