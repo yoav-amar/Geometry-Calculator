@@ -170,6 +170,27 @@ def sentence_12(graph, input_data):
     return out_data
 
 
+def sentence_1(graph, input_data):
+    print('1')
+    out_data = []
+    angle_size = input_data.fields[0]
+    angle_name = input_data.fields[1]
+    line_1 = angle_name[:2]
+    line_2 = angle_name[1:]
+    angles = list(graph.get_angle_between_lines(line_1, line_2))
+    angles.extend(list(graph.get_angle_between_lines(line_1, line_2, False)))
+    index = angles.index(angle_name)
+    supplementary_angle = angles[(index + 2 - index % 2) % 4]
+    if supplementary_angle:
+        out_data.append(
+            data.Data("גודל זווית", [str(180 - float(angle_size)), supplementary_angle], [input_data.data_id], '1'))
+    supplementary_angle = angles[(index + 3 - index % 2) % 4]
+    if supplementary_angle:
+        out_data.append(
+            data.Data("גודל זווית", [str(180 - float(angle_size)), supplementary_angle], [input_data.data_id], '1'))
+    return out_data
+
+
 def sentence_106(graph, input_data):
     print('106')
     out_data = []
@@ -242,12 +263,19 @@ def sentence_22(graph, input_data):
 
 
 all_regular_sentences = [
+    # {
+    #     'sentence_id': '3',
+    #     'loc_type': 'general',
+    #     'representation': "במשולש, מול זוויות שוות צלעות שוות",
+    #     'input_data_type': ["זוויות שוות"],
+    #     'apply_func': sentence_3
+    # },
     {
-        'sentence_id': '3',
+        'sentence_id': '1',
         'loc_type': 'general',
-        'representation': "במשולש, מול זוויות שוות צלעות שוות",
-        'input_data_type': ["זוויות שוות"],
-        'apply_func': sentence_3
+        'representation': "זוויות צמודות משלימות ל180 מעלות",
+        'input_data_type': ["גודל זווית"],
+        'apply_func': sentence_1
     },
     {
         'sentence_id': '4',
