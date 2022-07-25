@@ -89,6 +89,12 @@ class DataManager:
         return solution
 
 
+def is_same_section(section_1: str, section_2: str):
+    if section_1 == section_2:
+        return True
+    return section_1[0] == section_2[1] and section_1[1] == section_2[0]
+
+
 class Data:
     next_id = None
     graph = None
@@ -126,6 +132,16 @@ class Data:
                 return {self.graph.get_line_id(self.fields[0]), self.graph.get_line_id(self.fields[1])} == \
                        {self.graph.get_line_id(other.fields[0]), self.graph.get_line_id(other.fields[1])}
 
+            elif self.data_type == "קטעים שווים":
+                regular_order = is_same_section(self.fields[0], other.fields[0]) and is_same_section(self.fields[1],
+                                                                                                     other.fields[1])
+                other_order = is_same_section(self.fields[1], other.fields[0]) and is_same_section(self.fields[0],
+                                                                                                   other.fields[1])
+
+                return regular_order or other_order
+            elif self.data_type == "גודל קטע":
+                return is_same_section(self.fields[1], other.fields[1]) and float(self.fields[0]) == float(
+                    other.fields[0])
             else:
                 return set(self.fields) == set(other.fields)
 
