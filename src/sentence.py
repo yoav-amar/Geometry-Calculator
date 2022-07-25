@@ -110,6 +110,39 @@ def sentence_105(graph, input_data):
     return graph.angle_manager.apply_transition_rule('105', input_data)
 
 
+def sentence_3(graph, input_data):
+    print('3')
+    out_data = []
+    angle_1 = input_data.fields[0]
+    angle_2 = input_data.fields[1]
+    angle_1_lines = {graph.get_line_id(angle_1[0] + angle_1[1]), graph.get_line_id(angle_1[1]) + angle_1[2]}
+    angle_2_lines = {graph.get_line_id(angle_2[0] + angle_2[1]), graph.get_line_id(angle_2[1]) + angle_2[2]}
+    # check if they are in the same triangle
+    if angle_2_lines == angle_1_lines:
+        # TODO complete append data
+        out_data.append(
+            data.Data("קטעים שווים", [angle_1[0] + angle_1[2], angle_2[0] + angle_2[2]], input_data.data_id), '3')
+    return out_data
+
+
+def sentence_4(graph, input_data):
+    out_data = []
+    print('4')
+    line_1 = input_data.fields[0]
+    line_2 = input_data.fields[1]
+    # check if they are in the same triangle
+    common_dot = set(line_1).intersection(set(line_2))
+    if common_dot:
+        # TODO fix it
+        common_dot = common_dot.pop()
+        equal_angles = list(set(line_1).union(set(line_2)).remove(common_dot))
+        angle_1 = common_dot + equal_angles[0] + equal_angles[1]
+        angle_2 = common_dot + equal_angles[1] + equal_angles[0]
+        # TODO complete append data
+        out_data.append(data.Data("זוויות שוות", [angle_1, angle_2]), [input_data.data_id], '4')
+        return out_data
+
+
 def sentence_12(graph, input_data):
     print('12')
 
@@ -209,6 +242,13 @@ def sentence_22(graph, input_data):
 
 
 all_regular_sentences = [
+    {
+        'sentence_id': '3',
+        'loc_type': 'general',
+        'representation': "במשולש, מול זוויות שוות צלעות שוות",
+        'input_data_type': ["זוויות שוות"],
+        'apply_func': sentence_3
+    },
     {
         'sentence_id': '12',
         'loc_type': 'general',
