@@ -1,4 +1,5 @@
 import data
+from itertools import permutations
 
 
 class SentenceManager:
@@ -140,7 +141,8 @@ def sentence_4(graph, input_data):
         angle_1 = common_dot + equal_angles[0] + equal_angles[1]
         angle_2 = common_dot + equal_angles[1] + equal_angles[0]
         out_data.append(data.Data("זוויות שוות", [angle_1, angle_2], [input_data.data_id], '4'))
-        return out_data
+
+    return out_data
 
 
 def sentence_12(graph, input_data):
@@ -262,6 +264,151 @@ def sentence_22(graph, input_data):
     return out_data
 
 
+def sentence_107(graph, input_data):
+    print('107')
+    return graph.line_manager.apply_transition_rule('107', input_data)
+
+
+def sentence_108(graph, input_data):
+    print('108')
+
+    out_data = []
+
+    triangle_1 = input_data.fields[0]
+    triangle_2 = input_data.fields[1]
+
+    out_data.append(data.Data("קטעים שווים", [triangle_1[0] + triangle_1[1], triangle_2[0] + triangle_2[1]],
+                              [input_data.data_id], '108'))
+    out_data.append(data.Data("קטעים שווים", [triangle_1[1] + triangle_1[2], triangle_2[1] + triangle_2[2]],
+                              [input_data.data_id], '108'))
+    out_data.append(data.Data("קטעים שווים", [triangle_1[0] + triangle_1[2], triangle_2[0] + triangle_2[2]],
+                              [input_data.data_id], '108'))
+
+    return out_data
+
+
+def sentence_109(graph, input_data):
+    print('109')
+
+    out_data = []
+
+    triangle_1 = input_data.fields[0]
+    triangle_2 = input_data.fields[1]
+
+    out_data.append(data.Data("זוויות שוות", [triangle_1[0] + triangle_1[1] + triangle_1[2],
+                                              triangle_2[0] + triangle_2[1] + triangle_2[2]],
+                              [input_data.data_id], '109'))
+    out_data.append(data.Data("זוויות שוות", [triangle_1[1] + triangle_1[2] + triangle_1[0],
+                                              triangle_2[1] + triangle_2[2] + triangle_2[0]],
+                              [input_data.data_id], '109'))
+    out_data.append(data.Data("זוויות שוות", [triangle_1[2] + triangle_1[0] + triangle_1[1],
+                                              triangle_2[2] + triangle_2[0] + triangle_2[1]],
+                              [input_data.data_id], '109'))
+
+    return out_data
+
+
+def sentence_17(graph, input_data):
+    print('17')
+
+    def are_ordered_triangles_overlapping(t_1, t_2):
+        for _ in range(3):
+            are_angles_equal, angle_data_needed = graph.are_angles_equal(t_1, t_2)
+            are_lines_equal_1, lines_data_needed_1 = graph.are_lines_equal(t_1[0] + t_1[1], t_2[0] + t_2[1])
+            are_lines_equal_2, lines_data_needed_2 = graph.are_lines_equal(t_1[1] + t_1[2], t_2[1] + t_2[2])
+            if are_angles_equal and are_lines_equal_1 and are_lines_equal_2:
+                return True, [angle_data_needed, lines_data_needed_1, lines_data_needed_2]
+
+            t_1 = t_1[1] + t_1[2] + t_1[0]
+            t_2 = t_2[1] + t_2[2] + t_2[0]
+
+        return False, []
+
+    out_data = []
+
+    if input_data.data_type == "זוויות שוות":
+        triangles_1 = graph.get_all_triangles_from_angle(input_data.fields[0])
+        triangles_2 = graph.get_all_triangles_from_angle(input_data.fields[1])
+
+    if input_data.data_type == "קטעים שווים":
+        triangles_1 = graph.get_all_triangles_from_line(input_data.fields[0])
+        triangles_2 = graph.get_all_triangles_from_line(input_data.fields[1])
+
+    for triangle_1 in triangles_1:
+        for triangle_2 in triangles_2:
+            for triangle_2_order in [''.join(p) for p in permutations(triangle_2)]:
+                are_overlapping, data_needed = are_ordered_triangles_overlapping(triangle_1, triangle_2_order)
+                if are_overlapping:
+                    out_data.append(data.Data("משולשים חופפים", [triangle_1, triangle_2_order], data_needed, '17'))
+
+    return out_data
+
+
+def sentence_18(graph, input_data):
+    print('18')
+
+    def are_ordered_triangles_overlapping(t_1, t_2):
+        for _ in range(3):
+            are_lines_equal, lines_data_needed = graph.are_lines_equal(t_1[0] + t_1[1], t_2[0] + t_2[1])
+            are_angles_equal_1, angle_data_needed_1 = \
+                graph.are_angles_equal(t_1[0] + t_1[1] + t_1[2], t_2[0] + t_2[1] + t_2[2])
+            are_angles_equal_2, angle_data_needed_2 = \
+                graph.are_angles_equal(t_1[2] + t_1[0] + t_1[1], t_2[2] + t_2[0] + t_2[1])
+            if are_lines_equal and are_angles_equal_1 and are_angles_equal_2:
+                return True, [lines_data_needed, angle_data_needed_1, angle_data_needed_2]
+
+            t_1 = t_1[1] + t_1[2] + t_1[0]
+            t_2 = t_2[1] + t_2[2] + t_2[0]
+
+        return False, []
+
+    out_data = []
+
+    if input_data.data_type == "זוויות שוות":
+        triangles_1 = graph.get_all_triangles_from_angle(input_data.fields[0])
+        triangles_2 = graph.get_all_triangles_from_angle(input_data.fields[1])
+
+    if input_data.data_type == "קטעים שווים":
+        triangles_1 = graph.get_all_triangles_from_line(input_data.fields[0])
+        triangles_2 = graph.get_all_triangles_from_line(input_data.fields[1])
+
+    for triangle_1 in triangles_1:
+        for triangle_2 in triangles_2:
+            for triangle_2_order in [''.join(p) for p in permutations(triangle_2)]:
+                are_overlapping, data_needed = are_ordered_triangles_overlapping(triangle_1, triangle_2_order)
+                if are_overlapping:
+                    out_data.append(data.Data("משולשים חופפים", [triangle_1, triangle_2_order], data_needed, '18'))
+
+    return out_data
+
+
+def sentence_19(graph, input_data):
+    print('19')
+
+    def are_ordered_triangles_overlapping(t_1, t_2):
+        are_lines_equal_1, lines_data_needed_1 = graph.are_lines_equal(t_1[0] + t_1[1], t_2[0] + t_2[1])
+        are_lines_equal_2, lines_data_needed_2 = graph.are_lines_equal(t_1[1] + t_1[2], t_2[1] + t_2[2])
+        are_lines_equal_3, lines_data_needed_3 = graph.are_lines_equal(t_1[2] + t_1[0], t_2[2] + t_2[0])
+        if are_lines_equal_1 and are_lines_equal_2 and are_lines_equal_3:
+            return True, [lines_data_needed_1, lines_data_needed_2, lines_data_needed_3]
+
+        return False, []
+
+    out_data = []
+
+    triangles_1 = graph.get_all_triangles_from_line(input_data.fields[0])
+    triangles_2 = graph.get_all_triangles_from_line(input_data.fields[1])
+
+    for triangle_1 in triangles_1:
+        for triangle_2 in triangles_2:
+            for triangle_2_order in [''.join(p) for p in permutations(triangle_2)]:
+                are_overlapping, data_needed = are_ordered_triangles_overlapping(triangle_1, triangle_2_order)
+                if are_overlapping:
+                    out_data.append(data.Data("משולשים חופפים", [triangle_1, triangle_2_order], data_needed, '19'))
+
+    return out_data
+
+
 all_regular_sentences = [
     # {
     #     'sentence_id': '3',
@@ -290,6 +437,27 @@ all_regular_sentences = [
         'representation': "סכום זוויות במושלש הינו 180°",
         'input_data_type': ["גודל זווית"],
         'apply_func': sentence_12
+    },
+    {
+        'sentence_id': '17',
+        'loc_type': 'general',
+        'representation': "משפט חפיפה צ.ז.צ",
+        'input_data_type': ["זוויות שוות", "קטעים שווים"],
+        'apply_func': sentence_17
+    },
+    {
+        'sentence_id': '18',
+        'loc_type': 'general',
+        'representation': "משפט חפיפה ז.צ.ז",
+        'input_data_type': ["זוויות שוות", "קטעים שווים"],
+        'apply_func': sentence_18
+    },
+    {
+        'sentence_id': '19',
+        'loc_type': 'general',
+        'representation': "משפט חפיפה צ.צ.צ",
+        'input_data_type': ["קטעים שווים"],
+        'apply_func': sentence_19
     },
     {
         'sentence_id': '22',
@@ -325,6 +493,27 @@ all_regular_sentences = [
         'representation': "חוצה זוויות מחלק את הזווית לשתי זוויות שוות",
         'input_data_type': ["חוצה זווית"],
         'apply_func': sentence_106
+    },
+    {
+        'sentence_id': '107',
+        'loc_type': 'general',
+        'representation': "כלל המעבר בין קטעים שווים",
+        'input_data_type': ["אורך קטע", "קטעים שווים"],
+        'apply_func': sentence_107
+    },
+    {
+        'sentence_id': '108',
+        'loc_type': 'general',
+        'representation': "במשולשים חופפים צלעות מתאימות הן שוות",
+        'input_data_type': ["משולשים חופפים"],
+        'apply_func': sentence_108
+    },
+    {
+        'sentence_id': '109',
+        'loc_type': 'general',
+        'representation': "במשולשים חופפים זוויות מתאימות הן שוות",
+        'input_data_type': ["משולשים חופפים"],
+        'apply_func': sentence_109
     }
 ]
 

@@ -761,6 +761,36 @@ let templates = [
 
             return `°${ts2} = ${ts1}⦠`
         }
+    },
+    {
+        option: "משולשים חופפים",
+        structure:[
+
+            {type: "input", id: "tem_struct_1"},
+            {type: "label", content:"△ ≅"},
+            {type: "input", id: "tem_struct_2"},
+            {type: "label", content:"△"}
+        ],
+        getObjResult: (dataId)=>{
+            let ts1 = document.querySelector('#tem_struct_1').value
+            let ts2 = document.querySelector('#tem_struct_2').value
+
+            return {
+                dataType: "משולשים חופפים",
+                dataId: dataId,
+                representation: `${ts2} ≅ △${ts1}△`,
+                fields: [
+                    ts1,
+                    ts2
+                ]
+            }
+        },
+        getRepresentation: (fields)=>{
+            let ts1 = fields[0]
+            let ts2 = fields[1]
+
+            return `${ts2} ≅ △${ts1}△`
+        }
     }
 ]
 

@@ -12,6 +12,7 @@ class DataManager:
 
     def add_new_data(self, data):
         self.graph.angle_manager.update(data)
+        self.graph.line_manager.update(data)
         self.new_data.append(data)
 
     def add_proof_data(self, data):

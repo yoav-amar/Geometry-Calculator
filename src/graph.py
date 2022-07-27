@@ -100,9 +100,106 @@ class AngleManager:
         return out_data
 
 
+class LineManager:
+    class Line:
+        graph = None
+
+        def __init__(self, line):
+            self.line = line
+            self.size = None
+            self.data_id_for_size = None
+            self.equal_lines = []
+            self.data_id_for_equal_lines = []
+
+        def set_size_line(self, size, data):
+            if self.size is None:
+                self.size = float(size)
+                self.data_id_for_size = data.data_id
+
+        def add_equal_line(self, line, data):
+            if line not in self.equal_lines:
+                self.equal_lines.append(line)
+                self.data_id_for_equal_lines.append(data.data_id)
+
+        def get_data_id(self, equal_line):
+            return self.data_id_for_equal_lines[self.equal_lines.index(equal_line)]
+
+        def __eq__(self, other):
+            if isinstance(other, LineManager.Line):
+                return self.graph.is_same_line(self.line, other.line)
+            return False
+
+    def __init__(self, graph):
+        LineManager.Line.graph = graph
+        self.lines = []
+
+    def update(self, data):
+        if data.data_type == "אורך קטע":
+            line = LineManager.Line(data.fields[1])
+            if line in self.lines:
+                self.lines[self.lines.index(line)].set_size_line(data.fields[0], data)
+            else:
+                line.set_size_line(data.fields[0], data)
+                self.lines.append(line)
+
+        if data.data_type == "קטעים שווים":
+            line_1 = LineManager.Line(data.fields[0])
+            line_2 = LineManager.Line(data.fields[1])
+
+            if line_1 in self.lines:
+                self.lines[self.lines.index(line_1)].add_equal_line(line_2, data)
+            else:
+                line_1.add_equal_line(line_2, data)
+                self.lines.append(line_1)
+
+            if line_2 in self.lines:
+                self.lines[self.lines.index(line_2)].add_equal_line(line_1, data)
+            else:
+                line_2.add_equal_line(line_1, data)
+                self.lines.append(line_2)
+
+    def apply_transition_rule(self, sentence_id, input_data):
+        out_data = []
+
+        if input_data.data_type == "אורך קטע":
+            line = self.lines[self.lines.index(LineManager.Line(input_data.fields[1]))]
+
+            for other_line in self.lines:
+                if other_line.size is not None and other_line.size == line.size:
+                    if line not in other_line.equal_lines:
+                        out_data.append(Data("קטעים שווים", [line.line, other_line.line],
+                                             [input_data.data_id, other_line.data_id_for_size], sentence_id))
+
+            for equal_line in line.equal_lines:
+                if equal_line.size is None:
+                    out_data.append(Data("אורך קטע", [line.size, equal_line.line],
+                                         [input_data.data_id, line.get_data_id(equal_line)], sentence_id))
+
+        if input_data.data_type == "קטעים שווים":
+            line_1 = self.lines[self.lines.index(LineManager.Line(input_data.fields[0]))]
+            line_2 = self.lines[self.lines.index(LineManager.Line(input_data.fields[1]))]
+
+            for _ in range(2):
+                for equal_line in line_1.equal_lines:
+                    if equal_line.size is None and line_1.size is not None:
+                        out_data.append(Data("אורך קטע", [line_1.size, equal_line.line],
+                                             [input_data.data_id, line_1.data_id_for_size], sentence_id))
+
+                    if equal_line not in line_2.equal_lines:
+                        out_data.append(Data("קטעים שווים", [line_2.line, equal_line.line],
+                                             [input_data.data_id, line_1.get_data_id(equal_line)], sentence_id))
+
+                switch_line = line_1
+                line_1 = line_2
+                line_2 = switch_line
+
+        return out_data
+
+
 class Graph:
     def __init__(self, graph):
         self.angle_manager = AngleManager(self)
+        self.line_manager = LineManager(self)
         self.graph = graph
 
     def get_basic_locs(self):
@@ -316,6 +413,15 @@ class Graph:
 
         return (direct_1 > 0) and (direct_2 > 0)
 
+    def is_same_line(self, line_1: str, line_2: str):
+        if self.get_line_id(line_1) is None or self.get_line_id(line_2) is None:
+            return False
+
+        if line_1 == line_2:
+            return True
+
+        return line_1[0] == line_2[1] and line_1[1] == line_2[0]
+
     def get_lines(self):
         lines = []
         for line in self.graph['lines']:
@@ -360,6 +466,18 @@ class Graph:
 
         return triangles
 
+    def get_all_triangles_from_line(self, line: str):
+        triangles = []
+        for dot in self.graph['dots']:
+            dot_name = dot['name']
+            if len(dot_name) != 1:
+                continue
+
+            if self.get_line_id(line[0] + dot_name) is not None and self.get_line_id(line[1] + dot_name) is not None:
+                triangles.append(line[0] + dot_name + line[1])
+
+        return triangles
+
     def get_angle_size(self, angle_name: str):
         angle = AngleManager.Angle(angle_name)
         if angle in self.angle_manager.angles:
@@ -367,6 +485,34 @@ class Graph:
             return angle.size, angle.data_id_for_size
 
         return None, None
+
+    def are_angles_equal(self, angle_1: str, angle_2: str):
+        angle_1 = AngleManager.Angle(angle_1)
+        angle_2 = AngleManager.Angle(angle_2)
+        if angle_1 in self.angle_manager.angles:
+            angle_1 = self.angle_manager.angles[self.angle_manager.angles.index(angle_1)]
+            if angle_2 in angle_1.equal_angles:
+                return True, angle_1.get_data_id(angle_2)
+
+        return False, None
+
+    def get_line_size(self, line_name: str):
+        line = LineManager.Line(line_name)
+        if line in self.line_manager.lines:
+            line = self.line_manager.lines[self.line_manager.lines.index(line)]
+            return line.size, line.data_id_for_size
+
+        return None, None
+
+    def are_lines_equal(self, line_1: str, line_2: str):
+        line_1 = LineManager.Line(line_1)
+        line_2 = LineManager.Line(line_2)
+        if line_1 in self.line_manager.lines:
+            line_1 = self.line_manager.lines[self.line_manager.lines.index(line_1)]
+            if line_2 in line_1.equal_lines:
+                return True, line_1.get_data_id(line_2)
+
+        return False, None
 
     def get_angles_data_in_triangle(self, triangle):
         angles_names = [triangle, triangle[1] + triangle[2] + triangle[0], triangle[2] + triangle[0] + triangle[1]]
