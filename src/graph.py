@@ -89,7 +89,7 @@ class AngleManager:
                         out_data.append(Data("גודל זווית", [angle_1.size, equal_angle.angle],
                                              [input_data.data_id, angle_1.data_id_for_size], sentence_id))
 
-                    if equal_angle not in angle_2.equal_angles:
+                    if equal_angle not in angle_2.equal_angles and not equal_angle == angle_2:
                         out_data.append(Data("זוויות שוות", [angle_2.angle, equal_angle.angle],
                                              [input_data.data_id, angle_1.get_data_id(equal_angle)], sentence_id))
 
@@ -185,7 +185,7 @@ class LineManager:
                         out_data.append(Data("אורך קטע", [line_1.size, equal_line.line],
                                              [input_data.data_id, line_1.data_id_for_size], sentence_id))
 
-                    if equal_line not in line_2.equal_lines:
+                    if equal_line not in line_2.equal_lines and not equal_line == line_2:
                         out_data.append(Data("קטעים שווים", [line_2.line, equal_line.line],
                                              [input_data.data_id, line_1.get_data_id(equal_line)], sentence_id))
 

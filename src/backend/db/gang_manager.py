@@ -37,14 +37,14 @@ def add_gang(gang_name, admin_name, admin_password):
         gangs_db.update_one({"gang_name": CODES}, {
             "$set": {"codes": list(gang_codes)}})
     gangs_db.insert_one(
-        {"gang_name": gang_name, "admin": admin_name, "gang_code": gang_code, "problems": {},
+        {"gang_name": gang_name, "admin": admin_name, "gang_code": int(gang_code), "problems": {},
          "members": {admin_name: []}})
     return gang_code
 
 
 def delete_gang(gang_code, admin_name, admin_password):
     is_user_ok(admin_name, admin_password)
-    gangs_db.delete_one({"gang_code": gang_code})
+    gangs_db.delete_one({"gang_code": int(gang_code)})
 
 
 def is_user_in_gang(gang_code, username, password):
@@ -85,7 +85,7 @@ def add_member_to_gang(gang_code, username, password):
     if username in members.keys():
         raise MemberInGang()
     members[username] = []
-    gangs_db.update_one({"gang_code": gang_code}, {
+    gangs_db.update_one({"gang_code": int(gang_code)}, {
         "$set": {"members": members}})
     gang_name = gang["gang_name"]
     return gang_name
@@ -101,7 +101,7 @@ def add_permission(gang_code, admin_name, admin_password, member_name, permissio
         permissions = set(members[member_name])
         permissions.add(permission)
         members[member_name] = list(permissions)
-        gangs_db.update_one({"gang_code": gang_code}, {
+        gangs_db.update_one({"gang_code": int(gang_code)}, {
             "$set": {"members": members}})
         return True
     raise UserNotFound()
