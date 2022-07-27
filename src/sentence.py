@@ -1,4 +1,5 @@
 import data
+from itertools import permutations
 
 
 class SentenceManager:
@@ -13,7 +14,8 @@ class SentenceManager:
 
         self.sentences_apply_on_start = []
         for sentence in all_sentences_apply_on_start:
-            self.sentences_apply_on_start.append(SentenceToApply(Sentence(sentence), None, self.graph))
+            self.sentences_apply_on_start.append(
+                SentenceToApply(Sentence(sentence), None, self.graph))
 
     def get_sentences_for_loc(self, loc):
         sentences_to_apply = []
@@ -22,7 +24,8 @@ class SentenceManager:
             for sentence in self.sentences[loc.name_type]:
                 for new_data in loc.new_data:
                     if new_data.data_type in sentence.input_data_type:
-                        sentences_to_apply.append(SentenceToApply(sentence, new_data, self.graph))
+                        sentences_to_apply.append(
+                            SentenceToApply(sentence, new_data, self.graph))
 
         return sentences_to_apply
 
@@ -62,16 +65,22 @@ def sentence_25_1(graph, input_data):
         angle_1_1, angle_1_2 = graph.get_angle_between_lines(line_1, line)
         angle_2_1, angle_2_2 = graph.get_angle_between_lines(line_2, line)
         if angle_1_1 is not None and angle_2_1 is not None:
-            out_data.append(data.Data("זוויות שוות", [angle_1_1, angle_2_1], [input_data.data_id], '25_1'))
+            out_data.append(data.Data("זוויות שוות", [angle_1_1, angle_2_1], [
+                            input_data.data_id], '25_1'))
         if angle_1_2 is not None and angle_2_2 is not None:
-            out_data.append(data.Data("זוויות שוות", [angle_1_2, angle_2_2], [input_data.data_id], '25_1'))
+            out_data.append(data.Data("זוויות שוות", [angle_1_2, angle_2_2], [
+                            input_data.data_id], '25_1'))
 
-        angle_3_1, angle_3_2 = graph.get_angle_between_lines(line, line_1, False)
-        angle_4_1, angle_4_2 = graph.get_angle_between_lines(line, line_2, False)
+        angle_3_1, angle_3_2 = graph.get_angle_between_lines(
+            line, line_1, False)
+        angle_4_1, angle_4_2 = graph.get_angle_between_lines(
+            line, line_2, False)
         if angle_3_1 is not None and angle_4_1 is not None:
-            out_data.append(data.Data("זוויות שוות", [angle_3_1, angle_4_1], [input_data.data_id], '25_1'))
+            out_data.append(data.Data("זוויות שוות", [angle_3_1, angle_4_1], [
+                            input_data.data_id], '25_1'))
         if angle_3_2 is not None and angle_4_2 is not None:
-            out_data.append(data.Data("זוויות שוות", [angle_3_2, angle_4_2], [input_data.data_id], '25_1'))
+            out_data.append(data.Data("זוויות שוות", [angle_3_2, angle_4_2], [
+                            input_data.data_id], '25_1'))
 
     return out_data
 
@@ -90,17 +99,23 @@ def sentence_25_2(graph, input_data):
         angle_2_1, angle_2_2 = graph.get_angle_between_lines(line_2, line)
 
         if angle_1_1 is not None and angle_2_2 is not None:
-            out_data.append(data.Data("זוויות שוות", [angle_1_1, angle_2_2], [input_data.data_id], '25_2'))
+            out_data.append(data.Data("זוויות שוות", [angle_1_1, angle_2_2], [
+                            input_data.data_id], '25_2'))
         if angle_1_2 is not None and angle_2_1 is not None:
-            out_data.append(data.Data("זוויות שוות", [angle_1_2, angle_2_1], [input_data.data_id], '25_2'))
+            out_data.append(data.Data("זוויות שוות", [angle_1_2, angle_2_1], [
+                            input_data.data_id], '25_2'))
 
-        angle_3_1, angle_3_2 = graph.get_angle_between_lines(line, line_1, False)
-        angle_4_1, angle_4_2 = graph.get_angle_between_lines(line, line_2, False)
+        angle_3_1, angle_3_2 = graph.get_angle_between_lines(
+            line, line_1, False)
+        angle_4_1, angle_4_2 = graph.get_angle_between_lines(
+            line, line_2, False)
 
         if angle_3_1 is not None and angle_4_2 is not None:
-            out_data.append(data.Data("זוויות שוות", [angle_3_1, angle_4_2], [input_data.data_id], '25_2'))
+            out_data.append(data.Data("זוויות שוות", [angle_3_1, angle_4_2], [
+                            input_data.data_id], '25_2'))
         if angle_3_2 is not None and angle_4_1 is not None:
-            out_data.append(data.Data("זוויות שוות", [angle_3_2, angle_4_1], [input_data.data_id], '25_2'))
+            out_data.append(data.Data("זוויות שוות", [angle_3_2, angle_4_1], [
+                            input_data.data_id], '25_2'))
 
     return out_data
 
@@ -115,8 +130,10 @@ def sentence_3(graph, input_data):
     out_data = []
     angle_1 = input_data.fields[0]
     angle_2 = input_data.fields[1]
-    angle_1_lines = [graph.get_line_id(angle_1[0] + angle_1[1]), graph.get_line_id(angle_1[1] + angle_1[2])]
-    angle_2_lines = [graph.get_line_id(angle_2[0] + angle_2[1]), graph.get_line_id(angle_2[1] + angle_2[2])]
+    angle_1_lines = [graph.get_line_id(
+        angle_1[0] + angle_1[1]), graph.get_line_id(angle_1[1] + angle_1[2])]
+    angle_2_lines = [graph.get_line_id(
+        angle_2[0] + angle_2[1]), graph.get_line_id(angle_2[1] + angle_2[2])]
     # check if they are in the same triangle
     commom_line = set(angle_1_lines).intersection(set(angle_2_lines))
     if len(commom_line) == 1:
@@ -137,7 +154,8 @@ def sentence_3(graph, input_data):
             return out_data
         line_1 = angle_1[1] + common_dot
         line_2 = angle_2[1] + common_dot
-        out_data.append(data.Data("קטעים שווים", [line_1, line_2], [input_data.data_id], '3'))
+        out_data.append(
+            data.Data("קטעים שווים", [line_1, line_2], [input_data.data_id], '3'))
     return out_data
 
 
@@ -155,7 +173,8 @@ def sentence_4(graph, input_data):
         equal_angles = list(equal_angles)
         angle_1 = common_dot + equal_angles[0] + equal_angles[1]
         angle_2 = common_dot + equal_angles[1] + equal_angles[0]
-        out_data.append(data.Data("זוויות שוות", [angle_1, angle_2], [input_data.data_id], '4'))
+        out_data.append(
+            data.Data("זוויות שוות", [angle_1, angle_2], [input_data.data_id], '4'))
     return out_data
 
 
@@ -241,8 +260,10 @@ def sentence_110(graph, input_data):
     line_2 = parall[1] + parall[2]
     line_3 = parall[2] + parall[3]
     line_4 = parall[3] + parall[0]
-    out_data.append(data.Data("ישרים מקבילים", [line_1, line_3], [input_data.data_id], '110'))
-    out_data.append(data.Data("ישרים מקבילים", [line_2, line_4], [input_data.data_id], '110'))
+    out_data.append(data.Data("ישרים מקבילים", [
+                    line_1, line_3], [input_data.data_id], '110'))
+    out_data.append(data.Data("ישרים מקבילים", [
+                    line_2, line_4], [input_data.data_id], '110'))
     return out_data
 
 
@@ -254,8 +275,10 @@ def sentence_111(graph, input_data):
     line_2 = parall[1] + parall[2]
     line_3 = parall[2] + parall[3]
     line_4 = parall[3] + parall[0]
-    out_data.append(data.Data("קטעים שווים", [line_1, line_3], [input_data.data_id], '111'))
-    out_data.append(data.Data("קטעים שווים", [line_2, line_4], [input_data.data_id], '111'))
+    out_data.append(data.Data("קטעים שווים", [line_1, line_3], [
+                    input_data.data_id], '111'))
+    out_data.append(data.Data("קטעים שווים", [line_2, line_4], [
+                    input_data.data_id], '111'))
     return out_data
 
 
@@ -264,7 +287,8 @@ def sentence_112(graph, input_data):
     out_data = []
     line_1 = input_data.fields[1]
     line_2 = input_data.fields[2]
-    out_data.append(data.Data("קטעים שווים", [line_1, line_2], [input_data.data_id], '112'))
+    out_data.append(data.Data("קטעים שווים", [line_1, line_2], [
+                    input_data.data_id], '112'))
     return out_data
 
 
@@ -276,8 +300,10 @@ def sentence_22(graph, input_data):
     angle_1 = input_data.fields[0]
     angle_2 = input_data.fields[1]
 
-    lines_1 = [graph.get_line_id(angle_1[0] + angle_1[1]), graph.get_line_id(angle_1[1] + angle_1[2])]
-    lines_2 = [graph.get_line_id(angle_2[0] + angle_2[1]), graph.get_line_id(angle_2[1] + angle_2[2])]
+    lines_1 = [graph.get_line_id(
+        angle_1[0] + angle_1[1]), graph.get_line_id(angle_1[1] + angle_1[2])]
+    lines_2 = [graph.get_line_id(
+        angle_2[0] + angle_2[1]), graph.get_line_id(angle_2[1] + angle_2[2])]
 
     inter_line = set(lines_1).intersection(lines_2)
     if len(inter_line) != 1:
@@ -302,13 +328,16 @@ def sentence_22(graph, input_data):
     inter_line_2 = angle_2[1]
 
     direct_1 = (inter_line.index(inter_line_1) - inter_line.index(angle_1[angle_1_dot_on_inter_line_index])) * \
-               (inter_line.index(inter_line_2) - inter_line.index(angle_2[angle_2_dot_on_inter_line_index]))
+               (inter_line.index(inter_line_2) -
+                inter_line.index(angle_2[angle_2_dot_on_inter_line_index]))
 
     direct_2 = (line_1_dots.index(inter_line_1) - line_1_dots.index(angle_1[2 - angle_1_dot_on_inter_line_index])) * \
-               (line_2_dots.index(inter_line_2) - line_2_dots.index(angle_2[2 - angle_2_dot_on_inter_line_index]))
+               (line_2_dots.index(inter_line_2) -
+                line_2_dots.index(angle_2[2 - angle_2_dot_on_inter_line_index]))
 
     if direct_1 > 0 and direct_2 > 0:
-        out_data.append(data.Data("ישרים מקבילים", [line_1, line_2], [input_data.data_id], '22'))
+        out_data.append(data.Data("ישרים מקבילים", [
+                        line_1, line_2], [input_data.data_id], '22'))
 
     return out_data
 
@@ -322,7 +351,168 @@ def sentence_27(graph, input_data):
 
 def sentence_37(graph, input_data):
     rec = input_data.fields[0]
-    out_data = [data.Data("קטעים שווים", [rec[0] + rec[2], rec[1] + rec[3]], [input_data.data_id], '37')]
+    out_data = [data.Data("קטעים שווים", [rec[0] + rec[2],
+                          rec[1] + rec[3]], [input_data.data_id], '37')]
+    return out_data
+
+
+def sentence_107(graph, input_data):
+    print('107')
+    return graph.line_manager.apply_transition_rule('107', input_data)
+
+
+def sentence_108(graph, input_data):
+    print('108')
+
+    out_data = []
+
+    triangle_1 = input_data.fields[0]
+    triangle_2 = input_data.fields[1]
+
+    out_data.append(data.Data("קטעים שווים", [triangle_1[0] + triangle_1[1], triangle_2[0] + triangle_2[1]],
+                              [input_data.data_id], '108'))
+    out_data.append(data.Data("קטעים שווים", [triangle_1[1] + triangle_1[2], triangle_2[1] + triangle_2[2]],
+                              [input_data.data_id], '108'))
+    out_data.append(data.Data("קטעים שווים", [triangle_1[0] + triangle_1[2], triangle_2[0] + triangle_2[2]],
+                              [input_data.data_id], '108'))
+
+    return out_data
+
+
+def sentence_109(graph, input_data):
+    print('109')
+
+    out_data = []
+
+    triangle_1 = input_data.fields[0]
+    triangle_2 = input_data.fields[1]
+
+    out_data.append(data.Data("זוויות שוות", [triangle_1[0] + triangle_1[1] + triangle_1[2],
+                                              triangle_2[0] + triangle_2[1] + triangle_2[2]],
+                              [input_data.data_id], '109'))
+    out_data.append(data.Data("זוויות שוות", [triangle_1[1] + triangle_1[2] + triangle_1[0],
+                                              triangle_2[1] + triangle_2[2] + triangle_2[0]],
+                              [input_data.data_id], '109'))
+    out_data.append(data.Data("זוויות שוות", [triangle_1[2] + triangle_1[0] + triangle_1[1],
+                                              triangle_2[2] + triangle_2[0] + triangle_2[1]],
+                              [input_data.data_id], '109'))
+
+    return out_data
+
+
+def sentence_17(graph, input_data):
+    print('17')
+
+    def are_ordered_triangles_overlapping(t_1, t_2):
+        for _ in range(3):
+            are_angles_equal, angle_data_needed = graph.are_angles_equal(
+                t_1, t_2)
+            are_lines_equal_1, lines_data_needed_1 = graph.are_lines_equal(
+                t_1[0] + t_1[1], t_2[0] + t_2[1])
+            are_lines_equal_2, lines_data_needed_2 = graph.are_lines_equal(
+                t_1[1] + t_1[2], t_2[1] + t_2[2])
+            if are_angles_equal and are_lines_equal_1 and are_lines_equal_2:
+                return True, [*angle_data_needed, *lines_data_needed_1, *lines_data_needed_2]
+
+            t_1 = t_1[1] + t_1[2] + t_1[0]
+            t_2 = t_2[1] + t_2[2] + t_2[0]
+
+        return False, []
+
+    out_data = []
+
+    if input_data.data_type == "זוויות שוות":
+        triangles_1 = graph.get_all_triangles_from_angle(input_data.fields[0])
+        triangles_2 = graph.get_all_triangles_from_angle(input_data.fields[1])
+
+    if input_data.data_type == "קטעים שווים":
+        triangles_1 = graph.get_all_triangles_from_line(input_data.fields[0])
+        triangles_2 = graph.get_all_triangles_from_line(input_data.fields[1])
+
+    for triangle_1 in triangles_1:
+        for triangle_2 in triangles_2:
+            for triangle_2_order in [''.join(p) for p in permutations(triangle_2)]:
+                are_overlapping, data_needed = are_ordered_triangles_overlapping(
+                    triangle_1, triangle_2_order)
+                if are_overlapping:
+                    out_data.append(data.Data("משולשים חופפים", [
+                                    triangle_1, triangle_2_order], data_needed, '17'))
+
+    return out_data
+
+
+def sentence_18(graph, input_data):
+    print('18')
+
+    def are_ordered_triangles_overlapping(t_1, t_2):
+        for _ in range(3):
+            are_lines_equal, lines_data_needed = graph.are_lines_equal(
+                t_1[0] + t_1[1], t_2[0] + t_2[1])
+            are_angles_equal_1, angle_data_needed_1 = \
+                graph.are_angles_equal(
+                    t_1[0] + t_1[1] + t_1[2], t_2[0] + t_2[1] + t_2[2])
+            are_angles_equal_2, angle_data_needed_2 = \
+                graph.are_angles_equal(
+                    t_1[2] + t_1[0] + t_1[1], t_2[2] + t_2[0] + t_2[1])
+            if are_lines_equal and are_angles_equal_1 and are_angles_equal_2:
+                return True, [*lines_data_needed, *angle_data_needed_1, *angle_data_needed_2]
+
+            t_1 = t_1[1] + t_1[2] + t_1[0]
+            t_2 = t_2[1] + t_2[2] + t_2[0]
+
+        return False, []
+
+    out_data = []
+
+    if input_data.data_type == "זוויות שוות":
+        triangles_1 = graph.get_all_triangles_from_angle(input_data.fields[0])
+        triangles_2 = graph.get_all_triangles_from_angle(input_data.fields[1])
+
+    if input_data.data_type == "קטעים שווים":
+        triangles_1 = graph.get_all_triangles_from_line(input_data.fields[0])
+        triangles_2 = graph.get_all_triangles_from_line(input_data.fields[1])
+
+    for triangle_1 in triangles_1:
+        for triangle_2 in triangles_2:
+            for triangle_2_order in [''.join(p) for p in permutations(triangle_2)]:
+                are_overlapping, data_needed = are_ordered_triangles_overlapping(
+                    triangle_1, triangle_2_order)
+                if are_overlapping:
+                    out_data.append(data.Data("משולשים חופפים", [
+                                    triangle_1, triangle_2_order], data_needed, '18'))
+
+    return out_data
+
+
+def sentence_19(graph, input_data):
+    print('19')
+
+    def are_ordered_triangles_overlapping(t_1, t_2):
+        are_lines_equal_1, lines_data_needed_1 = graph.are_lines_equal(
+            t_1[0] + t_1[1], t_2[0] + t_2[1])
+        are_lines_equal_2, lines_data_needed_2 = graph.are_lines_equal(
+            t_1[1] + t_1[2], t_2[1] + t_2[2])
+        are_lines_equal_3, lines_data_needed_3 = graph.are_lines_equal(
+            t_1[2] + t_1[0], t_2[2] + t_2[0])
+        if are_lines_equal_1 and are_lines_equal_2 and are_lines_equal_3:
+            return True, [*lines_data_needed_1, *lines_data_needed_2, *lines_data_needed_3]
+
+        return False, []
+
+    out_data = []
+
+    triangles_1 = graph.get_all_triangles_from_line(input_data.fields[0])
+    triangles_2 = graph.get_all_triangles_from_line(input_data.fields[1])
+
+    for triangle_1 in triangles_1:
+        for triangle_2 in triangles_2:
+            for triangle_2_order in [''.join(p) for p in permutations(triangle_2)]:
+                are_overlapping, data_needed = are_ordered_triangles_overlapping(
+                    triangle_1, triangle_2_order)
+                if are_overlapping:
+                    out_data.append(data.Data("משולשים חופפים", [
+                                    triangle_1, triangle_2_order], data_needed, '19'))
+
     return out_data
 
 
@@ -355,6 +545,27 @@ all_regular_sentences = [
         'representation': "סכום זוויות במושלש הינו 180°",
         'input_data_type': ["גודל זווית"],
         'apply_func': sentence_12
+    },
+    {
+        'sentence_id': '17',
+        'loc_type': 'general',
+        'representation': "משפט חפיפה צ.ז.צ",
+        'input_data_type': ["זוויות שוות", "קטעים שווים"],
+        'apply_func': sentence_17
+    },
+    {
+        'sentence_id': '18',
+        'loc_type': 'general',
+        'representation': "משפט חפיפה ז.צ.ז",
+        'input_data_type': ["זוויות שוות", "קטעים שווים"],
+        'apply_func': sentence_18
+    },
+    {
+        'sentence_id': '19',
+        'loc_type': 'general',
+        'representation': "משפט חפיפה צ.צ.צ",
+        'input_data_type': ["קטעים שווים"],
+        'apply_func': sentence_19
     },
     {
         'sentence_id': '22',
@@ -406,6 +617,27 @@ all_regular_sentences = [
         'apply_func': sentence_106
     },
     {
+        'sentence_id': '107',
+        'loc_type': 'general',
+        'representation': "כלל המעבר בין קטעים שווים",
+        'input_data_type': ["אורך קטע", "קטעים שווים"],
+        'apply_func': sentence_107
+    },
+    {
+        'sentence_id': '108',
+        'loc_type': 'general',
+        'representation': "במשולשים חופפים צלעות מתאימות הן שוות",
+        'input_data_type': ["משולשים חופפים"],
+        'apply_func': sentence_108
+    },
+    {
+        'sentence_id': '109',
+        'loc_type': 'general',
+        'representation': "במשולשים חופפים זוויות מתאימות הן שוות",
+        'input_data_type': ["משולשים חופפים"],
+        'apply_func': sentence_109
+    },
+    {
         'sentence_id': '110',
         'loc_type': 'general',
         'representation': "במקבילית הצלעות הנגדיות מקבילות אחת לשנייה",
@@ -427,6 +659,7 @@ all_regular_sentences = [
         'apply_func': sentence_112
     }
 
+
 ]
 
 
@@ -439,13 +672,17 @@ def sentence_2(graph, input_data):
 
     for i in range(len(lines) - 1):
         for j in range(i + 1, len(lines)):
-            angle_1, angle_2 = graph.get_angle_between_lines(lines[i], lines[j])
+            angle_1, angle_2 = graph.get_angle_between_lines(
+                lines[i], lines[j])
             if angle_1 is not None and angle_2 is not None:
-                out_data.append(data.Data("זוויות שוות", [angle_1, angle_2], [], '2'))
+                out_data.append(
+                    data.Data("זוויות שוות", [angle_1, angle_2], [], '2'))
 
-            angle_1, angle_2 = graph.get_angle_between_lines(lines[i], lines[j], False)
+            angle_1, angle_2 = graph.get_angle_between_lines(
+                lines[i], lines[j], False)
             if angle_1 is not None and angle_2 is not None:
-                out_data.append(data.Data("זוויות שוות", [angle_1, angle_2], [], '2'))
+                out_data.append(
+                    data.Data("זוויות שוות", [angle_1, angle_2], [], '2'))
 
     return out_data
 
