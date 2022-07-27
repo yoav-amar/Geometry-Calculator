@@ -12,6 +12,7 @@ class DataManager:
 
     def add_new_data(self, data):
         self.graph.angle_manager.update(data)
+        self.graph.line_manager.update(data)
         self.new_data.append(data)
 
     def add_proof_data(self, data):
@@ -89,6 +90,12 @@ class DataManager:
         return solution
 
 
+def is_same_section(section_1: str, section_2: str):
+    if section_1 == section_2:
+        return True
+    return section_1[0] == section_2[1] and section_1[1] == section_2[0]
+
+
 class Data:
     next_id = None
     graph = None
@@ -120,11 +127,36 @@ class Data:
 
                 return self.graph.is_same_angle(self.fields[1], other.fields[1]) and \
                        float(self.fields[0]) == float(other.fields[0])
+            elif self.data_type == "מלבן" or self.data_type == "מקבילית" or self.data_type == "ריבוע" or \
+                    self.data_type == "דלתון" or self.data_type == "מעויין" or self.data_type == "טרפז":
+                rectangle_1 = list(self.fields[0])
+                rectangle_2 = list(other.fields[0])
+                return rectangle_1 in [rectangle_2, rectangle_2[1:] + rectangle_2[:1],
+                                       rectangle_2[2:] + rectangle_2[:2], rectangle_2[3:] + rectangle_2[:3]]
 
             elif self.data_type == "ישרים מקבילים":
 
                 return {self.graph.get_line_id(self.fields[0]), self.graph.get_line_id(self.fields[1])} == \
                        {self.graph.get_line_id(other.fields[0]), self.graph.get_line_id(other.fields[1])}
+
+            elif self.data_type == "קטעים שווים":
+                regular_order = is_same_section(self.fields[0], other.fields[0]) and is_same_section(self.fields[1],
+                                                                                                     other.fields[1])
+                other_order = is_same_section(self.fields[1], other.fields[0]) and is_same_section(self.fields[0],
+                                                                                                   other.fields[1])
+
+                return regular_order or other_order
+            elif self.data_type == "גודל קטע":
+                return is_same_section(self.fields[1], other.fields[1]) and float(self.fields[0]) == float(
+                    other.fields[0])
+
+            elif self.data_type == "משולשים חופפים":
+                def get_set_overlapping_dots(t_1, t_2):
+                    return {(t_1[i], t_2[i]) for i in range(3)}
+
+                other_set = get_set_overlapping_dots(other.fields[0], other.fields[1])
+                return get_set_overlapping_dots(self.fields[0], self.fields[1]) == other_set \
+                       or get_set_overlapping_dots(self.fields[1], self.fields[0]) == other_set
 
             else:
                 return set(self.fields) == set(other.fields)
