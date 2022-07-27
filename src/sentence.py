@@ -113,15 +113,31 @@ def sentence_105(graph, input_data):
 def sentence_3(graph, input_data):
     print('3')
     out_data = []
-    # TODO fix it
     angle_1 = input_data.fields[0]
     angle_2 = input_data.fields[1]
-    angle_1_lines = {graph.get_line_id(angle_1[0] + angle_1[1]), graph.get_line_id(angle_1[1]) + angle_1[2]}
-    angle_2_lines = {graph.get_line_id(angle_2[0] + angle_2[1]), graph.get_line_id(angle_2[1]) + angle_2[2]}
+    angle_1_lines = [graph.get_line_id(angle_1[0] + angle_1[1]), graph.get_line_id(angle_1[1] + angle_1[2])]
+    angle_2_lines = [graph.get_line_id(angle_2[0] + angle_2[1]), graph.get_line_id(angle_2[1] + angle_2[2])]
     # check if they are in the same triangle
-    if angle_2_lines == angle_1_lines:
-        out_data.append(
-            data.Data("קטעים שווים", [angle_1[0] + angle_1[2], angle_2[0] + angle_2[2]], [input_data.data_id]), '3')
+    commom_line = set(angle_1_lines).intersection(set(angle_2_lines))
+    if len(commom_line) == 1:
+        commom_line = commom_line.pop()
+        if commom_line == angle_1_lines[0]:
+            line_1 = angle_1[1] + angle_1[2]
+        else:
+            line_1 = angle_1[1] + angle_1[0]
+        if commom_line == angle_2_lines[0]:
+            line_2 = angle_2[1] + angle_2[2]
+        else:
+            line_2 = angle_2[1] + angle_2[0]
+        common_dot = graph.get_lines_intersection_id(line_1, line_2)
+        if not common_dot:
+            return out_data
+        common_dot = graph.get_dot_name_from_id(common_dot)
+        if not common_dot:
+            return out_data
+        line_1 = angle_1[1] + common_dot
+        line_2 = angle_2[1] + common_dot
+        out_data.append(data.Data("קטעים שווים", [line_1, line_2], [input_data.data_id], '3'))
     return out_data
 
 
@@ -140,7 +156,7 @@ def sentence_4(graph, input_data):
         angle_1 = common_dot + equal_angles[0] + equal_angles[1]
         angle_2 = common_dot + equal_angles[1] + equal_angles[0]
         out_data.append(data.Data("זוויות שוות", [angle_1, angle_2], [input_data.data_id], '4'))
-        return out_data
+    return out_data
 
 
 def sentence_12(graph, input_data):
@@ -217,6 +233,41 @@ def sentence_106(graph, input_data):
     return out_data
 
 
+def sentence_107(graph, input_data):
+    print(107)
+    parall = input_data.fields[0]
+    out_data = []
+    line_1 = parall[0] + parall[1]
+    line_2 = parall[1] + parall[2]
+    line_3 = parall[2] + parall[3]
+    line_4 = parall[3] + parall[0]
+    out_data.append(data.Data("ישרים מקבילים", [line_1, line_3], [input_data.data_id], '107'))
+    out_data.append(data.Data("ישרים מקבילים", [line_2, line_4], [input_data.data_id], '107'))
+    return out_data
+
+
+def sentence_108(graph, input_data):
+    print(108)
+    parall = input_data.fields[0]
+    out_data = []
+    line_1 = parall[0] + parall[1]
+    line_2 = parall[1] + parall[2]
+    line_3 = parall[2] + parall[3]
+    line_4 = parall[3] + parall[0]
+    out_data.append(data.Data("קטעים שווים", [line_1, line_3], [input_data.data_id], '108'))
+    out_data.append(data.Data("קטעים שווים", [line_2, line_4], [input_data.data_id], '108'))
+    return out_data
+
+
+def sentence_109(graph, input_data):
+    print(109)
+    out_data = []
+    line_1 = input_data.fields[1]
+    line_2 = input_data.fields[2]
+    out_data.append(data.Data("קטעים שווים", [line_1, line_2], [input_data.data_id], '109'))
+    return out_data
+
+
 def sentence_22(graph, input_data):
     print('22')
 
@@ -262,20 +313,34 @@ def sentence_22(graph, input_data):
     return out_data
 
 
+def sentence_27(graph, input_data):
+    parall = input_data.fields[0]
+    out_data = [data.Data("קטעים שווים", [parall[0] + parall[1], parall[2] + parall[3]], [input_data.data_id], '27'),
+                data.Data("קטעים שווים", [parall[0] + parall[3], parall[1] + parall[2]], [input_data.data_id], '27')]
+    return out_data
+
+
+def sentence_37(graph, input_data):
+    rec = input_data.fields[0]
+    out_data = [data.Data("קטעים שווים", [rec[0] + rec[2], rec[1] + rec[3]], [input_data.data_id], '37')]
+    return out_data
+
+
 all_regular_sentences = [
-    # {
-    #     'sentence_id': '3',
-    #     'loc_type': 'general',
-    #     'representation': "במשולש, מול זוויות שוות צלעות שוות",
-    #     'input_data_type': ["זוויות שוות"],
-    #     'apply_func': sentence_3
-    # },
+
     {
         'sentence_id': '1',
         'loc_type': 'general',
         'representation': "זוויות צמודות משלימות ל180 מעלות",
         'input_data_type': ["גודל זווית"],
         'apply_func': sentence_1
+    },
+    {
+        'sentence_id': '3',
+        'loc_type': 'general',
+        'representation': "במשולש, מול זוויות שוות צלעות שוות",
+        'input_data_type': ["זוויות שוות"],
+        'apply_func': sentence_3
     },
     {
         'sentence_id': '4',
@@ -313,6 +378,20 @@ all_regular_sentences = [
         'apply_func': sentence_25_2
     },
     {
+        'sentence_id': '27',
+        'loc_type': 'general',
+        'representation': "במקבילית כל שתי זוויות נגדיות שוות זו לזו",
+        'input_data_type': ["מלבן", "מקבילית", "מעויין", "ריבוע"],
+        'apply_func': sentence_27
+    },
+    {
+        'sentence_id': '37',
+        'loc_type': 'general',
+        'representation': "אלכסוני המלבן שווים זה לזה",
+        'input_data_type': ["מלבן"],
+        'apply_func': sentence_37
+    },
+    {
         'sentence_id': '105',
         'loc_type': 'general',
         'representation': "כלל המעבר בין זוויות שהן שוות",
@@ -325,7 +404,29 @@ all_regular_sentences = [
         'representation': "חוצה זוויות מחלק את הזווית לשתי זוויות שוות",
         'input_data_type': ["חוצה זווית"],
         'apply_func': sentence_106
+    },
+    {
+        'sentence_id': '107',
+        'loc_type': 'general',
+        'representation': "במקבילית הצלעות הנגדיות מקבילות אחת לשנייה",
+        'input_data_type': ["מלבן", "מקבילית", "מעויין", "ריבוע"],
+        'apply_func': sentence_107
+    },
+    {
+        'sentence_id': '108',
+        'loc_type': 'general',
+        'representation': "במקבילית הצלעות הנגדיות שוות זו לזו",
+        'input_data_type': ["מלבן", "מקבילית", "מעויין", "ריבוע"],
+        'apply_func': sentence_108
+    },
+    {
+        'sentence_id': '109',
+        'loc_type': 'general',
+        'representation': "במשולש שווה שוקיים יש זוג צלעות שוות",
+        'input_data_type': ["משולש שווה שוקיים"],
+        'apply_func': sentence_109
     }
+
 ]
 
 

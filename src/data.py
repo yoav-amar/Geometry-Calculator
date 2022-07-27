@@ -126,6 +126,12 @@ class Data:
 
                 return self.graph.is_same_angle(self.fields[1], other.fields[1]) and \
                        float(self.fields[0]) == float(other.fields[0])
+            elif self.data_type == "מלבן" or self.data_type == "מקבילית" or self.data_type == "ריבוע" or \
+                    self.data_type == "דלתון" or self.data_type == "מעויין" or self.data_type == "טרפז":
+                rectangle_1 = list(self.fields[0])
+                rectangle_2 = list(other.fields[0])
+                return rectangle_1 in [rectangle_2, rectangle_2[1:] + rectangle_2[:1],
+                                       rectangle_2[2:] + rectangle_2[:2], rectangle_2[3:] + rectangle_2[:3]]
 
             elif self.data_type == "ישרים מקבילים":
 
