@@ -233,38 +233,38 @@ def sentence_106(graph, input_data):
     return out_data
 
 
-def sentence_107(graph, input_data):
-    print(107)
+def sentence_110(graph, input_data):
+    print(110)
     parall = input_data.fields[0]
     out_data = []
     line_1 = parall[0] + parall[1]
     line_2 = parall[1] + parall[2]
     line_3 = parall[2] + parall[3]
     line_4 = parall[3] + parall[0]
-    out_data.append(data.Data("ישרים מקבילים", [line_1, line_3], [input_data.data_id], '107'))
-    out_data.append(data.Data("ישרים מקבילים", [line_2, line_4], [input_data.data_id], '107'))
+    out_data.append(data.Data("ישרים מקבילים", [line_1, line_3], [input_data.data_id], '110'))
+    out_data.append(data.Data("ישרים מקבילים", [line_2, line_4], [input_data.data_id], '110'))
     return out_data
 
 
-def sentence_108(graph, input_data):
-    print(108)
+def sentence_111(graph, input_data):
+    print(111)
     parall = input_data.fields[0]
     out_data = []
     line_1 = parall[0] + parall[1]
     line_2 = parall[1] + parall[2]
     line_3 = parall[2] + parall[3]
     line_4 = parall[3] + parall[0]
-    out_data.append(data.Data("קטעים שווים", [line_1, line_3], [input_data.data_id], '108'))
-    out_data.append(data.Data("קטעים שווים", [line_2, line_4], [input_data.data_id], '108'))
+    out_data.append(data.Data("קטעים שווים", [line_1, line_3], [input_data.data_id], '111'))
+    out_data.append(data.Data("קטעים שווים", [line_2, line_4], [input_data.data_id], '111'))
     return out_data
 
 
-def sentence_109(graph, input_data):
-    print(109)
+def sentence_112(graph, input_data):
+    print(112)
     out_data = []
     line_1 = input_data.fields[1]
     line_2 = input_data.fields[2]
-    out_data.append(data.Data("קטעים שווים", [line_1, line_2], [input_data.data_id], '109'))
+    out_data.append(data.Data("קטעים שווים", [line_1, line_2], [input_data.data_id], '112'))
     return out_data
 
 
@@ -406,25 +406,25 @@ all_regular_sentences = [
         'apply_func': sentence_106
     },
     {
-        'sentence_id': '107',
+        'sentence_id': '110',
         'loc_type': 'general',
         'representation': "במקבילית הצלעות הנגדיות מקבילות אחת לשנייה",
         'input_data_type': ["מלבן", "מקבילית", "מעויין", "ריבוע"],
-        'apply_func': sentence_107
+        'apply_func': sentence_110
     },
     {
-        'sentence_id': '108',
+        'sentence_id': '111',
         'loc_type': 'general',
         'representation': "במקבילית הצלעות הנגדיות שוות זו לזו",
         'input_data_type': ["מלבן", "מקבילית", "מעויין", "ריבוע"],
-        'apply_func': sentence_108
+        'apply_func': sentence_111
     },
     {
-        'sentence_id': '109',
+        'sentence_id': '112',
         'loc_type': 'general',
         'representation': "במשולש שווה שוקיים יש זוג צלעות שוות",
         'input_data_type': ["משולש שווה שוקיים"],
-        'apply_func': sentence_109
+        'apply_func': sentence_112
     }
 
 ]
