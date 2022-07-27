@@ -487,12 +487,15 @@ class Graph:
         return None, None
 
     def are_angles_equal(self, angle_1: str, angle_2: str):
+        if self.is_same_angle(angle_1, angle_2):
+            return True, []
+
         angle_1 = AngleManager.Angle(angle_1)
         angle_2 = AngleManager.Angle(angle_2)
         if angle_1 in self.angle_manager.angles:
             angle_1 = self.angle_manager.angles[self.angle_manager.angles.index(angle_1)]
             if angle_2 in angle_1.equal_angles:
-                return True, angle_1.get_data_id(angle_2)
+                return True, [angle_1.get_data_id(angle_2)]
 
         return False, None
 
@@ -505,12 +508,15 @@ class Graph:
         return None, None
 
     def are_lines_equal(self, line_1: str, line_2: str):
+        if self.is_same_line(line_1, line_2):
+            return True, []
+
         line_1 = LineManager.Line(line_1)
         line_2 = LineManager.Line(line_2)
         if line_1 in self.line_manager.lines:
             line_1 = self.line_manager.lines[self.line_manager.lines.index(line_1)]
             if line_2 in line_1.equal_lines:
-                return True, line_1.get_data_id(line_2)
+                return True, [line_1.get_data_id(line_2)]
 
         return False, None
 

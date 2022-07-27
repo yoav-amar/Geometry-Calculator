@@ -143,6 +143,15 @@ class Data:
             elif self.data_type == "גודל קטע":
                 return is_same_section(self.fields[1], other.fields[1]) and float(self.fields[0]) == float(
                     other.fields[0])
+
+            elif self.data_type == "משולשים חופפים":
+                def get_set_overlapping_dots(t_1, t_2):
+                    return {(t_1[i], t_2[i]) for i in range(3)}
+
+                other_set = get_set_overlapping_dots(other.fields[0], other.fields[1])
+                return get_set_overlapping_dots(self.fields[0], self.fields[1]) == other_set \
+                       or get_set_overlapping_dots(self.fields[1], self.fields[0]) == other_set
+
             else:
                 return set(self.fields) == set(other.fields)
 
