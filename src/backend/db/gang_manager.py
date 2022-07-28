@@ -76,6 +76,11 @@ def remove_member_from_gang(gang_code, username, password):
         "$set": {"members": members}})
 
 
+def remove_member_from_all_gangs(gang_codes, username, password):
+    for gang_code in gang_codes:
+        remove_member_from_gang(gang_code, username, password)
+
+
 def add_member_to_gang(gang_code, username, password):
     gang = gangs_db.find_one({"gang_code": int(gang_code)})
     if not gang:

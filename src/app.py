@@ -231,6 +231,8 @@ def delete_user():
     try:
         username = session['username']
         password = session['password']
+        user_gangs = users_manager.get_gangs(username, password).keys()
+        gang_manager.remove_member_from_all_gangs(user_gangs, username, password)
         users_manager.delete_user(username, password)
         logout()
         return "OK", HTTP_OK
