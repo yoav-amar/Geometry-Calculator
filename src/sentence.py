@@ -167,6 +167,8 @@ def sentence_4(graph, input_data):
     print('4')
     line_1 = input_data.fields[0]
     line_2 = input_data.fields[1]
+    if graph.get_line_id(line_1) == graph.get_line_id(line_2):
+        return out_data
     # check if they are in the same triangle
     common_dot = set(line_1).intersection(set(line_2))
     if len(common_dot) == 1:
@@ -174,10 +176,11 @@ def sentence_4(graph, input_data):
         equal_angles = set(line_1).union(set(line_2))
         equal_angles.remove(common_dot)
         equal_angles = list(equal_angles)
-        angle_1 = common_dot + equal_angles[0] + equal_angles[1]
-        angle_2 = common_dot + equal_angles[1] + equal_angles[0]
-        out_data.append(
-            data.Data("זוויות שוות", [angle_1, angle_2], [input_data.data_id], '4'))
+        if graph.get_line_id(equal_angles[0] + equal_angles[1]) is not None:
+            angle_1 = common_dot + equal_angles[0] + equal_angles[1]
+            angle_2 = common_dot + equal_angles[1] + equal_angles[0]
+            out_data.append(
+                data.Data("זוויות שוות", [angle_1, angle_2], [input_data.data_id], '4'))
     return out_data
 
 

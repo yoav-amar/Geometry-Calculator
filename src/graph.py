@@ -440,6 +440,9 @@ class Graph:
         line_1_str = angle[0] + angle[1]
         line_2_str = angle[1] + angle[2]
 
+        if self.get_line_id(line_1_str) == self.get_line_id(line_2_str):
+            return []
+
         line_1_dots = self.get_dots_name_on_line(line_1_str)
         line_2_dots = self.get_dots_name_on_line(line_2_str)
 
@@ -473,7 +476,10 @@ class Graph:
             if len(dot_name) != 1:
                 continue
 
-            if self.get_line_id(line[0] + dot_name) is not None and self.get_line_id(line[1] + dot_name) is not None:
+            line1_id = self.get_line_id(line[0] + dot_name)
+            line2_id = self.get_line_id(line[1] + dot_name)
+            if line1_id is not None and line2_id is not None\
+                    and line1_id != line2_id:
                 triangles.append(line[0] + dot_name + line[1])
 
         return triangles
